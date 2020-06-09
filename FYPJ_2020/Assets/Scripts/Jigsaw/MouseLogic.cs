@@ -10,6 +10,7 @@ public class MouseLogic : MonoBehaviour
     [SerializeField] LayerMask layer2Compare;
     [SerializeField] GameObject selectedPiece;
     int sortingOrder = 0;
+    Vector2 offset;
 
     #region Getters & Setters
     public GameObject SelectedPiece
@@ -66,13 +67,15 @@ public class MouseLogic : MonoBehaviour
         if (selectedPiece)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            selectedPiece.transform.position = mousePos;
+            selectedPiece.transform.position = mousePos + offset;
         }
     }
 
     void FindPiece()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), .2f, layer2Compare);
+        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, .2f, layer2Compare);
         if (hits.Length <= 0) return;
 
         GameObject selected = null;
@@ -93,5 +96,6 @@ public class MouseLogic : MonoBehaviour
         selectedPiece.GetComponent<JigsawPieceLogic>().State = JigsawPieceLogic.PIECE_STATE.STATE_PICKEDUP;
         selectedPiece.GetComponent<SortingGroup>().sortingOrder = sortingOrder;
         ++sortingOrder;
+        offset = (Vector2) selectedPiece.transform.position - pos;
     }
 }
