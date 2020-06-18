@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -8,9 +9,18 @@ public class DragController : MonoBehaviour {
     float lastRotationTime = 0;
     float rotationDelay = .1f;
 
+    public GameObject rotateLeftButton;
+    public GameObject rotateRightButton;
     public PieceSet PieceSet { get; set; }
-    		
-	void Update () {
+    
+    void Awake()
+    {
+        rotateLeftButton.GetComponent<Button>().onClick.AddListener(RotatePiecesCounterClockwise);
+        rotateRightButton.GetComponent<Button>().onClick.AddListener(RotatePiecesClockwise);
+    }
+
+	void Update () 
+    {
         if (Input.GetMouseButtonDown(0))
         {
             var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
