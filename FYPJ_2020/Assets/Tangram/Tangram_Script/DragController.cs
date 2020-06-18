@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class DragController : MonoBehaviour {	   
 
@@ -60,14 +61,14 @@ public class DragController : MonoBehaviour {
         }
 	}
 
-    void RotatePiecesClockwise(){
+    public void RotatePiecesClockwise(){
         lastRotationTime = Time.time;
         foreach (var draggable in dragging) {
             draggable.RotateClockwise ();
         }
     }
 
-    void RotatePiecesCounterClockwise(){
+    public void RotatePiecesCounterClockwise(){
         lastRotationTime = Time.time;
         foreach (var draggable in dragging) {
             draggable.RotateCounterClockwise ();
