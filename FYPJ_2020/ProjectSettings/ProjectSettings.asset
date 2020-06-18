@@ -631,7 +631,9 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: RH_SerializedDictionary
+    7: RH_SerializedDictionary
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
