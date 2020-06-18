@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -6,6 +7,8 @@ using UnityEngine.Rendering;
 public class MouseLogic : MonoBehaviour
 {
     public static MouseLogic instance = null;
+    [SerializeField] Vector2 mousePos;
+    [SerializeField] Vector2 prevMousePos;
     [SerializeField] string tag2Compare;
     [SerializeField] LayerMask layer2Compare;
     [SerializeField] GameObject selectedPiece;
@@ -13,10 +16,25 @@ public class MouseLogic : MonoBehaviour
     Vector2 offset;
 
     #region Getters & Setters
+    public Vector2 MousePos
+    {
+        get { return mousePos; }
+        set { mousePos = value; }
+    }
+    public string Tag2Compare
+    {
+        get { return tag2Compare; }
+        set { tag2Compare = value; }
+    }
     public GameObject SelectedPiece
     {
         get { return selectedPiece; }
         set { selectedPiece = value; }
+    }
+    public int SortingOrder
+    {
+        get { return sortingOrder; }
+        set { sortingOrder = value; }
     }
     #endregion
 
@@ -43,6 +61,7 @@ public class MouseLogic : MonoBehaviour
         layer2Compare = LayerMask.GetMask("Jigsaw");
         selectedPiece = null;
         sortingOrder = 0;
+        InventoryLogic.instance.Inventory = new SerializedDictionary();
 
         GameObject[] pieces = GameObject.FindGameObjectsWithTag(tag2Compare);
         foreach (GameObject piece in pieces)
@@ -52,29 +71,39 @@ public class MouseLogic : MonoBehaviour
 
             piece.GetComponent<SortingGroup>().sortingOrder = sortingOrder;
             ++sortingOrder;
+            InventoryLogic.instance.Inventory.Add(piece, true);
         }
+
+        InventoryLogic.instance.SortInventory();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) FindPiece();
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        if (!CheckPickedUp())
+            InventoryLogic.instance.CheckOnInventory(mousePos);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            prevMousePos = mousePos;
+            FindPiece(mousePos);
+        }
+        if (Input.GetMouseButton(0))
+        {
+            InventoryLogic.instance.OnMove(prevMousePos, mousePos);
+        }
         else if (Input.GetMouseButtonUp(0))
         {
-            if (selectedPiece && selectedPiece.GetComponent<JigsawPieceLogic>()) selectedPiece.GetComponent<JigsawPieceLogic>().State = JigsawPieceLogic.PIECE_STATE.STATE_PUTDOWN;
+            if (selectedPiece && selectedPiece.GetComponent<JigsawPieceLogic>()) selectedPiece.GetComponent<JigsawPieceLogic>().SwitchState(JigsawPieceLogic.PIECE_STATE.STATE_PUTDOWN);
             selectedPiece = null;
         }
-        if (selectedPiece)
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            selectedPiece.transform.position = mousePos + offset;
-        }
+        prevMousePos = mousePos;
     }
 
-    void FindPiece()
+    void FindPiece(Vector2 pos)
     {
-        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, .2f, layer2Compare);
         if (hits.Length <= 0) return;
 
@@ -93,9 +122,22 @@ public class MouseLogic : MonoBehaviour
 
         if (selected == null) return;
         selectedPiece = selected.gameObject;
-        selectedPiece.GetComponent<JigsawPieceLogic>().State = JigsawPieceLogic.PIECE_STATE.STATE_PICKEDUP;
-        selectedPiece.GetComponent<SortingGroup>().sortingOrder = sortingOrder;
+        JigsawPieceLogic piece = selectedPiece.GetComponent<JigsawPieceLogic>();
+        piece.Offset = (Vector2)selectedPiece.transform.position - pos;
+        piece.SwitchState(JigsawPieceLogic.PIECE_STATE.STATE_PICKEDUPONINVENTORY);
+    }
+
+    public void SetSortingOrder(GameObject obj)
+    {
+        obj.GetComponent<SortingGroup>().sortingOrder = sortingOrder;
         ++sortingOrder;
-        offset = (Vector2) selectedPiece.transform.position - pos;
+    }
+
+    bool CheckPickedUp()
+    {
+        if (selectedPiece == null) return false;
+        if (!selectedPiece.GetComponent<JigsawPieceLogic>()) return false;
+        if (selectedPiece.GetComponent<JigsawPieceLogic>().State != JigsawPieceLogic.PIECE_STATE.STATE_PICKEDUP) return false;
+        return true;
     }
 }
