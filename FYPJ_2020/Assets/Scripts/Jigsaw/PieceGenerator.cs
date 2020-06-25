@@ -112,7 +112,6 @@ public class PieceGenerator : MonoBehaviour
                 mesh.SetColors(new List<Color>() { combinationMask, combinationMask, combinationMask, combinationMask });
             }
         }
-
         InventoryLogic.instance.SortInventory();
     }
 }
