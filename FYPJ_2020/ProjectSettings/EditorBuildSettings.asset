@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Reynard 1.unity
     guid: 8632437d698cff9418333fe399d2f191
+  - enabled: 1
+    path: Assets/Scenes/New Scene.unity
+    guid: 382320855a2ee4f43b05c4e049e62a11
   m_configObjects: {}
