@@ -21,11 +21,6 @@ public class MouseLogic : MonoBehaviour
         get { return mousePos; }
         set { mousePos = value; }
     }
-    public string Tag2Compare
-    {
-        get { return tag2Compare; }
-        set { tag2Compare = value; }
-    }
     public GameObject SelectedPiece
     {
         get { return selectedPiece; }
@@ -40,7 +35,7 @@ public class MouseLogic : MonoBehaviour
 
     void Awake()
     {
-        if (GameObject.Find("Main Camera") && GameObject.Find("Main Camera") != gameObject)
+        if (GameObject.Find("Center") && GameObject.Find("Center") != gameObject)
         {
             Destroy(gameObject);
             return;
@@ -52,29 +47,16 @@ public class MouseLogic : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        tag2Compare = "Piece";
+        layer2Compare = LayerMask.GetMask("Jigsaw");
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        tag2Compare = "Piece";
-        layer2Compare = LayerMask.GetMask("Jigsaw");
         selectedPiece = null;
         sortingOrder = 0;
-        InventoryLogic.instance.Inventory = new SerializedDictionary();
-
-        GameObject[] pieces = GameObject.FindGameObjectsWithTag(tag2Compare);
-        foreach (GameObject piece in pieces)
-        {
-            if (piece == null) continue;
-            if (!piece.GetComponent<JigsawPieceLogic>()) continue;
-
-            piece.GetComponent<SortingGroup>().sortingOrder = sortingOrder;
-            ++sortingOrder;
-            InventoryLogic.instance.Inventory.Add(piece, true);
-        }
-
-        InventoryLogic.instance.SortInventory();
     }
 
     // Update is called once per frame
@@ -101,10 +83,10 @@ public class MouseLogic : MonoBehaviour
         }
         prevMousePos = mousePos;
     }
-
+    
     void FindPiece(Vector2 pos)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, .2f, layer2Compare);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, .2f);//, layer2Compare);
         if (hits.Length <= 0) return;
 
         GameObject selected = null;
@@ -124,7 +106,7 @@ public class MouseLogic : MonoBehaviour
         selectedPiece = selected.gameObject;
         JigsawPieceLogic piece = selectedPiece.GetComponent<JigsawPieceLogic>();
         piece.Offset = (Vector2)selectedPiece.transform.position - pos;
-        piece.SwitchState(JigsawPieceLogic.PIECE_STATE.STATE_PICKEDUPONINVENTORY);
+        piece.SwitchState(JigsawPieceLogic.PIECE_STATE.STATE_ONINVENTORY);
     }
 
     public void SetSortingOrder(GameObject obj)
