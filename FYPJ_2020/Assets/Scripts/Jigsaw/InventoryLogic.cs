@@ -47,13 +47,13 @@ public class InventoryLogic : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        SwipeDetector.OnSwipe += InventoryLogic_OnSwipe;
     }
 
     private void Start()
     {
         length = transform.parent.GetComponent<SpriteRenderer>().size.x;
         onInventory.treshold = transform.parent.GetComponent<SpriteRenderer>().bounds.min.x;
+        Debug.Log(onInventory.treshold);
         onInventory.onInventory = false;
         minY = maxY = transform.position.y;
     }
@@ -99,16 +99,6 @@ public class InventoryLogic : MonoBehaviour
         if (!onInventory.onInventory) return;
 
         float newY = transform.position.y + (curr.y - prev.y);
-        if (newY < minY) newY = minY;
-        else if (newY > maxY) newY = maxY;
-        transform.position = new Vector2(transform.position.x, newY);
-    }
-
-    private void InventoryLogic_OnSwipe(SwipeData data)
-    {
-        if (!onInventory.onInventory) return;
-
-        float newY = transform.position.y + (data.StartPosition.y - data.EndPosition.y);
         if (newY < minY) newY = minY;
         else if (newY > maxY) newY = maxY;
         transform.position = new Vector2(transform.position.x, newY);

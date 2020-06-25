@@ -12,21 +12,18 @@ public class JigsawPieceLogic : MonoBehaviour
     public enum PIECE_STATE
     {
         STATE_NONE,
-        STATE_PICKEDUPONINVENTORY,
+        STATE_ONINVENTORY,
         STATE_PICKEDUP,
         STATE_PUTDOWN,
         STATE_LOCKED,
         STATE_ALL
     }
-    [SerializeField] SpriteRenderer sprite;
-    [SerializeField] float length;
     [SerializeField] GameObject slot;
     [SerializeField] Vector3 slotPos;
     [SerializeField] LayerMask originalLayer;
     [SerializeField] LayerMask lockedLayer;
     [SerializeField] PIECE_STATE state;
     [SerializeField] SerializedDictionary neighbours = new SerializedDictionary();
-    public bool updateSortingOrder = false;
     Vector2 offset;
 
     #region Getters & Setters
@@ -47,34 +44,27 @@ public class JigsawPieceLogic : MonoBehaviour
     }
     #endregion
 
-    void Awake()
+    private void Awake()
     {
-        SwipeDetector.OnSwipe += JigsawPieceLogic_OnSwipe;
-    }
-
-    void Start()
-    {
-        sprite = GetComponent<SpriteRenderer>();
-        length = sprite.size.x * 0.5f;
-        GetComponent<SpriteMask>().sprite = sprite.sprite;
         originalLayer = gameObject.layer;
         lockedLayer = LayerMask.GetMask("Default");
-
-        if (slot == null) slot = transform.parent.gameObject;
-        if (slot) slotPos = slot.transform.position;
-
         state = PIECE_STATE.STATE_NONE;
-        updateSortingOrder = false;
-        transform.parent = InventoryLogic.instance.transform;
         offset = Vector2.zero;
-        //transform.position = new Vector2(Random.Range(2, 11), Random.Range(-3.5f, 3.5f));
+    }
+
+    public void CreatePiece(string name)
+    {
+        CreateSlot(name);
+        gameObject.name = "Piece ID:" + name;
+        transform.parent = InventoryLogic.instance.transform;
+        InventoryLogic.instance.Inventory.Add(gameObject, true);
     }
 
     void Update()
     {
         switch (state)
         {
-            case PIECE_STATE.STATE_PICKEDUPONINVENTORY:
+            case PIECE_STATE.STATE_ONINVENTORY:
                 if (MouseLogic.instance.MousePos.x >= InventoryLogic.instance.onInventory.treshold) return;
                 SwitchState(PIECE_STATE.STATE_PICKEDUP);
                 break;
@@ -84,13 +74,27 @@ public class JigsawPieceLogic : MonoBehaviour
         }
     }
 
+    void CreateSlot(string name)
+    {
+        slot = new GameObject("Slot ID:" + name)
+        {
+            tag = "Slot"
+        };
+        slot.transform.parent = null;
+        slot.transform.position = transform.position;
+        slot.transform.localScale.Set(2, 2, 2);
+        slot.transform.parent = transform.parent;
+        transform.parent = slot.transform;
+        slot = transform.parent.gameObject;
+        slotPos = slot.transform.position;
+    }
+
     public void SwitchState(JigsawPieceLogic.PIECE_STATE newState)
     {
         state = newState;
         switch (state)
         {
             case PIECE_STATE.STATE_PICKEDUP:
-                if (Mathf.Abs(transform.position.x - InventoryLogic.instance.onInventory.treshold) <= length) return;
                 if (InventoryLogic.instance.Inventory.ContainsKey(gameObject))
                     InventoryLogic.instance.Inventory[gameObject] = false;
                 transform.parent = slot.transform;
@@ -106,8 +110,9 @@ public class JigsawPieceLogic : MonoBehaviour
                     transform.tag = "Untagged";
                     gameObject.layer = lockedLayer;
                     GetComponent<SortingGroup>().sortingOrder = 0;
+                    break;
                 }
-                else if (Mathf.Abs(transform.position.x - InventoryLogic.instance.transform.position.x) <= length)
+                else if (transform.position.x >= InventoryLogic.instance.onInventory.treshold)
                 {
                     if (InventoryLogic.instance.Inventory.ContainsKey(gameObject))
                         InventoryLogic.instance.Inventory[gameObject] = true;
@@ -120,12 +125,5 @@ public class JigsawPieceLogic : MonoBehaviour
                 state = PIECE_STATE.STATE_NONE;
                 break;
         }
-    }
-    
-    private void JigsawPieceLogic_OnSwipe(SwipeData data)
-    {
-        if (InventoryLogic.instance.onInventory.onInventory || MouseLogic.instance.SelectedPiece != gameObject) return;
-        if (state != PIECE_STATE.STATE_PICKEDUP) state = PIECE_STATE.STATE_PICKEDUP;
-        transform.position = data.EndPosition;
     }
 }
