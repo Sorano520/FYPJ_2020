@@ -1,0 +1,4 @@
+Text colour: 4B4B4B
+Outline: FFFFFF
+
+Font: Futura PT (Demi, Heavy, Bold)
