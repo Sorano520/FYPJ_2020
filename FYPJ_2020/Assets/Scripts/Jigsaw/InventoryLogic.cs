@@ -2,12 +2,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public struct OnInventory
-{
-    public float treshold;
-    public bool onInventory;
-}
-
 public class InventoryLogic : MonoBehaviour
 {
     public static InventoryLogic instance = null;
@@ -16,7 +10,7 @@ public class InventoryLogic : MonoBehaviour
     [Tooltip("The distance between each piece in the inventory")]
     [SerializeField] float inventoryOffset;
     [SerializeField] float length;
-    public OnInventory onInventory;
+    Vector2 treshold;
     float minY;
     public float maxY;
 
@@ -30,6 +24,11 @@ public class InventoryLogic : MonoBehaviour
     {
         get { return inventoryOffset; }
         set { inventoryOffset = value; }
+    }
+    public Vector2 Treshold
+    {
+        get { return treshold; }
+        set { treshold = value; }
     }
     #endregion
 
@@ -52,10 +51,13 @@ public class InventoryLogic : MonoBehaviour
     private void Start()
     {
         length = transform.parent.GetComponent<SpriteRenderer>().size.x;
-        onInventory.treshold = transform.parent.GetComponent<SpriteRenderer>().bounds.min.x;
-        Debug.Log(onInventory.treshold);
-        onInventory.onInventory = false;
         minY = maxY = transform.position.y;
+    }
+
+    public void SetTreshold()
+    {
+        treshold = new Vector2(transform.parent.GetComponent<Renderer>().bounds.min.x, transform.parent.position.y);
+        treshold = Camera.main.WorldToScreenPoint(treshold);
     }
 
     public void SortInventory()
@@ -87,17 +89,9 @@ public class InventoryLogic : MonoBehaviour
             MouseLogic.instance.SetSortingOrder(piece.Key);
         }
     }
-
-    public void CheckOnInventory(Vector2 pos)
-    {
-        if (pos.x > onInventory.treshold) onInventory.onInventory = true;
-        else if (onInventory.onInventory) onInventory.onInventory = false;
-    }
-
+    
     public void OnMove(Vector2 prev, Vector2 curr)
     {
-        if (!onInventory.onInventory) return;
-
         float newY = transform.position.y + (curr.y - prev.y);
         if (newY < minY) newY = minY;
         else if (newY > maxY) newY = maxY;

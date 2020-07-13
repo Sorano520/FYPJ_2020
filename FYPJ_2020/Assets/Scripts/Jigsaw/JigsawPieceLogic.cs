@@ -19,7 +19,6 @@ public class JigsawPieceLogic : MonoBehaviour
         STATE_ALL
     }
     [SerializeField] GameObject slot;
-    [SerializeField] Vector3 slotPos;
     [SerializeField] LayerMask originalLayer;
     [SerializeField] LayerMask lockedLayer;
     [SerializeField] PIECE_STATE state;
@@ -65,28 +64,24 @@ public class JigsawPieceLogic : MonoBehaviour
         switch (state)
         {
             case PIECE_STATE.STATE_ONINVENTORY:
-                if (MouseLogic.instance.MousePos.x >= InventoryLogic.instance.onInventory.treshold) return;
+                if (MouseLogic.instance.OnInventory) break;
                 SwitchState(PIECE_STATE.STATE_PICKEDUP);
                 break;
             case PIECE_STATE.STATE_PICKEDUP:
-                transform.position = MouseLogic.instance.MousePos + offset;
+                transform.position = Vector2.Lerp(MouseLogic.instance.MousePos, MouseLogic.instance.MousePos + offset, Vector2.Distance(MouseLogic.instance.MousePos, MouseLogic.instance.MousePos + offset));
                 break;
         }
     }
-
+    
     void CreateSlot(string name)
     {
-        slot = new GameObject("Slot ID:" + name)
-        {
-            tag = "Slot"
-        };
+        slot = new GameObject("Slot ID:" + name) { tag = "Slot" };
         slot.transform.parent = null;
         slot.transform.position = transform.position;
         slot.transform.localScale.Set(2, 2, 2);
         slot.transform.parent = transform.parent;
         transform.parent = slot.transform;
         slot = transform.parent.gameObject;
-        slotPos = slot.transform.position;
     }
 
     public void SwitchState(JigsawPieceLogic.PIECE_STATE newState)
@@ -98,13 +93,14 @@ public class JigsawPieceLogic : MonoBehaviour
                 if (InventoryLogic.instance.Inventory.ContainsKey(gameObject))
                     InventoryLogic.instance.Inventory[gameObject] = false;
                 transform.parent = slot.transform;
+                transform.localScale = new Vector3(1, 1, 1) * MouseLogic.instance.pieceGenerator.PieceSize;
                 InventoryLogic.instance.SortInventory();
                 MouseLogic.instance.SetSortingOrder(gameObject);
                 break;
             case PIECE_STATE.STATE_PUTDOWN:
-                if (Vector2.Distance(transform.position, slotPos) <= 1)
+                if (Vector2.Distance(transform.position, slot.transform.position) <= 0.5f)
                 {
-                    transform.position = slotPos;
+                    transform.position = slot.transform.position;
                     transform.parent = slot.transform;
                     state = PIECE_STATE.STATE_LOCKED;
                     transform.tag = "Untagged";
@@ -112,7 +108,7 @@ public class JigsawPieceLogic : MonoBehaviour
                     GetComponent<SortingGroup>().sortingOrder = 0;
                     break;
                 }
-                else if (transform.position.x >= InventoryLogic.instance.onInventory.treshold)
+                else if (Camera.main.WorldToScreenPoint(transform.position).x > InventoryLogic.instance.Treshold.x)
                 {
                     if (InventoryLogic.instance.Inventory.ContainsKey(gameObject))
                         InventoryLogic.instance.Inventory[gameObject] = true;
