@@ -11,7 +11,7 @@
         public Point(short aX, short aY) { x = aX; y = aY; }
         public Point(int aX, int aY) : this((short)aX, (short)aY) { }
     }
-    public static void FloodFillArea(this Texture2D aTex, int aX, int aY, Color aFillColor)
+    public static void FloodFillArea(this Texture2D aTex, int aX, int aY, Color aFillColor)   
     {
         Debug.Log("aTex = " + aTex);
         int w = aTex.width;
@@ -67,17 +67,12 @@
 
     public static void FloodFillBorder(this Texture2D aTex, int aX, int aY, Color aFillColor, Color aBorderColor)
     {
-        Debug.Log("aTex = " + aTex);
         int w = aTex.width;
         int h = aTex.height;
         Color[] colors = aTex.GetPixels();
         byte[] checkedPixels = new byte[colors.Length];
         Color refCol = aBorderColor;
-        Debug.Log("old aX = " + aX);
-        Debug.Log("old aY = " + aY);
         Queue<Point> nodes = new Queue<Point>();
-        Debug.Log("new aX = " + aX);
-        Debug.Log("new aY = " + aY);
         nodes.Enqueue(new Point(aX, aY));
         while (nodes.Count > 0)
         {

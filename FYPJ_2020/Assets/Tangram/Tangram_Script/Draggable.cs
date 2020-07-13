@@ -15,6 +15,8 @@ public class Draggable : MonoBehaviour {
     Vector3 targetPosition;
     bool isResetting = false;
 
+    private Quaternion targetRotation2;
+
     void Start(){
         body2d = GetComponent<Rigidbody2D>();
 		sprite = GetComponent<SpriteRenderer> ();
@@ -32,7 +34,7 @@ public class Draggable : MonoBehaviour {
 
         if (targetRotation != body2d.rotation)
         {
-            float velocity = .5f;
+            float velocity = .0005f;
             var rotationSpeed = GetRotationSpeed();
             body2d.rotation = Mathf.SmoothDamp(body2d.rotation, targetRotation, ref velocity, rotationSpeed);
         }
@@ -101,11 +103,12 @@ public class Draggable : MonoBehaviour {
     }
 
 	public void RotateClockwise(){
-        targetRotation = targetRotation + 15;
-	}
+
+        targetRotation = targetRotation + 45;
+    }
 
 	public void RotateCounterClockwise(){
-        targetRotation = targetRotation - 15;
+        targetRotation = targetRotation - 45;
 	}
 
 	public bool IsMoving(){
