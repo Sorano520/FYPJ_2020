@@ -8,13 +8,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Reynard.unity
     guid: fd064750b649dd44bb43993e9356607b
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Reynard 1.unity
     guid: 8632437d698cff9418333fe399d2f191
   - enabled: 1
     path: Assets/Scenes/New Scene.unity
     guid: 382320855a2ee4f43b05c4e049e62a11
+  - enabled: 1
+    path: Assets/Scenes/Game Select Scene.unity
+    guid: 0945fa0e4136abe4c82e1bdb45ed9d61
+  - enabled: 1
+    path: Assets/Scenes/Collection.unity
+    guid: 1b545fae81837aa42ba1910ac3c18fc1
   m_configObjects: {}

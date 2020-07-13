@@ -6,12 +6,14 @@ using System.Collections;
 public class DragController : MonoBehaviour {	   
 
     List<Draggable> dragging = new List<Draggable>();
-    float lastRotationTime = 0;
-    float rotationDelay = .1f;
+    float lastRotationTime = 1;
+    float rotationDelay = 2f;
 
     public GameObject rotateLeftButton;
     public GameObject rotateRightButton;
     public PieceSet PieceSet { get; set; }
+
+    Touch touch;
     
     void Awake()
     {
@@ -39,16 +41,50 @@ public class DragController : MonoBehaviour {
                     }
                 }
             }
-        }  
+        }
         if (Input.GetMouseButtonUp(0))
         {
             foreach (var draggable in dragging)
             {
-                draggable.EndDrag();               
+                draggable.EndDrag();
                 PinThis(draggable);
             }
             dragging.Clear();
         }
+  //      if (Input.touchCount > 0)
+  //      {
+  //          Touch touch = Input.GetTouch(0);
+  //          var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+  //          var hits = Physics2D.OverlapPointAll(worldPosition);
+  //          foreach (var hit in hits)
+  //          {
+  //              if (hit != null)
+  //              {
+  //                  var draggable = hit.GetComponent<Draggable>();
+  //                  if (draggable != null)
+  //                  {
+  //                      draggable.StartDrag(worldPosition);
+  //                      PinOthers(draggable);
+  //                      dragging.Add(draggable);
+  //                      break;
+  //                  }
+  //              }
+  //          }
+
+  //          if(Input.touchCount == 2)
+  //          {
+  //              touch = Input.GetTouch(1);
+  //          }
+  //      }
+  //      if(Input.touchCount > 0)
+  //      {
+  //          foreach (var draggable in dragging)
+  //          {
+  //              draggable.EndDrag();
+  //              PinThis(draggable);
+  //          }
+  //          dragging.Clear();
+  //      }
 
 		if (Input.GetKeyDown (KeyCode.X)) {
             RotatePiecesCounterClockwise();
