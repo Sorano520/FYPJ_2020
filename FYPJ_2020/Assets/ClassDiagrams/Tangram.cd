@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Backdrop">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAABAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\Backdrop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Data">
+    <Position X="7.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIgAAAAAAAAAAAABABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DragController">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAxAAAAAAAAAgAAIAAAAAAAAAAAAAAACUKAAAFEAAEA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\DragController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Draggable">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AISEEAAQAKAAAAEAAQACAAAAABAAAgGEAJAUAAAAQAA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\Draggable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fader">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAEAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\Fader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Piece">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAMABAAAABBBEAAAABAAAAAAAAAAAAAAAAAAAAQGA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\Piece.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PieceSet">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAAAA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\PieceSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PolygonRenderer">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAACAAAAAAAAQAAAAIAAAQECAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\PolygonRenderer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Puzzle">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQAAABAACAAAAAAAAAAAAAIAAAAAAAAEAghABQACAA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\Puzzle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RotatePiece">
+    <Position X="2.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\RotatePiece.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TangramsSupervisor">
+    <Position X="5.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQBBEAAACAgAQAAAAEAAIAABADAAAAACAgAAAAAAEA=</HashCode>
+      <FileName>Assets\Tangram\Tangram_Script\TangramsSupervisor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
