@@ -26,6 +26,7 @@ public class Draggable : MonoBehaviour {
     }
 
 	void Update () {
+
 		/*if (isDragging) {
             isResetting = false;
 			var worldPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -55,6 +56,21 @@ public class Draggable : MonoBehaviour {
 
         }
 	}
+
+
+
+    public void Move(Vector3 pos)
+    {
+        if (isDragging)
+        {
+            isResetting = false;
+            pos.z = 0;
+            transform.position = pos - offset;
+        }
+    }
+
+
+
 
     float GetRotationSpeed(){
         if (isResetting)

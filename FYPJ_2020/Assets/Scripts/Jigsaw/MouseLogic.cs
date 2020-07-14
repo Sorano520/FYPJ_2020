@@ -133,7 +133,7 @@ public class MouseLogic : MonoBehaviour
                     if (!CheckPickedUp()) onInventory = (Input.touches[0].position.x > InventoryLogic.instance.Treshold.x) ? true : false;
                     else onInventory = false;
                     if (onInventory) InventoryLogic.instance.OnMove(prevMousePos, mousePos);
-                    else if (selectedPiece == null) OnMove(prevMousePos, mousePos);
+                    else if (selectedPiece == null) OnMove (prevMousePos, mousePos);
                     break;
                 case TouchPhase.Ended:
                     onInventory = false;
