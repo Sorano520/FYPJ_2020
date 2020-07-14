@@ -87,7 +87,7 @@ public class MouseLogic : MonoBehaviour
         selectedPiece = null;
         sortingOrder = 0;
         InventoryLogic.instance.transform.parent.parent = Camera.main.transform;
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
+        //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
         InventoryLogic.instance.transform.parent.parent = null;
         InventoryLogic.instance.SetTreshold();
     }
