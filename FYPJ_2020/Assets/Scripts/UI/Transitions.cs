@@ -27,7 +27,7 @@ public class Transitions : MonoBehaviour
     }
     public void ToJigsaw()
     {
-        SceneManager.LoadScene("Reynard1");
+        SceneManager.LoadScene("Jigsaw");
     }
     public void ToColouring()
     {

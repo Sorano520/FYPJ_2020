@@ -14,7 +14,9 @@ public class DragController : MonoBehaviour {
     public PieceSet PieceSet { get; set; }
 
     Touch touch;
-    
+    Vector2 prevMousePos, mousePos;
+
+
     void Awake()
     {
         rotateLeftButton.GetComponent<Button>().onClick.AddListener(RotatePiecesCounterClockwise);
@@ -23,70 +25,110 @@ public class DragController : MonoBehaviour {
 
 	void Update () 
     {
-        if (Input.GetMouseButtonDown(0))
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    var hits = Physics2D.OverlapPointAll(worldPosition);
+        //    foreach (var hit in hits)
+        //    {
+        //        if (hit != null)
+        //        {
+        //            var draggable = hit.GetComponent<Draggable>();
+        //            if (draggable != null)
+        //            {
+        //                draggable.StartDrag(worldPosition);
+        //                PinOthers(draggable);
+        //                dragging.Add(draggable);
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    foreach (var draggable in dragging)
+        //    {
+        //        draggable.EndDrag();
+        //        PinThis(draggable);
+        //    }
+        //    dragging.Clear();
+        //}
+        //      if (Input.touchCount > 0)
+        //      {
+        //          Touch touch = Input.GetTouch(0);
+        //          var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //          var hits = Physics2D.OverlapPointAll(worldPosition);
+        //          foreach (var hit in hits)
+        //          {
+        //              if (hit != null)
+        //              {
+        //                  var draggable = hit.GetComponent<Draggable>();
+        //                  if (draggable != null)
+        //                  {
+        //                      draggable.StartDrag(worldPosition);
+        //                      PinOthers(draggable);
+        //                      dragging.Add(draggable);
+        //                      break;
+        //                  }
+        //              }
+        //          }
+
+        //          if(Input.touchCount == 2)
+        //          {
+        //              touch = Input.GetTouch(1);
+        //          }
+        //      }
+        //      if(Input.touchCount <= 0)
+        //      {
+        //          foreach (var draggable in dragging)
+        //          {
+        //              draggable.EndDrag();
+        //              PinThis(draggable);
+        //          }
+        //          dragging.Clear();
+        //      }
+
+        Touch touch = Input.touches[0];
+        switch (touch.phase)
         {
-            var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var hits = Physics2D.OverlapPointAll(worldPosition);
-            foreach (var hit in hits)
-            {
-                if (hit != null)
+            case TouchPhase.Began:
+                prevMousePos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+                mousePos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+                var hits = Physics2D.OverlapPointAll(mousePos);
+                foreach (var hit in hits)
                 {
-                    var draggable = hit.GetComponent<Draggable>();
-                    if (draggable != null)
+                    if (hit != null)
                     {
-                        draggable.StartDrag(worldPosition);
-                        PinOthers(draggable);
-                        dragging.Add(draggable);
-                        break;
+                        var draggable = hit.GetComponent<Draggable>();
+                        if (draggable != null)
+                        {
+                            draggable.StartDrag(mousePos);
+                            PinOthers(draggable);
+                            dragging.Add(draggable);
+                            break;
+                        }
                     }
                 }
-            }
+                break;
+            case TouchPhase.Moved:
+                prevMousePos = mousePos;
+                mousePos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+                foreach (Draggable obj in dragging)
+                {
+                    obj.Move(mousePos);
+                }
+                break;
+            case TouchPhase.Ended:
+                foreach (var draggable in dragging)
+                {
+                    draggable.EndDrag();
+                    PinThis(draggable);
+                }
+                dragging.Clear();
+                break;
         }
-        if (Input.GetMouseButtonUp(0))
-        {
-            foreach (var draggable in dragging)
-            {
-                draggable.EndDrag();
-                PinThis(draggable);
-            }
-            dragging.Clear();
-        }
-  //      if (Input.touchCount > 0)
-  //      {
-  //          Touch touch = Input.GetTouch(0);
-  //          var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-  //          var hits = Physics2D.OverlapPointAll(worldPosition);
-  //          foreach (var hit in hits)
-  //          {
-  //              if (hit != null)
-  //              {
-  //                  var draggable = hit.GetComponent<Draggable>();
-  //                  if (draggable != null)
-  //                  {
-  //                      draggable.StartDrag(worldPosition);
-  //                      PinOthers(draggable);
-  //                      dragging.Add(draggable);
-  //                      break;
-  //                  }
-  //              }
-  //          }
 
-  //          if(Input.touchCount == 2)
-  //          {
-  //              touch = Input.GetTouch(1);
-  //          }
-  //      }
-  //      if(Input.touchCount > 0)
-  //      {
-  //          foreach (var draggable in dragging)
-  //          {
-  //              draggable.EndDrag();
-  //              PinThis(draggable);
-  //          }
-  //          dragging.Clear();
-  //      }
-
-		if (Input.GetKeyDown (KeyCode.X)) {
+        if (Input.GetKeyDown (KeyCode.X)) {
             RotatePiecesCounterClockwise();
         } else if (Input.GetKey(KeyCode.X)){
             if (Time.time - lastRotationTime > rotationDelay)
