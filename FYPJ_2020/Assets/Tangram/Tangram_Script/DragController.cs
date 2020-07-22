@@ -15,8 +15,7 @@ public class DragController : MonoBehaviour {
 
     Touch touch;
     Vector2 prevMousePos, mousePos;
-
-
+    
     void Awake()
     {
         rotateLeftButton.GetComponent<Button>().onClick.AddListener(RotatePiecesCounterClockwise);
