@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
+public class ChangeImageButton_Colouring : MonoBehaviour
 {
     public GameObject easyButtonDisable;
     public GameObject easyButtonEnable;
