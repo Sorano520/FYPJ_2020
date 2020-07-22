@@ -1,0 +1,37 @@
+{
+  "client": [
+    {
+      "services": {
+        "appinvite_service": {
+          "status": 1
+        }, 
+        "analytics_service": {
+          "status": 0
+        }
+      }, 
+      "oauth_client": [
+        {
+          "client_id": "94288403214-l03ffh9ojg0mo4f4bgmd64u1953osn13.apps.googleusercontent.com"
+        }
+      ], 
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzdHPxHLckyRk5tLhM8-WU8g2NuEa-PEw"
+        }
+      ], 
+      "client_info": {
+        "mobilesdk_app_id": "1:94288403214:ios:3bb3b9c886da024d4a955f", 
+        "android_client_info": {
+          "package_name": "com.Company.FYPJ2020"
+        }
+      }
+    }
+  ], 
+  "configuration_version": "1", 
+  "project_info": {
+    "storage_bucket": "fypj-shs.appspot.com", 
+    "project_id": "fypj-shs", 
+    "firebase_url": "https://fypj-shs.firebaseio.com", 
+    "project_number": "94288403214"
+  }
+}

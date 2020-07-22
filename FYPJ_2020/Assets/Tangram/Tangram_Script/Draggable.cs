@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -15,6 +16,8 @@ public class Draggable : MonoBehaviour {
     Vector3 targetPosition;
     bool isResetting = false;
 
+    private Quaternion targetRotation2;
+
     void Start(){
         body2d = GetComponent<Rigidbody2D>();
 		sprite = GetComponent<SpriteRenderer> ();
@@ -23,16 +26,17 @@ public class Draggable : MonoBehaviour {
     }
 
 	void Update () {
-		if (isDragging) {
+
+		/*if (isDragging) {
             isResetting = false;
 			var worldPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
             worldPosition.z = transform.position.z;
             transform.position = worldPosition - offset;
-		}
+		}*/
 
         if (targetRotation != body2d.rotation)
         {
-            float velocity = .5f;
+            float velocity = .0005f;
             var rotationSpeed = GetRotationSpeed();
             body2d.rotation = Mathf.SmoothDamp(body2d.rotation, targetRotation, ref velocity, rotationSpeed);
         }
@@ -101,14 +105,25 @@ public class Draggable : MonoBehaviour {
     }
 
 	public void RotateClockwise(){
-        targetRotation = targetRotation + 15;
-	}
+
+        targetRotation = targetRotation + 45;
+    }
 
 	public void RotateCounterClockwise(){
-        targetRotation = targetRotation - 15;
+        targetRotation = targetRotation - 45;
 	}
 
 	public bool IsMoving(){
 		return body2d.velocity != Vector2.zero;
 	}
+
+    public void Move(Vector3 Position)
+    {
+        if (isDragging)
+        {
+            isResetting = false;
+            Position.z = transform.position.z;
+            transform.position = Position - offset;
+        }
+    }
 }
