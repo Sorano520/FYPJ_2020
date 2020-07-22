@@ -13,10 +13,6 @@ public class DragController : MonoBehaviour {
     public GameObject rotateRightButton;
     public PieceSet PieceSet { get; set; }
 
-    Vector2 prevMousePos, mousePos;
-
-
-
     Touch touch;
     Vector2 prevMousePos, mousePos;
 
