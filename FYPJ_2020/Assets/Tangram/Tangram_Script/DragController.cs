@@ -12,15 +12,10 @@ public class DragController : MonoBehaviour {
     public GameObject rotateLeftButton;
     public GameObject rotateRightButton;
     public PieceSet PieceSet { get; set; }
-
-    Vector2 prevMousePos, mousePos;
-
-
-
+    
     Touch touch;
     Vector2 prevMousePos, mousePos;
-
-
+    
     void Awake()
     {
         rotateLeftButton.GetComponent<Button>().onClick.AddListener(RotatePiecesCounterClockwise);

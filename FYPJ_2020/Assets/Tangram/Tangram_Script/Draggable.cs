@@ -57,21 +57,6 @@ public class Draggable : MonoBehaviour {
         }
 	}
 
-
-
-    public void Move(Vector3 pos)
-    {
-        if (isDragging)
-        {
-            isResetting = false;
-            pos.z = 0;
-            transform.position = pos - offset;
-        }
-    }
-
-
-
-
     float GetRotationSpeed(){
         if (isResetting)
         {
