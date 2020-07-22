@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Transitions : MonoBehaviour
 {
+    //ChangeImageButton_JigsawLevelSelect example;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +24,7 @@ public class Transitions : MonoBehaviour
     }
     public void ToTangram()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Tangram");
     }
     public void ToJigsaw()
     {
@@ -31,11 +32,27 @@ public class Transitions : MonoBehaviour
     }
     public void ToColouring()
     {
-        SceneManager.LoadScene("New Scene");
+        SceneManager.LoadScene("Colouring");
     }
     public void ToGameSelect()
     {
         SceneManager.LoadScene("Game Select Scene");
+    }
+    public void ToTangramLevelSelect()
+    {
+        SceneManager.LoadScene("Tangram Level Select");
+    }
+    public void ToJigsawLevelSelect()
+    {
+        //if(example.easyButtonEnable == true)
+        //{
+
+        //}
+        SceneManager.LoadScene("Jigsaw Level Select");
+    }
+    public void ToColouringLevelSelect()
+    {
+        SceneManager.LoadScene("Colouring Level Select");
     }
     public void ToCollection()
     {

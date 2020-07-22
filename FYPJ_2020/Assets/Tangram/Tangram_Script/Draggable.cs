@@ -26,6 +26,7 @@ public class Draggable : MonoBehaviour {
     }
 
 	void Update () {
+
 		/*if (isDragging) {
             isResetting = false;
 			var worldPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);

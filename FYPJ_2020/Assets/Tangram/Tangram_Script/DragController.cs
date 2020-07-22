@@ -53,6 +53,7 @@ public class DragController : MonoBehaviour {
         //    }
         //    dragging.Clear();
         //}
+
         //      if (Input.touchCount > 0)
         //      {
         //          Touch touch = Input.GetTouch(0);
