@@ -18,10 +18,16 @@ public class Transitions : MonoBehaviour
         
     }
 
-    public void ToMainMenu()
+    public void ToTitleScreen()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Title Screen");
     }
+
+    public void ToLoadingScreen()
+    {
+        SceneManager.LoadScene("Loading Screen");
+    }
+
     public void ToTangram()
     {
         SceneManager.LoadScene("Tangram");
