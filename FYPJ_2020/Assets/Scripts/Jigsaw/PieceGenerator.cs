@@ -140,9 +140,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PieceGenerator : MonoBehaviour
 {
+    GameObject image;
     [SerializeField] private JigsawPieceLogic piece = null;
     [SerializeField] private int pieceSize = 1;
     [SerializeField] private int col = 4;
@@ -161,16 +163,15 @@ public class PieceGenerator : MonoBehaviour
         set { pieceSize = value; }
     }
     #endregion
-
+    
     private void Start()
     {
         //pieceSize = GameManager.instance.JigsawDifficulties[GameManager.instance.chosenDifficulty];
 
         // Get the image to use for the puzzle pieces
-        GameObject img = GameObject.FindGameObjectWithTag("Image");
-        if (img == null) Debug.LogError("JigsawPieceLogic - Image is missing");
-        piece.GetComponent<Renderer>().sharedMaterial.mainTexture = img.GetComponent<SpriteRenderer>().sprite.texture;
-        img.SetActive(false);
+        image = GameObject.FindGameObjectWithTag("Image");
+        if (image == null) Debug.LogError("JigsawPieceLogic - Image is missing");
+        piece.GetComponent<Renderer>().sharedMaterial.mainTexture = image.GetComponent<Image>().sprite.texture;
 
         InventoryLogic.instance.Inventory = new SerializedDictionary();
         slotHolder = new GameObject("Slot Holder");
