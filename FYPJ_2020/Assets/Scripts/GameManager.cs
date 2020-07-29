@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GAME_TYPES
+{
+    NONE_GAME,
+    TANGRAM_GAME,
+    JIGSAW_GAME,
+    COLOURING_GAME
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
