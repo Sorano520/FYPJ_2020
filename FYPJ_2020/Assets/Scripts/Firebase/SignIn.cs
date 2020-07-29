@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -12,6 +13,7 @@ public class SignIn : MonoBehaviour
 
     private void Start()
     {
+        FirebaseManager.instance.OnLoginSuccessful.AddListener(EnterGame);
         FirebaseManager.instance.OnLoginFailed.AddListener(HandleWrongPassword);
         username.text = password.text = "";
     }
@@ -29,8 +31,13 @@ public class SignIn : MonoBehaviour
 
     void HandleWrongPassword()
     {
-        username.text = null;
+        username.text = password.text = null;
         Debug.Log("Login failed!");
         Debug.Log("Please enter a correct password!");
+    }
+
+    void EnterGame()
+    {
+        SceneManager.LoadScene("Loading Screen");
     }
 }
