@@ -64,4 +64,54 @@ public class Transitions : MonoBehaviour
     {
         SceneManager.LoadScene("Collection");
     }
+    public void ToToolkitBadge()
+    {
+        SceneManager.LoadScene("Toolkit Badge");
+    }
+    public void ToToolkitJigsaw()
+    {
+        SceneManager.LoadScene("Toolkit Jigsaw1");
+    }
+    public void ToToolkitTangram()
+    {
+        SceneManager.LoadScene("Toolkit Tangram");
+    }
+    public void ToToolkitColouring()
+    {
+        SceneManager.LoadScene("Toolkit Colouring");
+    }
+
+    public void ToToolkitBadgeLevelSelect()
+    {
+        SceneManager.LoadScene("Toolkit Badge Level Select");
+    }
+    public void ToToolkitJigsawLevelSelect()
+    {
+        SceneManager.LoadScene("Toolkit Jigsaw Level Select");
+    }
+    public void ToToolkitTangramLevelSelect()
+    {
+        SceneManager.LoadScene("Toolkit Tangram Level Select");
+    }
+    public void ToToolkitColouringLevelSelect()
+    {
+        SceneManager.LoadScene("Toolkit Colouring Level Select");
+    }
+
+    public void ToToolkitBadgeGame()
+    {
+        SceneManager.LoadScene("Toolkit Badge Game");
+    }
+    public void ToToolkitJigsawGame()
+    {
+        SceneManager.LoadScene("Toolkit Jigsaw Game");
+    }
+    public void ToToolkitTangramGame()
+    {
+        SceneManager.LoadScene("Toolkit Tangram Game");
+    }
+    public void ToToolkitColouringGame()
+    {
+        SceneManager.LoadScene("Toolkit Colouring Game");
+    }
 }
