@@ -2,18 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using System.Threading.Tasks;
-using TMPro;
-using RotaryHeart.Lib.SerializableDictionary;
-
-[System.Serializable]
-public class DataDictionary : SerializableDictionaryBase<string, object> { }
+using UnityEngine.SceneManagement;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -22,15 +17,12 @@ public class FirebaseManager : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseFirestore database;
     protected Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth = new Dictionary<string, Firebase.Auth.FirebaseUser>();
-    
-    public TextMeshProUGUI displayText;
+
     // Flag set when a token is being fetched.  This is used to avoid printing the token
     // in IdTokenChanged() when the user presses the get token button.
     private bool fetchingToken = false;
     
-    public DataDictionary data = new DataDictionary();
-    bool checkUsername;
-    bool checkPassword;
+    Dictionary<string, object> data = new Dictionary<string, object>();
 
     #region Getters & Setters
     public FirebaseManager Instance
@@ -61,6 +53,8 @@ public class FirebaseManager : MonoBehaviour
 
     public UnityEvent OnFirebaseInit = new UnityEvent();
     public UnityEvent OnFireStoreResult = new UnityEvent();
+    public UnityEvent OnLoginSuccessful = new UnityEvent();
+    public UnityEvent OnLoginFailed = new UnityEvent();
 
     private async void Awake()
     {
@@ -77,8 +71,6 @@ public class FirebaseManager : MonoBehaviour
             else Debug.LogError($"Failed to initialize Firebase with {dependencyResult}");
         }
         else Debug.LogError($"An instance of {nameof(FirebaseManager)} already exists!");
-
-        checkUsername = checkPassword = false;
     }
 
     void Start()
@@ -92,20 +84,15 @@ public class FirebaseManager : MonoBehaviour
         });
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q)) UpdateSpecificUserInfo();
-    }
-
     protected void InitializeFirebase()
     {
         Debug.Log("Setting up Firebase Auth");
         auth = FirebaseAuth.DefaultInstance;
         database = FirebaseFirestore.DefaultInstance;
-        //SigninAnonymouslyAsync();
         auth.StateChanged += AuthStateChanged;
         auth.IdTokenChanged += IdTokenChanged;
         AuthStateChanged(this, null);
+        SigninAnonymouslyAsync();
     }
 
     // Track state changes of the auth object.
@@ -181,30 +168,108 @@ public class FirebaseManager : MonoBehaviour
         return false;
     }
 
-    public void SignIn()
+    void AddData(string dataID, object dataType)
     {
-        GameManager.instance.DisplayName = displayText.text;
-        SigninAnonymouslyAsync();
-        if (!data.ContainsKey("Sign-In")) data.Add("Sign-In", false);
-        GetSpecificUserDocumentAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "Sign-In");
+        if (data == null)
+            data = new Dictionary<string, object>();
+        if (data.ContainsKey(dataID))
+            data[dataID] = dataType;
+        else
+            data.Add(dataID, dataType);
+    }
 
+    void RemoveData(string dataID)
+    {
+        if (data == null)
+            data = new Dictionary<string, object>();
+        if (data.ContainsKey(dataID))
+            data.Remove(dataID);
+    }
+
+    public void SignUp(string username, string password)
+    {
+        Debug.Log("Signing up: " + username + "...");
+
+        SetSpecificUserVariableAsync(database.Collection("Data").Document(username), "Password", password);
+    }
+
+    public void SignIn(string username, string password)
+    {
+        Debug.Log("Signing In: " + username + "...");
+
+        AddData("Sign-In", null);
+        AddData("Username", username);
+        AddData("Unverified", password);
+        GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In");
         OnFireStoreResult.AddListener(VerifyExistingUser);
-        //UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true);
-        //UpdateLoginTimestampAsync();
     }
 
     public void VerifyExistingUser()
     {
+        if (data["Sign-In"] == null) return;
+        Debug.Log("Checking existing user...");
         OnFireStoreResult.RemoveListener(VerifyExistingUser);
         if ((bool)data["Sign-In"] == true)
-            Debug.Log("ldfnisnfgidlidlif");
+        {
+            Debug.Log("Existing user " + (string)data["Username"] + " found!");
+            AddData("Password", null);
+            GetSpecificUserVariableAsync(database.Collection("Data").Document((string)data["Username"]), "Password");
+            OnFireStoreResult.AddListener(VerifyCorrectPassword);
+        }
+        else
+        {
+            Debug.Log("No existing user " + (string)data["Username"] + " found!");
+            SignUp((string)data["Username"], (string)data["Unverified"]);
+        }
     }
 
-    public void UpdateSpecificUserInfo()
+    public void VerifyCorrectPassword()
+    {
+        if (data["Password"] == null) return;
+        Debug.Log("Verifying password...");
+        OnFireStoreResult.RemoveListener(VerifyCorrectPassword);
+
+        string unverified = (string)data["Unverified"] ?? "";
+        string pass = (string)data["Password"] ?? "";
+
+        if (unverified == pass)
+        {
+            Debug.Log("Login successful!");
+            GameManager.instance.DisplayName = (string)data["Username"];
+            Debug.Log("Welcome back " + GameManager.instance.DisplayName + "!");
+            
+            OnLoginSuccessful.Invoke();
+        }
+        else
+        {
+            Debug.Log((string)data["Unverified"] + " : " + (string)data["Password"]);
+            OnLoginFailed.Invoke();
+        }
+    }
+
+    public void EnterGame()
     {
         UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true);
     }
 
+    public void FinishedGame(GAME_TYPES game, GameData data)
+    {
+        switch (game)
+        {
+            case GAME_TYPES.TANGRAM_GAME:
+                break;
+            case GAME_TYPES.JIGSAW_GAME:
+                data.GameType = game;
+                string gameID = data.GameType + " " + data.Date + " " + data.TimeStarted.ToString();
+                data.name = gameID;
+                //SetSpecificUserClassAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), data);
+                break;
+            case GAME_TYPES.COLOURING_GAME:
+                break;
+        }
+        SceneManager.LoadSceneAsync("Game Select Scene");
+    }
+    
     // Used to create a new Username
     public Task UpdateUserProfileAsync(string newDisplayName = null)
     {
@@ -228,15 +293,82 @@ public class FirebaseManager : MonoBehaviour
         Debug.Log("Getting user document");
         return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
-            DocumentSnapshot snapshot = task.Result;
-
-            if (snapshot.Exists)
+            if (task.IsCompleted && !task.IsFaulted)
             {
                 data[variable] = true;
                 OnFireStoreResult.Invoke();
-                Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
+                Debug.Log(String.Format("Document data for {0} document:", task.Result.Id));
             }
-            else Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
+            else if (task.IsCompleted && task.IsFaulted)
+            {
+                data[variable] = false;
+                OnFireStoreResult.Invoke();
+                Debug.Log(String.Format("Document does not exist!"));
+            }
+        });
+    }
+    //public IEnumerator GetSpecificUserDocumentAsync(DocumentReference docRef, string variable)
+    //{
+    //    Debug.Log("Getting user document");
+    //    Task setTask = docRef.GetSnapshotAsync();
+    //    yield return new WaitForTaskCompletion(this, setTask);
+    //    if (!(setTask.IsFaulted || setTask.IsCanceled))
+    //    {
+    //        // Update the collectionPath/documentId because:
+    //        // 1) If the documentId field was empty, this will fill it in with the autoid. This allows
+    //        //    you to manually test via a trivial 'click set', 'click get'.
+    //        // 2) In the automated test, the caller might pass in an explicit docRef rather than pulling
+    //        //    the value from the UI. This keeps the UI up-to-date. (Though unclear if that's useful
+    //        //    for the automated tests.)
+    //        collectionPath = doc.Parent.Id;
+    //        documentId = doc.Id;
+
+    //        fieldContents = "Ok";
+    //    }
+    //    else
+    //    {
+    //        fieldContents = "Error";
+    //    }
+    //    return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+    //    {
+    //        if (task.IsCompleted && !task.IsFaulted)
+    //        {
+    //            data[variable] = true;
+    //            OnFireStoreResult.Invoke();
+    //            Debug.Log(String.Format("Document data for {0} document:", task.Result.Id));
+    //        }
+    //        else if (task.IsCompleted && task.IsFaulted)
+    //        {
+    //            data[variable] = false;
+    //            OnFireStoreResult.Invoke();
+    //            Debug.Log(String.Format("Document does not exist!"));
+    //        }
+    //    });
+    //}
+
+    // Used to get an existing variable's value
+    public Task GetSpecificUserVariableAsync(DocumentReference docRef, string variable)
+    {
+        Debug.Log("Receiving user info");
+        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted && task.IsFaulted)
+            {
+                Debug.Log(String.Format("Document does not exist!"));
+                return;
+            }
+            DocumentSnapshot snapshot = task.Result;
+            Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
+
+            Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
+
+            if (documentDictionary.ContainsKey(variable))
+            {
+                data[variable] = documentDictionary[variable];
+                OnFireStoreResult.Invoke();
+                Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
+            }
+            else Debug.Log(String.Format("Variable {0} does not exist!", variable));
         });
     }
 
@@ -251,6 +383,13 @@ public class FirebaseManager : MonoBehaviour
         return docRef.SetAsync(documentDictionary).ContinueWithOnMainThread(task => { Debug.Log("Updated user data into database"); });
     }
 
+    // Used to add a new variable to a new / existing document
+    public void SetSpecificUserClassAsync(DocumentReference docRef, object value)
+    {
+        Debug.Log("Updating user info");
+        docRef.SetAsync(value).ContinueWithOnMainThread(task => { Debug.Log("Updated user data into database"); });
+    }
+
     // Used to update an existing variable / set fo variables in an existing document
     // valueChange is true if value is used to change the variable's value and not overwrite it
     public Task UpdateSpecificUserVariableAsync(DocumentReference docRef, string variable, object value, bool valueChange)
@@ -260,9 +399,13 @@ public class FirebaseManager : MonoBehaviour
         {
             return transaction.GetSnapshotAsync(docRef).ContinueWithOnMainThread(task =>
             {
-                DocumentSnapshot snapshot = task.Result;
-                if (!snapshot.Exists) Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
+                if (task.IsCompleted && task.IsFaulted)
+                {
+                    Debug.Log(String.Format("Document does not exist!"));
+                    return;
+                }
 
+                DocumentSnapshot snapshot = task.Result;
                 Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
                 if (documentDictionary.ContainsKey(variable)) Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
                 else Debug.Log(String.Format("Variable {0} does not exist!", variable));
@@ -303,50 +446,40 @@ public class FirebaseManager : MonoBehaviour
         });
     }
 
-    // Used to get an existing variable's value
-    public Task GetSpecificUserVariableAsync(DocumentReference docRef)
-    {
-        Debug.Log("Receiving user info");
-        string variable = "";
-        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            DocumentSnapshot snapshot = task.Result;
-            if (!snapshot.Exists) Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
-            Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
-            Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
-
-            if (documentDictionary.ContainsKey(variable)) Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
-            else Debug.Log(String.Format("Variable {0} does not exist!", variable));
-        });
-    }
-
     // Called whenever a user logins to create a new document for the date they logged in and to increment their TimesLoggedIn counter
-    public Task UpdateLoginTimestampAsync()
+    public void UpdateLoginTimestampAsync()
     {
         Debug.Log("Updating login timestamp");
-        string date = DateTime.Today.Day + "." + DateTime.Today.Month + "." + DateTime.Today.Year;
-        DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Date").Document(date);
 
-        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true);
+
+        DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName);
+        string date = DateTime.Today.Day + "." + DateTime.Today.Month + "." + DateTime.Today.Year;
+        Date newDate = new Date
         {
-            DocumentSnapshot snapshot = task.Result;
-            if (snapshot.Exists)
-            {
-                Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
-                UpdateSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1, true);
-            }
-            else
-            {
-                Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
-                SetSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1);
-            }
-        });
+            name = date,
+            timesLoggedInToday = 1
+        };
+        docRef.SetAsync(newDate);
+
+        //docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        //{
+        //    if (task.IsCompleted && !task.IsFaulted)
+        //    {
+        //        Debug.Log(String.Format("Document data for {0} document:", task.Result.Id));
+        //        UpdateSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1, true);
+        //    }
+        //    else if (task.IsCompleted && task.IsFaulted)
+        //    {
+        //        Debug.Log(String.Format("Document does not exist!"));
+        //        SetSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1);
+        //    }
+        //});
     }
 
     public Task SigninAnonymouslyAsync()
     {
         Debug.Log("Attempting to sign anonymously...");
-        GameManager.instance.DisplayName = displayText.text;
         string newDisplayName = "temp";
         return auth.SignInAnonymouslyAsync().ContinueWithOnMainThread((task) =>
         {
@@ -366,7 +499,7 @@ public class FirebaseManager : MonoBehaviour
         string token = "";
         return auth.SignInWithCustomTokenAsync(token).ContinueWithOnMainThread(HandleSignInWithUser);
     }
-
+    
     //public Task UpdateUserInfoAsync()
     //{
     //    Debug.Log("Updating user info");
@@ -410,4 +543,9 @@ public class FirebaseManager : MonoBehaviour
         app = null;
         if (instance == this) instance = null;
     }
+}
+
+public class Date : MonoBehaviour
+{
+    public int timesLoggedInToday;
 }
