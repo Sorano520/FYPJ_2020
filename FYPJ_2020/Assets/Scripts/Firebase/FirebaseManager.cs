@@ -7,6 +7,7 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
 using Firebase.Extensions;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
@@ -21,8 +22,11 @@ public class FirebaseManager : MonoBehaviour
     // Flag set when a token is being fetched.  This is used to avoid printing the token
     // in IdTokenChanged() when the user presses the get token button.
     private bool fetchingToken = false;
-    
+
     Dictionary<string, object> data = new Dictionary<string, object>();
+    protected Task previousTask;
+    protected bool operationInProgress;
+    protected CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
     #region Getters & Setters
     public FirebaseManager Instance
@@ -53,8 +57,8 @@ public class FirebaseManager : MonoBehaviour
 
     public UnityEvent OnFirebaseInit = new UnityEvent();
     public UnityEvent OnFireStoreResult = new UnityEvent();
-    public UnityEvent OnLoginSuccessful = new UnityEvent();
-    public UnityEvent OnLoginFailed = new UnityEvent();
+    public UnityEvent OnSigninSuccessful = new UnityEvent();
+    public UnityEvent OnSigninFailed = new UnityEvent();
 
     private async void Awake()
     {
@@ -84,11 +88,50 @@ public class FirebaseManager : MonoBehaviour
         });
     }
 
+    // Wait for task completion, throwing an exception if the task fails.
+    // This could be typically implemented using
+    // yield return new WaitUntil(() => task.IsCompleted);
+    // however, since many procedures in this sample nest coroutines and we want any task exceptions
+    // to be thrown from the top level coroutine (e.g GetKnownValue) we provide this
+    // CustomYieldInstruction implementation wait for a task in the context of the coroutine using
+    // common setup and tear down code.
+    class WaitForTaskCompletion : CustomYieldInstruction
+    {
+        Task task;
+
+        // Create an enumerator that waits for the specified task to complete.
+        public WaitForTaskCompletion(Task task)
+        {
+            instance.previousTask = task;
+            instance.operationInProgress = true;
+            this.task = task;
+        }
+
+        // Wait for the task to complete.
+        public override bool keepWaiting
+        {
+            get
+            {
+                if (task.IsCompleted)
+                {
+                    instance.operationInProgress = false;
+                    instance.cancellationTokenSource = new CancellationTokenSource();
+                    if (task.IsFaulted) Debug.Log(task.Exception.ToString());
+                    return false;
+                }
+                return true;
+            }
+        }
+    }
+
     protected void InitializeFirebase()
     {
         Debug.Log("Setting up Firebase Auth");
         auth = FirebaseAuth.DefaultInstance;
         database = FirebaseFirestore.DefaultInstance;
+        database.Settings.WithPersistenceEnabled(false);
+        database.DisableNetworkAsync();
+        database.EnableNetworkAsync();
         auth.StateChanged += AuthStateChanged;
         auth.IdTokenChanged += IdTokenChanged;
         AuthStateChanged(this, null);
@@ -189,8 +232,24 @@ public class FirebaseManager : MonoBehaviour
     public void SignUp(string username, string password)
     {
         Debug.Log("Signing up: " + username + "...");
+        Dictionary<string, object> variables = new Dictionary<string, object>
+            {
+                { "Password", password },
+                { "TimesLoggedIn", 1 }
+            };
+        AddData("Sign-Up", null);
+        StartCoroutine(SetSpecificUserVariableAsync(database.Collection("Data").Document(username), variables, null, "Sign-Up"));
+        OnFireStoreResult.AddListener(SignUpComplete);
+    }
 
-        SetSpecificUserVariableAsync(database.Collection("Data").Document(username), "Password", password);
+    public void SignUpComplete()
+    {
+        if (data["Sign-Up"] == null) return;
+        Debug.Log("Sign-up successful!");
+        GameManager.instance.DisplayName = (string)data["Username"];
+        Debug.Log("Welcome " + GameManager.instance.DisplayName + "!");
+
+        OnSigninSuccessful.Invoke();
     }
 
     public void SignIn(string username, string password)
@@ -200,8 +259,8 @@ public class FirebaseManager : MonoBehaviour
         AddData("Sign-In", null);
         AddData("Username", username);
         AddData("Unverified", password);
-        GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In");
         OnFireStoreResult.AddListener(VerifyExistingUser);
+        StartCoroutine(GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In"));
     }
 
     public void VerifyExistingUser()
@@ -213,7 +272,7 @@ public class FirebaseManager : MonoBehaviour
         {
             Debug.Log("Existing user " + (string)data["Username"] + " found!");
             AddData("Password", null);
-            GetSpecificUserVariableAsync(database.Collection("Data").Document((string)data["Username"]), "Password");
+            StartCoroutine(GetSpecificUserVariableAsync(database.Collection("Data").Document((string)data["Username"]), "Password"));
             OnFireStoreResult.AddListener(VerifyCorrectPassword);
         }
         else
@@ -234,42 +293,46 @@ public class FirebaseManager : MonoBehaviour
 
         if (unverified == pass)
         {
-            Debug.Log("Login successful!");
+            Debug.Log("Sign-in successful!");
             GameManager.instance.DisplayName = (string)data["Username"];
             Debug.Log("Welcome back " + GameManager.instance.DisplayName + "!");
-            
-            OnLoginSuccessful.Invoke();
+
+            OnSigninSuccessful.Invoke();
         }
         else
         {
             Debug.Log((string)data["Unverified"] + " : " + (string)data["Password"]);
-            OnLoginFailed.Invoke();
+            OnSigninFailed.Invoke();
         }
     }
 
     public void EnterGame()
     {
-        UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true);
+        StartCoroutine(UpdateLoginTimestampAsync());
     }
 
-    public void FinishedGame(GAME_TYPES game, GameData data)
+    public void FinishedGame(GAME_TYPES game)
     {
         switch (game)
         {
             case GAME_TYPES.TANGRAM_GAME:
                 break;
             case GAME_TYPES.JIGSAW_GAME:
-                data.GameType = game;
-                string gameID = data.GameType + " " + data.Date + " " + data.TimeStarted.ToString();
-                data.name = gameID;
-                //SetSpecificUserClassAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), data);
+                //string date = GameManager.instance.Data.date.Day + "." + GameManager.instance.Data.date.Month + "." + GameManager.instance.Data.date.Year;
+                //string gameID = " " + date + " " + GameManager.instance.Data.timeStarted.ToString();
+                //GameManager.instance.Data.name = gameID;
+                //Dictionary<string, object> documentDictionary = new Dictionary<string, object>
+                //{
+                //    { GameManager.instance.Data.name, JsonUtility.ToJson(data) }
+                //};
+                //StartCoroutine(SetSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Date").Document(date), documentDictionary, SetOptions.MergeAll));
                 break;
             case GAME_TYPES.COLOURING_GAME:
                 break;
         }
         SceneManager.LoadSceneAsync("Game Select Scene");
     }
-    
+
     // Used to create a new Username
     public Task UpdateUserProfileAsync(string newDisplayName = null)
     {
@@ -288,47 +351,9 @@ public class FirebaseManager : MonoBehaviour
     }
 
     // Used to check if a document exists
-    public Task GetSpecificUserDocumentAsync(DocumentReference docRef, string variable)
-    {
-        Debug.Log("Getting user document");
-        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted && !task.IsFaulted)
-            {
-                data[variable] = true;
-                OnFireStoreResult.Invoke();
-                Debug.Log(String.Format("Document data for {0} document:", task.Result.Id));
-            }
-            else if (task.IsCompleted && task.IsFaulted)
-            {
-                data[variable] = false;
-                OnFireStoreResult.Invoke();
-                Debug.Log(String.Format("Document does not exist!"));
-            }
-        });
-    }
-    //public IEnumerator GetSpecificUserDocumentAsync(DocumentReference docRef, string variable)
+    //public Task GetSpecificUserDocumentAsync(DocumentReference docRef, string variable)
     //{
     //    Debug.Log("Getting user document");
-    //    Task setTask = docRef.GetSnapshotAsync();
-    //    yield return new WaitForTaskCompletion(this, setTask);
-    //    if (!(setTask.IsFaulted || setTask.IsCanceled))
-    //    {
-    //        // Update the collectionPath/documentId because:
-    //        // 1) If the documentId field was empty, this will fill it in with the autoid. This allows
-    //        //    you to manually test via a trivial 'click set', 'click get'.
-    //        // 2) In the automated test, the caller might pass in an explicit docRef rather than pulling
-    //        //    the value from the UI. This keeps the UI up-to-date. (Though unclear if that's useful
-    //        //    for the automated tests.)
-    //        collectionPath = doc.Parent.Id;
-    //        documentId = doc.Id;
-
-    //        fieldContents = "Ok";
-    //    }
-    //    else
-    //    {
-    //        fieldContents = "Error";
-    //    }
     //    return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
     //    {
     //        if (task.IsCompleted && !task.IsFaulted)
@@ -345,136 +370,224 @@ public class FirebaseManager : MonoBehaviour
     //        }
     //    });
     //}
-
-    // Used to get an existing variable's value
-    public Task GetSpecificUserVariableAsync(DocumentReference docRef, string variable)
+    public IEnumerator GetSpecificUserDocumentAsync(DocumentReference docRef, string onComplete)
     {
-        Debug.Log("Receiving user info");
-        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        Debug.Log(String.Format("Getting document {0} from database!", onComplete));
+        Task<DocumentSnapshot> task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
         {
-            if (task.IsCompleted && task.IsFaulted)
-            {
-                Debug.Log(String.Format("Document does not exist!"));
-                return;
-            }
+            data[onComplete] = true;
+            Debug.Log(String.Format("Document data for {0} document:", task.Result.Id));
+        }
+        else
+        {
+            data[onComplete] = false;
+            Debug.Log(String.Format("Document does not exist!"));
+        }
+        OnFireStoreResult.Invoke();
+    }
+
+    //// Used to get an existing variable's value
+    //public Task GetSpecificUserVariableAsync(DocumentReference docRef, string variable)
+    //{
+    //    Debug.Log("Receiving user info");
+    //    return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+    //    {
+    //        if (task.IsCompleted && task.IsFaulted)
+    //        {
+    //            Debug.Log(String.Format("Document does not exist!"));
+    //            return;
+    //        }
+    //        DocumentSnapshot snapshot = task.Result;
+    //        Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
+
+    //        Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
+
+    //        if (documentDictionary.ContainsKey(variable))
+    //        {
+    //            data[variable] = documentDictionary[variable];
+    //            OnFireStoreResult.Invoke();
+    //            Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
+    //        }
+    //        else Debug.Log(String.Format("Variable {0} does not exist!", variable));
+    //    });
+    //} 
+    // Used to get an existing variable's value
+    public IEnumerator GetSpecificUserVariableAsync(DocumentReference docRef, string variable)
+    {
+        Debug.Log(String.Format("Getting variable {0} from database!", variable));
+        var task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
             DocumentSnapshot snapshot = task.Result;
-            Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
-
-            Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
-
+            IDictionary<string, object> documentDictionary = snapshot.ToDictionary();
             if (documentDictionary.ContainsKey(variable))
             {
                 data[variable] = documentDictionary[variable];
-                OnFireStoreResult.Invoke();
                 Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
             }
             else Debug.Log(String.Format("Variable {0} does not exist!", variable));
-        });
+        }
+        else Debug.Log(String.Format("Document does not exist!"));
+        OnFireStoreResult.Invoke();
     }
 
     // Used to add a new variable to a new / existing document
-    public Task SetSpecificUserVariableAsync(DocumentReference docRef, string variable, object value)
+    public IEnumerator SetSpecificUserVariableAsync(DocumentReference docRef, Dictionary<string, object> variables, SetOptions options = null, string onComplete = "")
     {
-        Debug.Log("Updating user info");
-        Dictionary<string, object> documentDictionary = new Dictionary<string, object>
-        {
-            { variable, value }
-        };
-        return docRef.SetAsync(documentDictionary).ContinueWithOnMainThread(task => { Debug.Log("Updated user data into database"); });
+        Debug.Log(String.Format("Setting variables into database!"));
+        Task task;
+        if (options == null) task = docRef.SetAsync(variables);
+        else task = docRef.SetAsync(variables, options);
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled)) Debug.Log(String.Format("Set variables into database!"));
+        else Debug.Log(String.Format("Failed to set variables into database!"));
+        if (onComplete != "") data[onComplete] = true;
+        OnFireStoreResult.Invoke();
     }
 
     // Used to add a new variable to a new / existing document
-    public void SetSpecificUserClassAsync(DocumentReference docRef, object value)
+    public IEnumerator SetSpecificUserClassAsync(DocumentReference docRef, string value)
     {
         Debug.Log("Updating user info");
-        docRef.SetAsync(value).ContinueWithOnMainThread(task => { Debug.Log("Updated user data into database"); });
+        Task task = docRef.SetAsync(value);
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled)) Debug.Log(String.Format("Set class into database!"));
+        else Debug.Log(String.Format("Failed to set class into database!"));
     }
 
+    //// Used to update an existing variable / set fo variables in an existing document
+    //// valueChange is true if value is used to change the variable's value and not overwrite it
+    //public Task UpdateSpecificUserVariableAsync(DocumentReference docRef, string variable, object value, bool valueChange)
+    //{
+    //    Debug.Log(String.Format("Updating variable {0} into database!", variable));
+    //    return database.RunTransactionAsync(transaction =>
+    //    {
+    //        return transaction.GetSnapshotAsync(docRef).ContinueWithOnMainThread(task =>
+    //        {
+    //            if (task.IsCompleted && task.IsFaulted)
+    //            {
+    //                Debug.Log(String.Format("Document does not exist!"));
+    //                return;
+    //            }
+
+    //            DocumentSnapshot snapshot = task.Result;
+    //            Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
+    //            if (documentDictionary.ContainsKey(variable)) Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
+    //            else Debug.Log(String.Format("Variable {0} does not exist!", variable));
+
+    //            if (valueChange)
+    //            {
+    //                Debug.Log(String.Format("Before Value: {0}, Data Type: {1}", value, value.GetType()));
+
+    //                switch (Type.GetTypeCode(value.GetType()))
+    //                { 
+    //                    case TypeCode.Int16:
+    //                    case TypeCode.Int32:
+    //                    case TypeCode.Int64:
+    //                        if (Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int16 &&
+    //                            Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int32 &&
+    //                            Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int64)
+    //                            Debug.LogError(String.Format("Variable {0} ({2}) has a different type than Variable {1} ({3})!", variable, value, documentDictionary[variable].GetType(), value.GetType()));
+    //                        if (Type.GetTypeCode(value.GetType()) != TypeCode.Int16 &&
+    //                            Type.GetTypeCode(value.GetType()) != TypeCode.Int32 &&
+    //                            Type.GetTypeCode(value.GetType()) != TypeCode.Int64)
+    //                            Debug.LogError(String.Format("Variable {0} ({2}) has a different type than Variable {1} ({3})!", variable, value, documentDictionary[variable].GetType(), value.GetType()));
+    //                        value = snapshot.GetValue<int>(variable) + (int)value;
+    //                        break;
+    //                    case TypeCode.Decimal:
+    //                    case TypeCode.String:
+    //                        value = snapshot.GetValue<string>(variable) + (string)value;
+    //                        break;
+    //                }
+    //            }
+    //            Debug.Log(String.Format("After Value: {0}, Data Type: {1}", value, value.GetType()));
+    //            Dictionary<string, object> updates = new Dictionary<string, object>
+    //            {
+    //                { variable, value }
+    //            };
+    //            transaction.Update(docRef, updates);
+    //            Debug.Log("Updated specific user info in the database");
+    //        });
+    //    });
+    //}
     // Used to update an existing variable / set fo variables in an existing document
     // valueChange is true if value is used to change the variable's value and not overwrite it
-    public Task UpdateSpecificUserVariableAsync(DocumentReference docRef, string variable, object value, bool valueChange)
+    public IEnumerator UpdateSpecificUserVariableAsync(DocumentReference docRef, string variable, object value, bool valueChange)
     {
-        Debug.Log("Updating specific user info");
-        return database.RunTransactionAsync(transaction =>
+        Debug.Log(String.Format("Updating variable {0} into database!", variable));
+        Task<DocumentSnapshot> task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
         {
-            return transaction.GetSnapshotAsync(docRef).ContinueWithOnMainThread(task =>
+            DocumentSnapshot snapshot = task.Result;
+            Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
+            if (documentDictionary.ContainsKey(variable)) Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
+            else Debug.Log(String.Format("Variable {0} does not exist!", variable));
+
+            if (valueChange)
             {
-                if (task.IsCompleted && task.IsFaulted)
+                Debug.Log(String.Format("Before Value: {0}, Data Type: {1}", value, value.GetType()));
+
+                switch (Type.GetTypeCode(value.GetType()))
                 {
-                    Debug.Log(String.Format("Document does not exist!"));
-                    return;
+                    case TypeCode.Int16:
+                    case TypeCode.Int32:
+                    case TypeCode.Int64:
+                        if (Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int16 &&
+                            Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int32 &&
+                            Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int64)
+                            Debug.LogError(String.Format("Variable {0} ({2}) has a different type than Variable {1} ({3})!", variable, value, documentDictionary[variable].GetType(), value.GetType()));
+                        if (Type.GetTypeCode(value.GetType()) != TypeCode.Int16 &&
+                            Type.GetTypeCode(value.GetType()) != TypeCode.Int32 &&
+                            Type.GetTypeCode(value.GetType()) != TypeCode.Int64)
+                            Debug.LogError(String.Format("Variable {0} ({2}) has a different type than Variable {1} ({3})!", variable, value, documentDictionary[variable].GetType(), value.GetType()));
+                        value = snapshot.GetValue<int>(variable) + (int)value;
+                        break;
+                    case TypeCode.Decimal:
+                    case TypeCode.String:
+                        value = snapshot.GetValue<string>(variable) + (string)value;
+                        break;
                 }
+            }
+            Debug.Log(String.Format("After Value: {0}, Data Type: {1}", value, value.GetType()));
+            Dictionary<string, object> updates = new Dictionary<string, object> { { variable, value } };
 
-                DocumentSnapshot snapshot = task.Result;
-                Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
-                if (documentDictionary.ContainsKey(variable)) Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
-                else Debug.Log(String.Format("Variable {0} does not exist!", variable));
-
-                if (valueChange)
-                {
-                    Debug.Log(String.Format("Before Value: {0}, Data Type: {1}", value, value.GetType()));
-
-                    switch (Type.GetTypeCode(value.GetType()))
-                    { 
-                        case TypeCode.Int16:
-                        case TypeCode.Int32:
-                        case TypeCode.Int64:
-                            if (Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int16 &&
-                                Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int32 &&
-                                Type.GetTypeCode(documentDictionary[variable].GetType()) != TypeCode.Int64)
-                                Debug.LogError(String.Format("Variable {0} ({2}) has a different type than Variable {1} ({3})!", variable, value, documentDictionary[variable].GetType(), value.GetType()));
-                            if (Type.GetTypeCode(value.GetType()) != TypeCode.Int16 &&
-                                Type.GetTypeCode(value.GetType()) != TypeCode.Int32 &&
-                                Type.GetTypeCode(value.GetType()) != TypeCode.Int64)
-                                Debug.LogError(String.Format("Variable {0} ({2}) has a different type than Variable {1} ({3})!", variable, value, documentDictionary[variable].GetType(), value.GetType()));
-                            value = snapshot.GetValue<int>(variable) + (int)value;
-                            break;
-                        case TypeCode.Decimal:
-                        case TypeCode.String:
-                            value = snapshot.GetValue<string>(variable) + (string)value;
-                            break;
-                    }
-                }
-                Debug.Log(String.Format("After Value: {0}, Data Type: {1}", value, value.GetType()));
-                Dictionary<string, object> updates = new Dictionary<string, object>
-                {
-                    { variable, value }
-                };
-                transaction.Update(docRef, updates);
-                Debug.Log("Updated specific user info in the database");
-            });
-        });
+            Task updateTask = docRef.UpdateAsync(updates);
+            if (!(updateTask.IsFaulted || updateTask.IsCanceled)) Debug.Log(String.Format("Updated variable {0} into database!", variable));
+            else Debug.Log(String.Format("Failed to update variable {0} into database!", variable));
+        }
+        else Debug.Log(String.Format("Document does not exist!"));
     }
-
+    
     // Called whenever a user logins to create a new document for the date they logged in and to increment their TimesLoggedIn counter
-    public void UpdateLoginTimestampAsync()
+    public IEnumerator UpdateLoginTimestampAsync()
     {
         Debug.Log("Updating login timestamp");
 
-        UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true);
+        StartCoroutine(UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true));
 
-        DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName);
-        string date = DateTime.Today.Day + "." + DateTime.Today.Month + "." + DateTime.Today.Year;
-        Date newDate = new Date
+        string year = GameManager.instance.Data.date.Year.ToString();
+        DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year);
+        
+        Task<DocumentSnapshot> task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
         {
-            name = date,
-            timesLoggedInToday = 1
-        };
-        docRef.SetAsync(newDate);
-
-        //docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        //{
-        //    if (task.IsCompleted && !task.IsFaulted)
-        //    {
-        //        Debug.Log(String.Format("Document data for {0} document:", task.Result.Id));
-        //        UpdateSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1, true);
-        //    }
-        //    else if (task.IsCompleted && task.IsFaulted)
-        //    {
-        //        Debug.Log(String.Format("Document does not exist!"));
-        //        SetSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1);
-        //    }
-        //});
+            Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+            StartCoroutine(UpdateSpecificUserVariableAsync(docRef, "TimesLoggedInThisYear", 1, true));
+        }
+        else
+        {
+            Debug.Log(String.Format("Document {0} does not exist!", year));
+            Dictionary<string, object> variables = new Dictionary<string, object>
+            {
+                { "TimesLoggedInThisYear", 1 }
+            };
+            StartCoroutine(SetSpecificUserVariableAsync(docRef, variables));
+        }
     }
 
     public Task SigninAnonymouslyAsync()
@@ -499,7 +612,7 @@ public class FirebaseManager : MonoBehaviour
         string token = "";
         return auth.SignInWithCustomTokenAsync(token).ContinueWithOnMainThread(HandleSignInWithUser);
     }
-    
+
     //public Task UpdateUserInfoAsync()
     //{
     //    Debug.Log("Updating user info");

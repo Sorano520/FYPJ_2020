@@ -7,7 +7,6 @@ using UnityEngine.Rendering;
 public class MouseLogic : MonoBehaviour
 {
     public static MouseLogic instance = null;
-    GameData data = null;
     [Tooltip("The value is a bool which indicates whether the piece is in the inventory")]
     [SerializeField] List<GameObject> inventory;
     [SerializeField] int lockedPieces = 0;
@@ -28,11 +27,6 @@ public class MouseLogic : MonoBehaviour
     /// </FOR FPS>
 
     #region Getters & Setters
-    public GameData Data
-    {
-        get { return data; }
-        set { data = value; }
-    }
     public List<GameObject> Inventory
     {
         get { return inventory; }
@@ -100,10 +94,10 @@ public class MouseLogic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        data = GetComponent<GameData>();
+        ++GameManager.instance.Data.jigsawGamesPlayed;
+        GameManager.instance.Data.currentGame = GAME_TYPES.JIGSAW_GAME;
         selectedPiece = null;
         sortingOrder = 0;
-        //InventoryLogic.instance.transform.parent.parent = Camera.main.transform;
         lockedPieces = 0;
     }
 
@@ -137,7 +131,6 @@ public class MouseLogic : MonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    data.CheckInactivity();
                     prevMousePos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
                     mousePos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
                     FindPiece(mousePos);
@@ -148,7 +141,6 @@ public class MouseLogic : MonoBehaviour
                     if (selectedPiece == null) OnMove(prevMousePos, mousePos);
                     break;
                 case TouchPhase.Ended:
-                    data.IsInactive = true;
                     if (selectedPiece && selectedPiece.GetComponent<JigsawPieceLogic>()) selectedPiece.GetComponent<JigsawPieceLogic>().SwitchState(JigsawPieceLogic.PIECE_STATE.STATE_PUTDOWN);
                     selectedPiece = null;
                     break;
@@ -159,7 +151,6 @@ public class MouseLogic : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            data.CheckInactivity();
             prevMousePos = mousePos;
             FindPiece(mousePos);
         }
@@ -169,7 +160,6 @@ public class MouseLogic : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            data.IsInactive = true;
             if (selectedPiece && selectedPiece.GetComponent<JigsawPieceLogic>()) selectedPiece.GetComponent<JigsawPieceLogic>().SwitchState(JigsawPieceLogic.PIECE_STATE.STATE_PUTDOWN);
             selectedPiece = null;
         }
@@ -254,8 +244,7 @@ public class MouseLogic : MonoBehaviour
         {
             // Victory Screen Pop-Ups
             Debug.Log("You Win!");
-            data.LogTime();
-            //FirebaseManager.instance.FinishedGame(GAME_TYPES.JIGSAW_GAME, data);
+            FirebaseManager.instance.FinishedGame(GAME_TYPES.JIGSAW_GAME);
         }
     }
 }
