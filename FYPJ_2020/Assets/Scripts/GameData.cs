@@ -306,6 +306,7 @@ public class GameData : MonoBehaviour
                     break;
                 case TouchPhase.Ended:
                     isInactive = true;
+                    break;
             }
 #else
         if (Input.GetMouseButtonDown(0)) CheckInactivity();

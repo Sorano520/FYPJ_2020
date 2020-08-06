@@ -34,6 +34,15 @@ public class PopUpMenu : MonoBehaviour
         popUpMenu.transform.DOMoveY(700, 0.5f);
         //popUpMenu.transform.DOMove(new Vector3(11, 40, 0), 1);
     }
+    public void menuOpenLevelSelect()
+    {
+        popUpMenu.transform.DOMoveY(1900, 0.5f);
+        //popUpMenu.transform.DOMove(new Vector3(11, 40, 0), 1);
+    }
+    public void menuCloseLevelSelect()
+    {
+        popUpMenu.transform.DOMoveY(3300, 1);
+    }
     public void menuClose()
     {
         popUpMenu.transform.DOMoveY(2400, 1);
