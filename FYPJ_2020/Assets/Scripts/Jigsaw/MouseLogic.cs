@@ -99,6 +99,10 @@ public class MouseLogic : MonoBehaviour
         selectedPiece = null;
         sortingOrder = 0;
         lockedPieces = 0;
+
+        GameManager.instance.Data.jigsawTime.Add(0f);
+        GameManager.instance.Data.jigsawMovesTaken.Add(0);
+        GameManager.instance.Data.jigsawErrorsMade.Add(0);
     }
 
     // Update is called once per frame
@@ -244,7 +248,6 @@ public class MouseLogic : MonoBehaviour
         {
             // Victory Screen Pop-Ups
             Debug.Log("You Win!");
-            FirebaseManager.instance.FinishedGame(GAME_TYPES.JIGSAW_GAME);
         }
     }
 }

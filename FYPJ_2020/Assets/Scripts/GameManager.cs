@@ -69,6 +69,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        data = new GameData();
+        DontDestroyOnLoad(gameObject);
+
+        data = GetComponent<GameData>();
     }
 }
