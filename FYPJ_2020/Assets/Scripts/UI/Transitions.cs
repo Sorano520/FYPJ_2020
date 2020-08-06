@@ -5,22 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Transitions : MonoBehaviour
 {
-    //ChangeImageButton_JigsawLevelSelect example;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void ToTitleScreen()
     {
-        SceneManager.LoadScene("Title Screen");
+        FirebaseManager.instance.SignOut();
     }
 
     public void ToSignIn()

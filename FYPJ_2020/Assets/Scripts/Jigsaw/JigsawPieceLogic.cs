@@ -76,7 +76,8 @@ public class JigsawPieceLogic : MonoBehaviour
         slot.name = "Slot ID:" + name;
         Color combinedMask = new Color(2, 2, 2, 2);
         slot.GetComponent<MeshFilter>().mesh.SetColors(new List<Color>() { combinedMask, combinedMask, combinedMask, combinedMask });
-        slot.GetComponent<Renderer>().material.color = new Color(0, 0, 0, 1);
+        slot.GetComponent<Renderer>().material.mainTexture = null;
+        slot.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0.25f, 1);
         slot.GetComponent<SortingGroup>().sortingOrder = -1;
         slot.transform.parent = null;
         slot.transform.position = transform.position;
@@ -92,7 +93,7 @@ public class JigsawPieceLogic : MonoBehaviour
             case PIECE_STATE.STATE_PICKEDUP:
                 MouseLogic.instance.UpdateSortingOrder();
                 MouseLogic.instance.SetSortingOrder(gameObject);
-                ++MouseLogic.instance.Data.MovesTaken;
+                ++GameManager.instance.Data.jigsawMovesTaken[GameManager.instance.Data.jigsawGamesPlayed - 1];
                 break;
             case PIECE_STATE.STATE_PUTDOWN:
                 if (Vector2.Distance(transform.position, slot.transform.position) <= 0.5f)
@@ -106,7 +107,7 @@ public class JigsawPieceLogic : MonoBehaviour
                     MouseLogic.instance.CheckComplete();
                     break;
                 }
-                else ++MouseLogic.instance.Data.ErrorsMade;
+                else ++GameManager.instance.Data.jigsawErrorsMade[GameManager.instance.Data.jigsawGamesPlayed - 1];
 
                 MouseLogic.instance.UpdateSortingOrder();
 
