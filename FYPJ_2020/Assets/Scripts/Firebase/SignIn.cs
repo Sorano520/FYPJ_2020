@@ -13,8 +13,8 @@ public class SignIn : MonoBehaviour
 
     private void Start()
     {
-        FirebaseManager.instance.OnLoginSuccessful.AddListener(EnterGame);
-        FirebaseManager.instance.OnLoginFailed.AddListener(HandleWrongPassword);
+        FirebaseManager.instance.OnSigninSuccessful.AddListener(EnterGame);
+        FirebaseManager.instance.OnSigninFailed.AddListener(HandleWrongPassword);
         username.text = password.text = "";
     }
 
