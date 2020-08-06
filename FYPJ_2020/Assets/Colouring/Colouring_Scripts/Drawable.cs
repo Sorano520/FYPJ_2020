@@ -140,6 +140,7 @@ namespace FreeDraw
         {
             // Is the user holding down the left mouse button?
             bool mouse_held_down = Input.GetMouseButton(0);
+            Debug.Log("mouse = " + mouse_held_down);
             if (mouse_held_down && !no_drawing_on_current_drag)
             {
                 // Convert mouse coordinates to world coordinates

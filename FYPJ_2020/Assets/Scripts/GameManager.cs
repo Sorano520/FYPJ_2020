@@ -13,6 +13,7 @@ public enum GAME_TYPES
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+    GameData data;
     public int chosenDifficulty;
     [SerializeField] List<int> jigsawDifficulties;
 
@@ -26,6 +27,11 @@ public class GameManager : MonoBehaviour
     bool thatBadge;
 
     #region Getters & Setters
+    public GameData Data
+    {
+        get { return data; }
+        set { data = value; }
+    }
     public List<int> JigsawDifficulties
     {
         get { return jigsawDifficulties; }
@@ -62,5 +68,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        DontDestroyOnLoad(gameObject);
+
+        data = GetComponent<GameData>();
     }
 }
