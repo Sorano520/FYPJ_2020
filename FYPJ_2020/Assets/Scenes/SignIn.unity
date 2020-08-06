@@ -877,7 +877,7 @@ GameObject:
   - component: {fileID: 824139137}
   - component: {fileID: 824139141}
   m_Layer: 5
-  m_Name: Sign In Canvas
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
