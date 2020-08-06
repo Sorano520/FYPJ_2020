@@ -15,12 +15,17 @@ public class Transitions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ToTitleScreen()
     {
         SceneManager.LoadScene("Title Screen");
+    }
+
+    public void ToSignIn()
+    {
+        SceneManager.LoadScene("SignIn");
     }
 
     public void ToLoadingScreen()
