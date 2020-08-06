@@ -298,6 +298,8 @@ public class GameData : MonoBehaviour
         if (isInactive) inactivityPeriod += Time.deltaTime;
 
 #if UNITY_ANDROID || UNITY_IOS
+        if (Input.touchCount > 0)
+        {
             Touch touch = Input.touches[0];
             switch (touch.phase)
             {
@@ -306,7 +308,9 @@ public class GameData : MonoBehaviour
                     break;
                 case TouchPhase.Ended:
                     isInactive = true;
+                    break;
             }
+        }
 #else
         if (Input.GetMouseButtonDown(0)) CheckInactivity();
         else if (Input.GetMouseButtonUp(0)) isInactive = true;

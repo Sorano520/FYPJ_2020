@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     protected int timesLoggedInToday;
     [SerializeField] protected string displayName;
 
+    public DebugConsole con;
+
     int noOfWins;
     int noOfLosses;
     bool thisBadge;
@@ -72,5 +74,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         data = GetComponent<GameData>();
+        con = GetComponent<DebugConsole>();
     }
 }
