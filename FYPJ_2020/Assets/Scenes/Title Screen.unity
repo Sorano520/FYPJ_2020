@@ -191,7 +191,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3659c7cf808105f4dab3ba0a3691c9ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d7325b9522d48204ba5742616f7cbd7a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -464,7 +464,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1620992166}
-        m_MethodName: ToSignIn
+        m_MethodName: ToLoadingScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -593,7 +593,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1620992166}
-        m_MethodName: ToSignIn
+        m_MethodName: ToLoadingScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -650,6 +650,7 @@ GameObject:
   - component: {fileID: 1222235012}
   - component: {fileID: 1222235011}
   - component: {fileID: 1222235013}
+  - component: {fileID: 1222235014}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -672,6 +673,7 @@ MonoBehaviour:
   chosenDifficulty: 0
   jigsawDifficulties: 
   displayName: 
+  con: {fileID: 0}
 --- !u!4 &1222235012
 Transform:
   m_ObjectHideFlags: 0
@@ -719,6 +721,20 @@ MonoBehaviour:
   tangramGamesPlayed: 0
   colouringTime: []
   colouringGamesPlayed: 0
+--- !u!114 &1222235014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222235010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2fe2aa7ab9cb434ab337557c2f7f5fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logs: []
+  text: {fileID: 8571275112130175363, guid: 7de8119cc8c63154abb6ef60021f0b3a, type: 3}
 --- !u!1 &1253847140
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,7 +751,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1253847141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,7 +1143,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1620992166}
-        m_MethodName: ToSignIn
+        m_MethodName: ToLoadingScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
