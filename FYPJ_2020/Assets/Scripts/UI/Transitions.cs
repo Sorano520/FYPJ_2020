@@ -7,7 +7,7 @@ public class Transitions : MonoBehaviour
 {
     public void ToTitleScreen()
     {
-        //FirebaseManager.instance.SignOut();
+        FirebaseManager.instance.SignOut();
         SceneManager.LoadScene("Title Screen");
     }
 
