@@ -2,18 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
 using Firebase.Extensions;
+using System.Threading;
 using System.Threading.Tasks;
-using TMPro;
-using RotaryHeart.Lib.SerializableDictionary;
-
-[System.Serializable]
-public class DataDictionary : SerializableDictionaryBase<string, object> { }
+using UnityEngine.SceneManagement;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -22,22 +18,21 @@ public class FirebaseManager : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseFirestore database;
     protected Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth = new Dictionary<string, Firebase.Auth.FirebaseUser>();
-    
-    public TextMeshProUGUI displayText;
+
     // Flag set when a token is being fetched.  This is used to avoid printing the token
     // in IdTokenChanged() when the user presses the get token button.
     private bool fetchingToken = false;
-    
-    public DataDictionary data = new DataDictionary();
-    bool checkUsername;
-    bool checkPassword;
 
+    Dictionary<string, object> data = new Dictionary<string, object>();
+    protected Task previousTask;
+    protected bool operationInProgress;
+    protected CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+    
     #region Getters & Setters
     public FirebaseManager Instance
     {
         get
         {
-            //if (instance == null) instance = ;
             return instance;
         }
     }
@@ -61,51 +56,78 @@ public class FirebaseManager : MonoBehaviour
 
     public UnityEvent OnFirebaseInit = new UnityEvent();
     public UnityEvent OnFireStoreResult = new UnityEvent();
+    public UnityEvent OnSigninSuccessful = new UnityEvent();
+    public UnityEvent OnSigninFailed = new UnityEvent();
 
-    private async void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
             instance = this;
-            var dependencyResult = await FirebaseApp.CheckAndFixDependenciesAsync();
-            if (dependencyResult == DependencyStatus.Available)
-            {
-                app = FirebaseApp.DefaultInstance;
-                OnFirebaseInit.Invoke();
-            }
-            else Debug.LogError($"Failed to initialize Firebase with {dependencyResult}");
         }
-        else Debug.LogError($"An instance of {nameof(FirebaseManager)} already exists!");
-
-        checkUsername = checkPassword = false;
+        else Debug.LogWarning($"An instance of {nameof(FirebaseManager)} already exists!");
     }
 
     void Start()
     {
-        //data = new DataDictionary();
-
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+        Debug.Log("FirebaseManager.Start()");
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        {
             var dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available) InitializeFirebase();
             else Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
         });
+
+        Debug.Log("FirebaseManager.Start() - Finished");
     }
 
-    private void Update()
+    // Wait for task completion, throwing an exception if the task fails.
+    // This could be typically implemented using
+    // yield return new WaitUntil(() => task.IsCompleted);
+    // however, since many procedures in this sample nest coroutines and we want any task exceptions
+    // to be thrown from the top level coroutine (e.g GetKnownValue) we provide this
+    // CustomYieldInstruction implementation wait for a task in the context of the coroutine using
+    // common setup and tear down code.
+    class WaitForTaskCompletion : CustomYieldInstruction
     {
-        if (Input.GetKeyDown(KeyCode.Q)) UpdateSpecificUserInfo();
+        Task task;
+
+        // Create an enumerator that waits for the specified task to complete.
+        public WaitForTaskCompletion(Task task)
+        {
+            instance.previousTask = task;
+            instance.operationInProgress = true;
+            this.task = task;
+        }
+
+        // Wait for the task to complete.
+        public override bool keepWaiting
+        {
+            get
+            {
+                if (task.IsCompleted)
+                {
+                    instance.operationInProgress = false;
+                    instance.cancellationTokenSource = new CancellationTokenSource();
+                    if (task.IsFaulted) Debug.Log(task.Exception.ToString());
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 
     protected void InitializeFirebase()
     {
         Debug.Log("Setting up Firebase Auth");
+        app = FirebaseApp.DefaultInstance;
         auth = FirebaseAuth.DefaultInstance;
         database = FirebaseFirestore.DefaultInstance;
-        //SigninAnonymouslyAsync();
         auth.StateChanged += AuthStateChanged;
         auth.IdTokenChanged += IdTokenChanged;
         AuthStateChanged(this, null);
+        SigninAnonymouslyAsync();
     }
 
     // Track state changes of the auth object.
@@ -144,7 +166,6 @@ public class FirebaseManager : MonoBehaviour
         Debug.Log("Display Name: " + user.DisplayName);
         Debug.Log("Is Anonymous: " + user.IsAnonymous);
     }
-
     protected bool LogTaskCompletion(Task task, string operation)
     {
         bool complete = false;
@@ -170,7 +191,6 @@ public class FirebaseManager : MonoBehaviour
         }
         return complete;
     }
-
     bool HandleSignInWithUser(Task<Firebase.Auth.FirebaseUser> task)
     {
         if (LogTaskCompletion(task, "Sign-in"))
@@ -181,28 +201,117 @@ public class FirebaseManager : MonoBehaviour
         return false;
     }
 
-    public void SignIn()
+    void AddData(string dataID, object dataType)
     {
-        GameManager.instance.DisplayName = displayText.text;
-        SigninAnonymouslyAsync();
-        if (!data.ContainsKey("Sign-In")) data.Add("Sign-In", false);
-        GetSpecificUserDocumentAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "Sign-In");
+        if (data == null) data = new Dictionary<string, object>();
+        if (data.ContainsKey(dataID)) data[dataID] = dataType;
+        else data.Add(dataID, dataType);
+    }
+    void RemoveData(string dataID)
+    {
+        if (data == null) data = new Dictionary<string, object>();
+        if (data.ContainsKey(dataID)) data.Remove(dataID);
+    }
 
+    public void SignUp(string username, string password)
+    {
+        Debug.Log("Signing up: " + username + "...");
+        Dictionary<string, object> variables = new Dictionary<string, object>
+            {
+                { "Password", password },
+                { "TimesLoggedIn", 1 }
+            };
+        AddData("Sign-Up", null);
+        StartCoroutine(SetSpecificUserVariableAsync(database.Collection("Data").Document(username), variables, null, "Sign-Up"));
+        OnFireStoreResult.AddListener(SignUpComplete);
+    }
+    public void SignUpComplete()
+    {
+        if (data["Sign-Up"] == null) return;
+        Debug.Log("Sign-up successful!");
+        GameManager.instance.DisplayName = (string)data["Username"];
+        Debug.Log("Welcome " + GameManager.instance.DisplayName + "!");
+
+        OnSigninSuccessful.Invoke();
+    }
+    public void SignIn(string username, string password)
+    {
+        Debug.Log("Signing In: " + username + "...");
+
+        AddData("Sign-In", null);
+        AddData("Username", username);
+        AddData("Unverified", password);
         OnFireStoreResult.AddListener(VerifyExistingUser);
-        //UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true);
-        //UpdateLoginTimestampAsync();
+        StartCoroutine(GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In"));
+    }
+    public void SignOut()
+    {
+        StartCoroutine(UpdateLogoutTimestampAsync());
+    }
+    public void SignOutComplete()
+    {
+        auth.SignOut();
+        SceneManager.LoadScene("Title Screen");
     }
 
     public void VerifyExistingUser()
     {
+        if (data["Sign-In"] == null) return;
+        Debug.Log("Checking existing user...");
         OnFireStoreResult.RemoveListener(VerifyExistingUser);
         if ((bool)data["Sign-In"] == true)
-            Debug.Log("ldfnisnfgidlidlif");
+        {
+            Debug.Log("Existing user " + (string)data["Username"] + " found!");
+            AddData("Password", null);
+            List<string> variables = new List<string> { "Password" };
+            StartCoroutine(GetSpecificUserVariableAsync(database.Collection("Data").Document((string)data["Username"]), variables));
+            OnFireStoreResult.AddListener(VerifyCorrectPassword);
+        }
+        else
+        {
+            Debug.Log("No existing user " + (string)data["Username"] + " found!");
+            SignUp((string)data["Username"], (string)data["Unverified"]);
+        }
+    }
+    public void VerifyCorrectPassword()
+    {
+        if (data["Password"] == null) return;
+        Debug.Log("Verifying password...");
+        OnFireStoreResult.RemoveListener(VerifyCorrectPassword);
+
+        string unverified = (string)data["Unverified"] ?? "";
+        string pass = (string)data["Password"] ?? "";
+
+        if (unverified == pass)
+        {
+            Debug.Log("Sign-in successful!");
+            GameManager.instance.DisplayName = (string)data["Username"];
+            Debug.Log("Welcome back " + GameManager.instance.DisplayName + "!");
+
+            OnSigninSuccessful.Invoke();
+        }
+        else
+        {
+            Debug.Log((string)data["Unverified"] + " : " + (string)data["Password"]);
+            OnSigninFailed.Invoke();
+        }
     }
 
-    public void UpdateSpecificUserInfo()
+    public void EnterGame()
     {
-        UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true);
+        StartCoroutine(UpdateLoginTimestampAsync());
+    }
+    
+    public void LogData()
+    {
+        Dictionary<string, object> documentDictionary = new Dictionary<string, object>
+        {
+            { "DailyData", GameManager.instance.Data.daily }
+        };
+
+        string year = GameManager.instance.Data.date.Year.ToString();
+        DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year);
+        StartCoroutine(SetSpecificUserVariableAsync(docRef, documentDictionary, SetOptions.MergeAll));
     }
 
     // Used to create a new Username
@@ -223,46 +332,86 @@ public class FirebaseManager : MonoBehaviour
     }
 
     // Used to check if a document exists
-    public Task GetSpecificUserDocumentAsync(DocumentReference docRef, string variable)
+    public IEnumerator GetSpecificUserDocumentAsync(DocumentReference docRef, string onComplete)
     {
-        Debug.Log("Getting user document");
-        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        Debug.Log(String.Format("Getting document {0} from database!", onComplete));
+        Task<DocumentSnapshot> task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
+            if (task.Result.Exists)
+            {
+                data[onComplete] = true;
+                Debug.Log(String.Format("Document data for {0} document:", task.Result.Id));
+            }
+            else
+            {
+                data[onComplete] = false;
+                Debug.Log(String.Format("Document does not exist!"));
+            }
+        }
+        else
+        {
+            data[onComplete] = false;
+            Debug.Log(String.Format("Document does not exist!"));
+        }
+        OnFireStoreResult.Invoke();
+    }
+
+    // Used to get an existing variable's value
+    public IEnumerator GetSpecificUserVariableAsync(DocumentReference docRef, List<string> variables)
+    {
+        Debug.Log(String.Format("Getting variables from database!"));
+        var task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
         {
             DocumentSnapshot snapshot = task.Result;
-
             if (snapshot.Exists)
             {
-                data[variable] = true;
-                OnFireStoreResult.Invoke();
-                Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
+                IDictionary<string, object> documentDictionary = snapshot.ToDictionary();
+                foreach (string variable in variables)
+                {
+                    if (documentDictionary.ContainsKey(variable))
+                    {
+                        data[variable] = documentDictionary[variable];
+                        Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
+                    }
+                    else Debug.Log(String.Format("Variable {0} does not exist!", variable));
+                }
             }
-            else Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
-        });
+            else Debug.Log(String.Format("Document does not exist!"));
+        }
+        else Debug.Log(String.Format("Document does not exist!"));
+        OnFireStoreResult.Invoke();
     }
 
     // Used to add a new variable to a new / existing document
-    public Task SetSpecificUserVariableAsync(DocumentReference docRef, string variable, object value)
+    public IEnumerator SetSpecificUserVariableAsync(DocumentReference docRef, Dictionary<string, object> variables, SetOptions options = null, string onComplete = "")
     {
-        Debug.Log("Updating user info");
-        Dictionary<string, object> documentDictionary = new Dictionary<string, object>
-        {
-            { variable, value }
-        };
-        return docRef.SetAsync(documentDictionary).ContinueWithOnMainThread(task => { Debug.Log("Updated user data into database"); });
+        Debug.Log(String.Format("Setting variables into database!"));
+        Task task;
+        if (options == null) task = docRef.SetAsync(variables);
+        else task = docRef.UpdateAsync(variables);
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled)) Debug.Log(String.Format("Set variables into database!"));
+        else Debug.Log(String.Format("Failed to set variables into database!"));
+        if (onComplete != "") data[onComplete] = true;
+        OnFireStoreResult.Invoke();
     }
-
+    
     // Used to update an existing variable / set fo variables in an existing document
     // valueChange is true if value is used to change the variable's value and not overwrite it
-    public Task UpdateSpecificUserVariableAsync(DocumentReference docRef, string variable, object value, bool valueChange)
+    public IEnumerator UpdateSpecificUserVariableAsync(DocumentReference docRef, string variable, object value, bool valueChange)
     {
-        Debug.Log("Updating specific user info");
-        return database.RunTransactionAsync(transaction =>
+        Debug.Log(String.Format("Updating variable {0} into database!", variable));
+        Task<DocumentSnapshot> task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
         {
-            return transaction.GetSnapshotAsync(docRef).ContinueWithOnMainThread(task =>
+            DocumentSnapshot snapshot = task.Result;
+            if (snapshot.Exists)
             {
-                DocumentSnapshot snapshot = task.Result;
-                if (!snapshot.Exists) Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
-
                 Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
                 if (documentDictionary.ContainsKey(variable)) Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
                 else Debug.Log(String.Format("Variable {0} does not exist!", variable));
@@ -272,7 +421,7 @@ public class FirebaseManager : MonoBehaviour
                     Debug.Log(String.Format("Before Value: {0}, Data Type: {1}", value, value.GetType()));
 
                     switch (Type.GetTypeCode(value.GetType()))
-                    { 
+                    {
                         case TypeCode.Int16:
                         case TypeCode.Int32:
                         case TypeCode.Int64:
@@ -293,60 +442,268 @@ public class FirebaseManager : MonoBehaviour
                     }
                 }
                 Debug.Log(String.Format("After Value: {0}, Data Type: {1}", value, value.GetType()));
-                Dictionary<string, object> updates = new Dictionary<string, object>
-                {
-                    { variable, value }
-                };
-                transaction.Update(docRef, updates);
-                Debug.Log("Updated specific user info in the database");
-            });
-        });
+                Dictionary<string, object> updates = new Dictionary<string, object> { { variable, value } };
+
+                Task updateTask = docRef.UpdateAsync(updates);
+                if (!(updateTask.IsFaulted || updateTask.IsCanceled)) Debug.Log(String.Format("Updated variable {0} into database!", variable));
+                else Debug.Log(String.Format("Failed to update variable {0} into database!", variable));
+            }
+            else Debug.Log(String.Format("Document does not exist!"));
+        }
+        else Debug.Log(String.Format("Document does not exist!"));
     }
-
-    // Used to get an existing variable's value
-    public Task GetSpecificUserVariableAsync(DocumentReference docRef)
-    {
-        Debug.Log("Receiving user info");
-        string variable = "";
-        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            DocumentSnapshot snapshot = task.Result;
-            if (!snapshot.Exists) Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
-            Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
-            Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
-
-            if (documentDictionary.ContainsKey(variable)) Debug.Log(String.Format("{0}: {1}", variable, documentDictionary[variable]));
-            else Debug.Log(String.Format("Variable {0} does not exist!", variable));
-        });
-    }
-
+    
     // Called whenever a user logins to create a new document for the date they logged in and to increment their TimesLoggedIn counter
-    public Task UpdateLoginTimestampAsync()
+    public IEnumerator UpdateLoginTimestampAsync()
     {
         Debug.Log("Updating login timestamp");
-        string date = DateTime.Today.Day + "." + DateTime.Today.Month + "." + DateTime.Today.Year;
-        DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Date").Document(date);
 
-        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName);
+        Task<DocumentSnapshot> task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
         {
-            DocumentSnapshot snapshot = task.Result;
-            if (snapshot.Exists)
+            if (task.Result.Exists)
             {
-                Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
-                UpdateSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1, true);
+                Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+                IDictionary<string, object> documentDictionary = task.Result.ToDictionary();
+                if (documentDictionary.ContainsKey("AllTimeData"))
+                {
+                    GameManager.instance.Data.allTime = JsonUtility.FromJson<AllTime>((string)documentDictionary["AllTimeData"]);
+                    Debug.Log(String.Format("Variable AllTimeData found!"));
+                }
+                else Debug.Log(String.Format("Variable AllTimeData does not exist!"));
+            }
+            else Debug.Log(String.Format("Variable AllTimeData does not exist!"));
+        }
+        StartCoroutine(UpdateSpecificUserVariableAsync(database.Collection("Data").Document(GameManager.instance.DisplayName), "TimesLoggedIn", 1, true));
+        
+        string year = GameManager.instance.Data.date.Year.ToString();
+        docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year);
+        task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
+            if (task.Result.Exists)
+            {
+                Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+                IDictionary<string, object> documentDictionary = task.Result.ToDictionary();
+                if (documentDictionary.ContainsKey("YearlyData"))
+                {
+                    GameManager.instance.Data.yearly = JsonUtility.FromJson<Yearly>((string)documentDictionary["YearlyData"]);
+                    Debug.Log(String.Format("Variable YearlyData found!"));
+                }
+                else Debug.Log(String.Format("Variable YearlyData does not exist!"));
+                StartCoroutine(UpdateSpecificUserVariableAsync(docRef, "TimesLoggedInThisYear", 1, true));
             }
             else
             {
-                Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
-                SetSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1);
+                Debug.Log(String.Format("Document {0} does not exist!", year));
+                Dictionary<string, object> variables = new Dictionary<string, object> { { "TimesLoggedInThisYear", 1 } };
+                StartCoroutine(SetSpecificUserVariableAsync(docRef, variables));
             }
-        });
+        }
+        else
+        {
+            Debug.Log(String.Format("Document {0} does not exist!", year));
+            Dictionary<string, object> variables = new Dictionary<string, object> { { "TimesLoggedInThisYear", 1 } };
+            StartCoroutine(SetSpecificUserVariableAsync(docRef, variables));
+        }
+
+        string month = GameManager.instance.Data.date.Month.ToString();
+        docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year).Collection("Month").Document(month);
+        task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
+            if (task.Result.Exists)
+            {
+                Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+                IDictionary<string, object> documentDictionary = task.Result.ToDictionary();
+                if (documentDictionary.ContainsKey("MonthlyData"))
+                {
+                    GameManager.instance.Data.monthly = JsonUtility.FromJson<Monthly>((string)documentDictionary["MonthlyData"]);
+                    Debug.Log(String.Format("Variable MonthlyData found!"));
+                }
+                else Debug.Log(String.Format("Variable MonthlyData does not exist!"));
+                StartCoroutine(UpdateSpecificUserVariableAsync(docRef, "TimesLoggedInThisMonth", 1, true));
+            }
+            else
+            {
+                Debug.Log(String.Format("Document {0} does not exist!", month));
+                Dictionary<string, object> variables = new Dictionary<string, object> { { "TimesLoggedInThisMonth", 1 } };
+                StartCoroutine(SetSpecificUserVariableAsync(docRef, variables));
+            }
+        }
+        else
+        {
+            Debug.Log(String.Format("Document {0} does not exist!", month));
+            Dictionary<string, object> variables = new Dictionary<string, object> { { "TimesLoggedInThisMonth", 1 } };
+            StartCoroutine(SetSpecificUserVariableAsync(docRef, variables));
+        }
+
+        string day = GameManager.instance.Data.date.Day.ToString();
+        docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year).Collection("Month").Document(month).Collection("Day").Document(day);
+        task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
+            if (task.Result.Exists)
+            {
+                Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+                IDictionary<string, object> documentDictionary = task.Result.ToDictionary();
+                if (documentDictionary.ContainsKey("DailyData"))
+                {
+                    GameManager.instance.Data.daily = JsonUtility.FromJson<Daily>((string)documentDictionary["DailyData"]);
+                    Debug.Log(String.Format("Variable DailyData found!"));
+                }
+                else Debug.Log(String.Format("Variable DailyData does not exist!"));
+                StartCoroutine(UpdateSpecificUserVariableAsync(docRef, "TimesLoggedInToday", 1, true));
+            }
+            else
+            {
+                Debug.Log(String.Format("Document {0} does not exist!", day));
+                Dictionary<string, object> variables = new Dictionary<string, object> { { "TimesLoggedInToday", 1 } };
+                StartCoroutine(SetSpecificUserVariableAsync(docRef, variables));
+            }
+        }
+        else
+        {
+            Debug.Log(String.Format("Document {0} does not exist!", day));
+            Dictionary<string, object> variables = new Dictionary<string, object> { { "TimesLoggedInToday", 1 } };
+            StartCoroutine(SetSpecificUserVariableAsync(docRef, variables));
+        }
+
+        Debug.Log("GameManager.instance.Data.date = " + GameManager.instance.Data.date);
+    }
+    
+    // Called whenever a user logins to create a new document for the date they logged in and to increment their TimesLoggedIn counter
+    public IEnumerator UpdateLogoutTimestampAsync(bool exit = false)
+    {
+        Debug.Log("Updating logout timestamp");
+
+        if (GameManager.instance.DisplayName == "") yield break;
+
+        GameManager.instance.Data.LogData();
+        
+        DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName);
+        Task<DocumentSnapshot> task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
+            if (task.Result.Exists)
+            {
+                Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+                StartCoroutine(UpdateSpecificUserVariableAsync(docRef, "AllTimeData", JsonUtility.ToJson(GameManager.instance.Data.allTime), false));
+            }
+            else
+            {
+                Debug.Log(String.Format("Document {0} does not exist!", GameManager.instance.DisplayName));
+                Dictionary<string, object> variables = new Dictionary<string, object> { { "AllTimeData", JsonUtility.ToJson(GameManager.instance.Data.allTime) } };
+                StartCoroutine(SetSpecificUserVariableAsync(docRef, variables, SetOptions.MergeAll));
+            }
+        }
+        else
+        {
+            Debug.Log(String.Format("Document {0} does not exist!", GameManager.instance.DisplayName));
+            Dictionary<string, object> variables = new Dictionary<string, object> { { "AllTimeData", JsonUtility.ToJson(GameManager.instance.Data.allTime) } };
+            StartCoroutine(SetSpecificUserVariableAsync(docRef, variables, SetOptions.MergeAll));
+        }
+
+        string year = GameManager.instance.Data.date.Year.ToString();
+        docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year);
+        task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
+            if (task.Result.Exists)
+            {
+                Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+                StartCoroutine(UpdateSpecificUserVariableAsync(docRef, "YearlyData", JsonUtility.ToJson(GameManager.instance.Data.yearly), false));
+            }
+            else
+            {
+                Debug.Log(String.Format("Document {0} does not exist!", GameManager.instance.DisplayName));
+                Dictionary<string, object> variables = new Dictionary<string, object> { { "YearlyData", JsonUtility.ToJson(GameManager.instance.Data.yearly) } };
+                StartCoroutine(SetSpecificUserVariableAsync(docRef, variables, SetOptions.MergeAll));
+            }
+        }
+        else
+        {
+            Debug.Log(String.Format("Document {0} does not exist!", GameManager.instance.DisplayName));
+            Dictionary<string, object> variables = new Dictionary<string, object> { { "YearlyData", JsonUtility.ToJson(GameManager.instance.Data.yearly) } };
+            StartCoroutine(SetSpecificUserVariableAsync(docRef, variables, SetOptions.MergeAll));
+        }
+
+        string month = GameManager.instance.Data.date.Month.ToString();
+        docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year).Collection("Month").Document(month);
+        task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
+            if (task.Result.Exists)
+            {
+                Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+                StartCoroutine(UpdateSpecificUserVariableAsync(docRef, "MonthlyData", JsonUtility.ToJson(GameManager.instance.Data.monthly), false));
+            }
+            else
+            {
+                Debug.Log(String.Format("Document {0} does not exist!", GameManager.instance.DisplayName));
+                Dictionary<string, object> variables = new Dictionary<string, object> { { "MonthlyData", JsonUtility.ToJson(GameManager.instance.Data.monthly) } };
+                StartCoroutine(SetSpecificUserVariableAsync(docRef, variables, SetOptions.MergeAll));
+            }
+        }
+        else
+        {
+            Debug.Log(String.Format("Document {0} does not exist!", GameManager.instance.DisplayName));
+            Dictionary<string, object> variables = new Dictionary<string, object> { { "MonthlyData", JsonUtility.ToJson(GameManager.instance.Data.monthly) } };
+            StartCoroutine(SetSpecificUserVariableAsync(docRef, variables, SetOptions.MergeAll));
+        }
+
+        string day = GameManager.instance.Data.date.Day.ToString();
+        docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year).Collection("Month").Document(month).Collection("Day").Document(day);
+        task = docRef.GetSnapshotAsync();
+        yield return new WaitForTaskCompletion(task);
+        if (!(task.IsFaulted || task.IsCanceled))
+        {
+            if (task.Result.Exists)
+            {
+                Debug.Log(String.Format("Document data for document {0}:", task.Result.Id));
+                StartCoroutine(UpdateSpecificUserVariableAsync(docRef, "DailyData", JsonUtility.ToJson(GameManager.instance.Data.daily), false));
+            }
+            else
+            {
+                Debug.Log(String.Format("Document {0} does not exist!", GameManager.instance.DisplayName));
+                Dictionary<string, object> variables = new Dictionary<string, object> { { "DailyData", JsonUtility.ToJson(GameManager.instance.Data.daily) } };
+                StartCoroutine(SetSpecificUserVariableAsync(docRef, variables, SetOptions.MergeAll));
+            }
+        }
+        else
+        {
+            Debug.Log(String.Format("Document {0} does not exist!", GameManager.instance.DisplayName));
+            Dictionary<string, object> variables = new Dictionary<string, object> { { "DailyData", JsonUtility.ToJson(GameManager.instance.Data.daily) } };
+            StartCoroutine(SetSpecificUserVariableAsync(docRef, variables, SetOptions.MergeAll));
+        }
+
+        if (exit)
+        {
+            database = null;
+            if (auth != null)
+            {
+                auth.StateChanged -= AuthStateChanged;
+                auth.IdTokenChanged -= IdTokenChanged;
+                auth.SignOut();
+                auth = null;
+            }
+            app = null;
+            if (instance == this) instance = null;
+        }
+        else SignOutComplete();
     }
 
     public Task SigninAnonymouslyAsync()
     {
         Debug.Log("Attempting to sign anonymously...");
-        GameManager.instance.DisplayName = displayText.text;
         string newDisplayName = "temp";
         return auth.SignInAnonymouslyAsync().ContinueWithOnMainThread((task) =>
         {
@@ -367,47 +724,65 @@ public class FirebaseManager : MonoBehaviour
         return auth.SignInWithCustomTokenAsync(token).ContinueWithOnMainThread(HandleSignInWithUser);
     }
 
-    //public Task UpdateUserInfoAsync()
+    //private void OnApplicationPause(bool pause)
     //{
-    //    Debug.Log("Updating user info");
-    //    DocumentReference docRef = database.Collection("Data").Document(displayName);
-    //    Dictionary<string, object> documentDictionary = new Dictionary<string, object>
-    //    {
-    //        { "DisplayName", displayName },
-    //        { "TimesLoggedIn", timesLoggedIn }
-    //    };
-    //    return docRef.SetAsync(documentDictionary).ContinueWithOnMainThread(task => { Debug.Log("Updated user data into database"); });
+    //    StartCoroutine(UpdateLogoutTimestampAsync(true));
     //}
 
-    //public Task ReceiveUserInfoAsync()
+    //private void OnApplicationQuit()
     //{
-    //    Debug.Log("Receiving user info");
-    //    DocumentReference docRef = database.Collection("Data").Document(displayName);
-    //    return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-    //    {
-    //        DocumentSnapshot snapshot = task.Result;
-    //        if (!snapshot.Exists) Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
-    //        Debug.Log(String.Format("Document data for {0} document:", snapshot.Id));
-    //        Dictionary<string, object> documentDictionary = snapshot.ToDictionary();
-    //        foreach (KeyValuePair<string, object> pair in documentDictionary)
+    //    Debug.Log("Updating logout timestamp");
+
+    //    if (GameManager.instance && GameManager.instance.DisplayName == "") return;
+
+    //    DocumentReference docRef = database.Collection("Data").Document(GameManager.instance.DisplayName);
+    //    Dictionary<string, object> variables = new Dictionary<string, object>
     //        {
-    //            Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
-    //        }
-    //        Debug.Log("Received all data from database");
+    //            { "AllTimeData", JsonUtility.ToJson(GameManager.instance.Data.allTime) }
+    //        };
+    //    docRef.SetAsync(variables, SetOptions.MergeAll).ContinueWith(task => {
+    //        Debug.Log("Added data to the server.");
     //    });
-    //}
 
-    private void OnDestroy()
-    {
-        database = null;
-        if (auth != null)
-        {
-            auth.StateChanged -= AuthStateChanged;
-            auth.IdTokenChanged -= IdTokenChanged;
-            auth.SignOut();
-            auth = null;
-        }
-        app = null;
-        if (instance == this) instance = null;
-    }
+    //    string year = GameManager.instance.Data.date.Year.ToString();
+    //    docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year);
+    //    variables = new Dictionary<string, object>
+    //        {
+    //            { "YearlyData", JsonUtility.ToJson(GameManager.instance.Data.yearly) }
+    //        };
+    //    docRef.SetAsync(variables, SetOptions.MergeAll).ContinueWith(task => {
+    //        Debug.Log("Added data to the server.");
+    //    });
+
+    //    string month = GameManager.instance.Data.date.Month.ToString();
+    //    docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year).Collection("Month").Document(month);
+    //    variables = new Dictionary<string, object>
+    //        {
+    //            { "MonthlyData", JsonUtility.ToJson(GameManager.instance.Data.monthly) }
+    //        };
+    //    docRef.SetAsync(variables, SetOptions.MergeAll).ContinueWith(task => {
+    //        Debug.Log("Added data to the server.");
+    //    });
+
+    //    string day = GameManager.instance.Data.date.Day.ToString();
+    //    docRef = database.Collection("Data").Document(GameManager.instance.DisplayName).Collection("Year").Document(year).Collection("Month").Document(month).Collection("Day").Document(day);
+    //    variables = new Dictionary<string, object>
+    //        {
+    //            { "DailyData", JsonUtility.ToJson(GameManager.instance.Data.daily) }
+    //        };
+    //    docRef.SetAsync(variables, SetOptions.MergeAll).ContinueWith(task => {
+    //        Debug.Log("Added data to the server.");
+    //    });
+
+    //    database = null;
+    //    if (auth != null)
+    //    {
+    //        auth.StateChanged -= AuthStateChanged;
+    //        auth.IdTokenChanged -= IdTokenChanged;
+    //        auth.SignOut();
+    //        auth = null;
+    //    }
+    //    app = null;
+    //    if (instance == this) instance = null;
+    //}
 }

@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GAME_TYPES
+{
+    NONE_GAME,
+    TANGRAM_GAME,
+    JIGSAW_GAME,
+    COLOURING_GAME
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
-    public int chosenDifficulty;
+    GameData data;
+    public int chosenDifficulty; // 0 = Easy, 1 = Medium, 2 = Hard
     [SerializeField] List<int> jigsawDifficulties;
 
     protected int timesLoggedIn;
     protected int timesLoggedInToday;
     [SerializeField] protected string displayName;
+
+    public DebugConsole con;
 
     int noOfWins;
     int noOfLosses;
@@ -18,6 +29,11 @@ public class GameManager : MonoBehaviour
     bool thatBadge;
 
     #region Getters & Setters
+    public GameData Data
+    {
+        get { return data; }
+        set { data = value; }
+    }
     public List<int> JigsawDifficulties
     {
         get { return jigsawDifficulties; }
@@ -54,5 +70,11 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        DontDestroyOnLoad(gameObject);
+
+        data = GetComponent<GameData>();
+        con = GetComponent<DebugConsole>();
+        jigsawDifficulties = new List<int> {  4, 6, 8 };
     }
 }

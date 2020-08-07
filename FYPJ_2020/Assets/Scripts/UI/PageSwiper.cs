@@ -45,6 +45,30 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
         }
     }
+
+    public void onClickSwitch()
+    {
+        Vector3 newLocation = panelLocation;
+        if (currentPage < totalPages)
+        {
+            currentPage++;
+            newLocation += new Vector3(-Screen.width, 0, 0);
+        }
+        StartCoroutine(SmoothMove(transform.position, newLocation, easing));
+        panelLocation = newLocation;
+    }
+
+    public void onClickSwitchReverse()
+    {
+        Vector3 newLocation = panelLocation;
+        if (currentPage > 1)
+        {
+            currentPage--;
+            newLocation += new Vector3(Screen.width, 0, 0);
+        }
+        StartCoroutine(SmoothMove(transform.position, newLocation, easing));
+        panelLocation = newLocation;
+    }
     IEnumerator SmoothMove(Vector3 startpos, Vector3 endpos, float seconds)
     {
         float t = 0f;
