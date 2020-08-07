@@ -29,6 +29,11 @@ public class PopUpMenu : MonoBehaviour
         popUpMenu.transform.DOMoveY(1050, 0.5f);
         //popUpMenu.transform.DOMove(new Vector3(11, 40, 0), 1);
     }
+    public void menuOpenSettings()
+    {
+        popUpMenu.transform.DOMoveY(-450, 0.5f);
+        //popUpMenu.transform.DOMove(new Vector3(11, 40, 0), 1);
+    }
     public void menuOpenColouring()
     {
         popUpMenu.transform.DOMoveY(700, 0.5f);
@@ -37,6 +42,11 @@ public class PopUpMenu : MonoBehaviour
     public void menuOpenLevelSelect()
     {
         popUpMenu.transform.DOMoveY(1900, 0.5f);
+        //popUpMenu.transform.DOMove(new Vector3(11, 40, 0), 1);
+    }
+    public void menuCloseSettings()
+    {
+        popUpMenu.transform.DOMoveY(750, 0.5f);
         //popUpMenu.transform.DOMove(new Vector3(11, 40, 0), 1);
     }
     public void menuCloseLevelSelect()
