@@ -12,7 +12,7 @@ public class SampleImage : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnStart()
     {
         image = Instantiate(gameObject);
-        image.transform.parent = transform.parent;
+        image.transform.parent = GameObject.Find("Canvas").transform;
         image.GetComponent<Image>().rectTransform.pivot = new Vector2(0.5f, 0.5f);
         image.transform.localPosition = Vector3.zero;
         image.transform.parent = transform;
