@@ -25,6 +25,14 @@ public class Transitions : MonoBehaviour
     {
         SceneManager.LoadScene("Tangram");
     }
+    public void ToTangramLevel2()
+    {
+        SceneManager.LoadScene("Tangram Lvl 2");
+    }
+    public void ToTangramLevel3()
+    {
+        SceneManager.LoadScene("Tangram Lvl 3");
+    }
     public void ToJigsaw()
     {
         SceneManager.LoadScene("Jigsaw");
