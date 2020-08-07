@@ -33,6 +33,7 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnEasyButton()
     {
+        GameManager.instance.chosenDifficulty = 0;
         easyButtonDisable.SetActive(false);
         easyButtonEnable.SetActive(true);
 
@@ -49,6 +50,7 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnMediumButton()
     {
+        GameManager.instance.chosenDifficulty = 1;
         easyButtonDisable.SetActive(true);
         easyButtonEnable.SetActive(false);
 
@@ -65,6 +67,7 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnHardButton()
     {
+        GameManager.instance.chosenDifficulty = 2;
         easyButtonDisable.SetActive(true);
         easyButtonEnable.SetActive(false);
 
