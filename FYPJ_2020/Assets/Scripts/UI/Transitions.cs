@@ -7,7 +7,8 @@ public class Transitions : MonoBehaviour
 {
     public void ToTitleScreen()
     {
-        FirebaseManager.instance.SignOut();
+        //FirebaseManager.instance.SignOut();
+        SceneManager.LoadScene("Title Screen");
     }
 
     public void ToSignIn()
@@ -23,6 +24,14 @@ public class Transitions : MonoBehaviour
     public void ToTangram()
     {
         SceneManager.LoadScene("Tangram");
+    }
+    public void ToTangramLevel2()
+    {
+        SceneManager.LoadScene("Tangram Lvl 2");
+    }
+    public void ToTangramLevel3()
+    {
+        SceneManager.LoadScene("Tangram Lvl 3");
     }
     public void ToJigsaw()
     {
@@ -42,10 +51,6 @@ public class Transitions : MonoBehaviour
     }
     public void ToJigsawLevelSelect()
     {
-        //if(example.easyButtonEnable == true)
-        //{
-
-        //}
         SceneManager.LoadScene("Jigsaw Level Select");
     }
     public void ToColouringLevelSelect()

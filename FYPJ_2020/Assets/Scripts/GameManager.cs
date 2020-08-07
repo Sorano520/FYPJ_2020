@@ -14,12 +14,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     GameData data;
-    public int chosenDifficulty;
+    public int chosenDifficulty; // 0 = Easy, 1 = Medium, 2 = Hard
     [SerializeField] List<int> jigsawDifficulties;
 
     protected int timesLoggedIn;
     protected int timesLoggedInToday;
     [SerializeField] protected string displayName;
+
+    public DebugConsole con;
 
     int noOfWins;
     int noOfLosses;
@@ -72,5 +74,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         data = GetComponent<GameData>();
+        con = GetComponent<DebugConsole>();
+        jigsawDifficulties = new List<int> {  4, 6, 8 };
     }
 }
