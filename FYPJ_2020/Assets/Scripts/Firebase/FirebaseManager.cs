@@ -79,7 +79,7 @@ public class FirebaseManager : MonoBehaviour
     void Start()
     {
         GameManager.instance.con.Log("FirebaseManager.Start()");
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
             var dependencyStatus = task.Result;
             GameManager.instance.con.Log("var dependencyStatus = task.Result;");
             if (dependencyStatus == DependencyStatus.Available) InitializeFirebase();
