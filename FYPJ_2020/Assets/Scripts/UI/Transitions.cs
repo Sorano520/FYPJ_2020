@@ -43,10 +43,6 @@ public class Transitions : MonoBehaviour
     }
     public void ToJigsawLevelSelect()
     {
-        //if(example.easyButtonEnable == true)
-        //{
-
-        //}
         SceneManager.LoadScene("Jigsaw Level Select");
     }
     public void ToColouringLevelSelect()

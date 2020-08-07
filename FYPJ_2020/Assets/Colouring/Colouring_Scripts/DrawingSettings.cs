@@ -45,7 +45,7 @@ namespace FreeDraw
         }
         public void SetMarkerOrange()
         {
-            Color c = Color.red + Color.yellow;
+            Color c = new Color(1f, 0.47f, 0.15f);
             c.a = Transparency;
             SetMarkerColour(c);
             Drawable.drawable.SetPenBrush();
@@ -66,14 +66,14 @@ namespace FreeDraw
         }
         public void SetMarkerBlue()
         {
-            Color c = Color.blue;
+            Color c = new Color(0.27f, 0.74f, 1f);
             c.a = Transparency;
             SetMarkerColour(c);
             Drawable.drawable.SetPenBrush();
         }
         public void SetMarkerPurple()
         {
-            Color c = Color.red + Color.blue;
+            Color c = new Color(0.5f, 0.24f, 0.69f);
             c.a = Transparency;
             SetMarkerColour(c);
             Drawable.drawable.SetPenBrush();
