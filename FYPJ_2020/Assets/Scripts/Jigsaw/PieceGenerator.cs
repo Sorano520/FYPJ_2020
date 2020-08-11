@@ -27,7 +27,7 @@ public class PieceGenerator : MonoBehaviour
     
     private void Start()
     {
-        col = row = GameManager.instance.JigsawDifficulties[GameManager.instance.chosenDifficulty];
+        col = row = 4;// GameManager.instance.JigsawDifficulties[GameManager.instance.chosenDifficulty];
 
         // Get the image to use for the puzzle pieces
         image = GameObject.FindGameObjectWithTag("Image").GetComponent<Image>();
