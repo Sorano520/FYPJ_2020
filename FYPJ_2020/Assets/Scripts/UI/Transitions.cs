@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Transitions : MonoBehaviour
 {
     public void ToTitleScreen()
     {
-        //FirebaseManager.instance.SignOut();
+        FirebaseManager.instance.SignOut();
         SceneManager.LoadScene("Title Screen");
     }
 

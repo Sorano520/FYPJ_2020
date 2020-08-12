@@ -52,6 +52,11 @@ public class FirebaseManager : MonoBehaviour
             return auth;
         }
     }
+    public Dictionary<string, object> Data
+    {
+        get { return data; }
+        set { data = value; }
+    }
     #endregion
 
     public UnityEvent OnFirebaseInit = new UnityEvent();
@@ -201,16 +206,24 @@ public class FirebaseManager : MonoBehaviour
         return false;
     }
 
-    void AddData(string dataID, object dataType)
+    public void AddData(string dataID, object dataType)
     {
         if (data == null) data = new Dictionary<string, object>();
         if (data.ContainsKey(dataID)) data[dataID] = dataType;
         else data.Add(dataID, dataType);
     }
-    void RemoveData(string dataID)
+    public void RemoveData(string dataID)
     {
         if (data == null) data = new Dictionary<string, object>();
         if (data.ContainsKey(dataID)) data.Remove(dataID);
+    }
+
+    public void CheckUsernameExists(string username)
+    {
+        Debug.Log("Checking " + username + " exists...");
+
+        AddData("Username", username);
+        StartCoroutine(GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In"));
     }
 
     public void SignUp(string username, string password)
@@ -469,7 +482,7 @@ public class FirebaseManager : MonoBehaviour
                 IDictionary<string, object> documentDictionary = task.Result.ToDictionary();
                 if (documentDictionary.ContainsKey("AllTimeData"))
                 {
-                    GameManager.instance.Data.allTime = JsonUtility.FromJson<AllTime>((string)documentDictionary["AllTimeData"]);
+                    GameManager.instance.Data.allTime = JsonUtility.FromJson<AllTime>((string)documentDictionary["AllTimeData"]) ?? new AllTime();
                     Debug.Log(String.Format("Variable AllTimeData found!"));
                 }
                 else Debug.Log(String.Format("Variable AllTimeData does not exist!"));
@@ -490,7 +503,7 @@ public class FirebaseManager : MonoBehaviour
                 IDictionary<string, object> documentDictionary = task.Result.ToDictionary();
                 if (documentDictionary.ContainsKey("YearlyData"))
                 {
-                    GameManager.instance.Data.yearly = JsonUtility.FromJson<Yearly>((string)documentDictionary["YearlyData"]);
+                    GameManager.instance.Data.yearly = JsonUtility.FromJson<Yearly>((string)documentDictionary["YearlyData"]) ?? new Yearly();
                     Debug.Log(String.Format("Variable YearlyData found!"));
                 }
                 else Debug.Log(String.Format("Variable YearlyData does not exist!"));
@@ -522,7 +535,7 @@ public class FirebaseManager : MonoBehaviour
                 IDictionary<string, object> documentDictionary = task.Result.ToDictionary();
                 if (documentDictionary.ContainsKey("MonthlyData"))
                 {
-                    GameManager.instance.Data.monthly = JsonUtility.FromJson<Monthly>((string)documentDictionary["MonthlyData"]);
+                    GameManager.instance.Data.monthly = JsonUtility.FromJson<Monthly>((string)documentDictionary["MonthlyData"]) ?? new Monthly();
                     Debug.Log(String.Format("Variable MonthlyData found!"));
                 }
                 else Debug.Log(String.Format("Variable MonthlyData does not exist!"));
@@ -554,7 +567,7 @@ public class FirebaseManager : MonoBehaviour
                 IDictionary<string, object> documentDictionary = task.Result.ToDictionary();
                 if (documentDictionary.ContainsKey("DailyData"))
                 {
-                    GameManager.instance.Data.daily = JsonUtility.FromJson<Daily>((string)documentDictionary["DailyData"]);
+                    GameManager.instance.Data.daily = JsonUtility.FromJson<Daily>((string)documentDictionary["DailyData"]) ?? new Daily();
                     Debug.Log(String.Format("Variable DailyData found!"));
                 }
                 else Debug.Log(String.Format("Variable DailyData does not exist!"));
