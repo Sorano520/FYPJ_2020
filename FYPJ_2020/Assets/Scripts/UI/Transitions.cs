@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Transitions : MonoBehaviour
 {
+    public string variable;
     public void ToTitleScreen()
     {
         //FirebaseManager.instance.SignOut();
@@ -37,10 +38,18 @@ public class Transitions : MonoBehaviour
     {
         SceneManager.LoadScene("Jigsaw");
     }
-    public void ToColouring()
-    {
-        SceneManager.LoadScene("Colouring");
-    }
+    //public void ToColouring()
+    //{
+    //    if(difficultySelector.easyButtonEnable.activeSelf == true)
+    //    {
+    //        SceneManager.LoadScene("Colouring");
+    //    }
+    //    else if(difficultySelector.mediumButtonEnable.activeSelf == true)
+    //    {
+    //        SceneManager.LoadScene("Colouring Medium");
+    //    }
+       
+    //}
     public void ToGameSelect()
     {
         SceneManager.LoadScene("Game Select Scene");
@@ -110,5 +119,11 @@ public class Transitions : MonoBehaviour
     public void ToToolkitColouringGame()
     {
         SceneManager.LoadScene("Toolkit Colouring Game");
+    }
+
+    public void ToColouring()
+    {
+        SceneManager.LoadScene(variable);
+        
     }
 }
