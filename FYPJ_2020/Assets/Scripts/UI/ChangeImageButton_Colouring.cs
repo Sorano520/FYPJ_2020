@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class ChangeImageButton_Colouring : MonoBehaviour
@@ -29,6 +30,9 @@ public class ChangeImageButton_Colouring : MonoBehaviour
         easyPicEnable.SetActive(true);
         mediumPicEnable.SetActive(false);
         hardPicEnable.SetActive(false);
+
+        if (GameObject.Find("Canvas"))
+            GameObject.Find("Canvas").GetComponent<Transitions>().variable = "Colouring";
     }
 
     public void clickOnEasyButton()
@@ -45,6 +49,9 @@ public class ChangeImageButton_Colouring : MonoBehaviour
         easyPicEnable.SetActive(true);
         mediumPicEnable.SetActive(false);
         hardPicEnable.SetActive(false);
+
+        if (GameObject.Find("Canvas"))
+            GameObject.Find("Canvas").GetComponent<Transitions>().variable = "Colouring";
     }
 
     public void clickOnMediumButton()
@@ -61,6 +68,9 @@ public class ChangeImageButton_Colouring : MonoBehaviour
         easyPicEnable.SetActive(false);
         mediumPicEnable.SetActive(true);
         hardPicEnable.SetActive(false);
+
+        if (GameObject.Find("Canvas"))
+            GameObject.Find("Canvas").GetComponent<Transitions>().variable = "Colouring Medium";
     }
 
     public void clickOnHardButton()
@@ -77,5 +87,8 @@ public class ChangeImageButton_Colouring : MonoBehaviour
         easyPicEnable.SetActive(false);
         mediumPicEnable.SetActive(false);
         hardPicEnable.SetActive(true);
+
+        if (GameObject.Find("Canvas"))
+            GameObject.Find("Canvas").GetComponent<Transitions>().variable = "Colouring Hard";
     }
 }
