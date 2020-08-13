@@ -135,6 +135,62 @@ public class FirebaseManager : MonoBehaviour
         SigninAnonymouslyAsync();
     }
 
+    async void Func()
+    {
+        Debug.Log("141");
+        List<Task> tasks = new List<Task>
+        {
+            GetDatabaseNode("path_to_node", SampleCallback)
+        };
+        //Add more tasks here...
+
+        Debug.Log("148");
+        int timeout = 10000;
+        Task timeoutTask = Task.Delay(timeout);
+
+        Debug.Log("152");
+        if (await Task.WhenAny(Task.WhenAll(tasks), timeoutTask) == timeoutTask)
+        {
+            // timeout logic
+            Debug.Log("TIMED OUT");
+
+        }
+        else
+        {
+            // task completed within timeout 
+            Debug.Log("162");
+        }
+    }
+    public async Task GetDatabaseNode(string path, System.Action<DocumentSnapshot> callback)
+    {
+        Debug.Log("167");
+        await database.Collection("Data").Document("yytt").GetSnapshotAsync().ContinueWith(task =>
+        {
+            Debug.Log("170");
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                Debug.Log("173");
+                Debug.Log("Inner task was " + (task.IsFaulted ? "faulted." : "cancelled."));
+                return;
+            }
+
+            Debug.Log("177");
+            callback?.Invoke(task.Result);
+        });
+
+        // anything that you put here will be run once the awaiting above has finished
+    }
+
+    private void SampleCallback(DocumentSnapshot snapshot)
+    {
+        Debug.Log("186");
+        foreach (KeyValuePair<string, object> childSnapshot in snapshot.ToDictionary())
+        {
+            Debug.Log("190");
+            Debug.LogFormat("node contains: {0}", childSnapshot.Key);
+        }
+    }
+
     // Track state changes of the auth object.
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
     {
@@ -223,7 +279,8 @@ public class FirebaseManager : MonoBehaviour
         Debug.Log("Checking " + username + " exists...");
 
         AddData("Username", username);
-        StartCoroutine(GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In"));
+        Func();
+        GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In");
     }
 
     public void SignUp(string username, string password)
@@ -242,7 +299,9 @@ public class FirebaseManager : MonoBehaviour
     {
         if (data["Sign-Up"] == null) return;
         Debug.Log("Sign-up successful!");
+        OnFireStoreResult.RemoveListener(SignUpComplete);
         GameManager.instance.DisplayName = (string)data["Username"];
+        RemoveData("Username");
         Debug.Log("Welcome " + GameManager.instance.DisplayName + "!");
 
         OnSigninSuccessful.Invoke();
@@ -255,7 +314,7 @@ public class FirebaseManager : MonoBehaviour
         AddData("Username", username);
         AddData("Unverified", password);
         OnFireStoreResult.AddListener(VerifyExistingUser);
-        StartCoroutine(GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In"));
+        StartCoroutine(GetSpecificUserDocument(database.Collection("Data").Document(username), "Sign-In"));
     }
     public void SignOut()
     {
@@ -345,7 +404,25 @@ public class FirebaseManager : MonoBehaviour
     }
 
     // Used to check if a document exists
-    public IEnumerator GetSpecificUserDocumentAsync(DocumentReference docRef, string onComplete)
+    public async void GetSpecificUserDocumentAsync(DocumentReference docRef, string onComplete)
+    {
+        Debug.Log(String.Format("Getting document {0} from database!", onComplete));
+        DocumentSnapshot task = await docRef.GetSnapshotAsync();
+        if (task.Exists)
+        {
+            data[onComplete] = true;
+            Debug.Log(String.Format("Document data for {0} document:", task.Id));
+        }
+        else
+        {
+            data[onComplete] = false;
+            Debug.Log(String.Format("Document does not exist!"));
+        }
+        OnFireStoreResult.Invoke();
+    }
+
+    // Used to check if a document exists
+    public IEnumerator GetSpecificUserDocument(DocumentReference docRef, string onComplete)
     {
         Debug.Log(String.Format("Getting document {0} from database!", onComplete));
         Task<DocumentSnapshot> task = docRef.GetSnapshotAsync();
