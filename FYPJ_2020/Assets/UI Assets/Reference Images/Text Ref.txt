@@ -1,0 +1,4 @@
+Text colour: 4B4B4B
+
+Font: Futura PT (Demi, Heavy, Bold)
+Commonly used sizes: 72pt, 60pt, 36pt
