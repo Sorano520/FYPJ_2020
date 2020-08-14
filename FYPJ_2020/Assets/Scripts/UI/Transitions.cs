@@ -18,6 +18,11 @@ public class Transitions : MonoBehaviour
         SceneManager.LoadScene("SignIn");
     }
 
+    public void ToCaregiverMenu()
+    {
+        SceneManager.LoadScene("Caregiver Menu");
+    }
+
     public void ToLoadingScreen()
     {
         SceneManager.LoadScene("Loading Screen");
