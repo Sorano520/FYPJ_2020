@@ -2148,6 +2148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d1360b2317e1e47a6b384368cb8398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jigsawImg: {fileID: 21300000, guid: 0c3dd0c097633e04cb375a45f78230a8, type: 3}
+  jigsawLevel: 2
   easyButtonDisable: {fileID: 68882789}
   easyButtonEnable: {fileID: 1832853533}
   mediumButtonDisable: {fileID: 1749441809}
@@ -2918,6 +2920,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d1360b2317e1e47a6b384368cb8398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jigsawImg: {fileID: 21300000, guid: a295f8ccf679b8a499ad2fd14531c1ad, type: 3}
+  jigsawLevel: 0
   easyButtonDisable: {fileID: 202111871}
   easyButtonEnable: {fileID: 731170469}
   mediumButtonDisable: {fileID: 1899765600}
@@ -5142,6 +5146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d1360b2317e1e47a6b384368cb8398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jigsawImg: {fileID: 21300000, guid: c116238a353aa83458d8f72a52cc05ed, type: 3}
+  jigsawLevel: 1
   easyButtonDisable: {fileID: 1152983260}
   easyButtonEnable: {fileID: 122757490}
   mediumButtonDisable: {fileID: 1631259086}
@@ -7972,6 +7978,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d1360b2317e1e47a6b384368cb8398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jigsawImg: {fileID: 21300000, guid: 23b832d2d2256294786e2b769833ac49, type: 3}
+  jigsawLevel: 4
   easyButtonDisable: {fileID: 1973147272}
   easyButtonEnable: {fileID: 2111803303}
   mediumButtonDisable: {fileID: 591002958}
@@ -9849,6 +9857,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d1360b2317e1e47a6b384368cb8398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jigsawImg: {fileID: 21300000, guid: b2d7152c329d1664794d1b559acda65a, type: 3}
+  jigsawLevel: 3
   easyButtonDisable: {fileID: 1508862394}
   easyButtonEnable: {fileID: 1023036310}
   mediumButtonDisable: {fileID: 1617800356}

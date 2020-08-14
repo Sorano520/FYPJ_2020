@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Daily
@@ -166,6 +167,7 @@ public class AllTime
     public SortedDictionary<int, float> aveInactivityPeriod;
 
     // Jigsaw Data
+    public SortedDictionary<int, List<int>> jigsawLevels;
     public SortedDictionary<int, float> aveJigsawTime;
     public SortedDictionary<int, int> aveJigsawMovesTaken;
     public SortedDictionary<int, int> aveJigsawErrorsMade;
@@ -201,6 +203,9 @@ public class AllTime
         aveTangramErrorsMade = new SortedDictionary<int, int>();
         aveTangramGamesPlayed = new SortedDictionary<int, int>();
         aveColouringGamesPlayed = new SortedDictionary<int, int>();
+
+        jigsawLevels = new SortedDictionary<int, List<int>>();
+        for (int i = 0; i < 2; ++i) jigsawLevels.Add(i, new List<int>());
     }
 }
 

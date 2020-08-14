@@ -30,6 +30,7 @@ public class PieceGenerator : MonoBehaviour
         col = row = 4;// GameManager.instance.JigsawDifficulties[GameManager.instance.chosenDifficulty];
 
         // Get the image to use for the puzzle pieces
+        GameObject.FindGameObjectWithTag("Image").GetComponent<Image>().sprite = GameManager.instance.ChosenImg;
         image = GameObject.FindGameObjectWithTag("Image").GetComponent<Image>();
         if (image == null) Debug.LogError("JigsawPieceLogic - Image is missing");
         // Set the material the pieces will use as the material of the chosen image
