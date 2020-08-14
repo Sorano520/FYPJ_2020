@@ -19,8 +19,12 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] GameObject newFin;
 
     // For Registered User
+    bool user;
     [SerializeField] GameObject login;
-
+    [SerializeField] InputField loginUsername;
+    [SerializeField] InputField loginPassword;
+    [SerializeField] Text loginErrorMsg;
+    
     private void Awake()
     {
         newUsernameTextColor = newUsernameInput.placeholder.GetComponent<Text>().color;
@@ -42,7 +46,9 @@ public class TitleScreen : MonoBehaviour
         newUsernameInput.placeholder.GetComponent<Text>().text = "";
         newUsernameInput.placeholder.GetComponent<Text>().color = newUsernameTextColor;
         newFin.SetActive(false);
+        user = true;
         login.SetActive(false);
+        loginErrorMsg.text = "";
     }
 
     public void EnableNewUsername()
@@ -64,10 +70,15 @@ public class TitleScreen : MonoBehaviour
         newAgain.SetActive(false);
         newFin.SetActive(true);
 
-        StartCoroutine(NextScene());
+        StartCoroutine(NextScene(user));
     }
     public void UserLogin()
     {
+        login.SetActive(true);
+    }
+    public void CaregiverLogin()
+    {
+        user = false;
         login.SetActive(true);
     }
 
@@ -99,7 +110,7 @@ public class TitleScreen : MonoBehaviour
         else
         {
             newUsernameInput.text = "";
-            newUsernameInput.placeholder.GetComponent<Text>().text = "Username has already been taken!";
+            newUsernameInput.placeholder.GetComponent<Text>().text = "Username has been taken!";
             newUsernameInput.placeholder.GetComponent<Text>().color = new Color(0.67f, 0, 0, 0.63f);
         }
 
@@ -155,19 +166,48 @@ public class TitleScreen : MonoBehaviour
         else
         {
             newUsernameInput.text = "";
-            newUsernameInput.placeholder.GetComponent<Text>().text = "Username has already been taken!";
+            newUsernameInput.placeholder.GetComponent<Text>().text = "Username has been taken!";
             newUsernameInput.placeholder.GetComponent<Text>().color = new Color(0.67f, 0, 0, 0.63f);
         }
 
         FirebaseManager.instance.RemoveData("Sign-In");
     }
 
-    IEnumerator NextScene()
+    public void HandleLoginInput()
+    {
+        if (String.IsNullOrWhiteSpace(loginUsername.text) || String.IsNullOrWhiteSpace(loginPassword.text))
+        {
+            loginUsername.text = "";
+            loginPassword.text = "";
+            loginErrorMsg.text = "Please enter a username and password!";
+            return;
+        }
+        FirebaseManager.instance.OnSigninFailed.AddListener(HandleSignInFailure);
+        FirebaseManager.instance.OnSigninSuccessful.AddListener(HandleSignInSuccessful);
+        FirebaseManager.instance.SignIn(loginUsername.text, loginPassword.text);
+    }
+    void HandleSignInFailure()
+    {
+        loginUsername.text = "";
+        loginPassword.text = "";
+        loginErrorMsg.text = "Wrong username or password!";
+        FirebaseManager.instance.OnSigninFailed.RemoveListener(HandleSignInFailure);
+        FirebaseManager.instance.OnSigninSuccessful.RemoveListener(HandleSignInSuccessful);
+    }
+    void HandleSignInSuccessful()
+    {
+        StartCoroutine(NextScene(user));
+        FirebaseManager.instance.OnSigninFailed.RemoveListener(HandleSignInFailure);
+        FirebaseManager.instance.OnSigninSuccessful.RemoveListener(HandleSignInSuccessful);
+    }
+
+    IEnumerator NextScene(bool user)
     {
         FirebaseManager.instance.EnterGame();
 
         yield return new WaitForSeconds(3);
 
-        GameObject.Find("Canvas").GetComponent<Transitions>().ToLoadingScreen();
+        if (user) GameObject.Find("Canvas").GetComponent<Transitions>().ToLoadingScreen();
+        else GameObject.Find("Canvas").GetComponent<Transitions>().ToCaregiverMenu();
     }
 }
