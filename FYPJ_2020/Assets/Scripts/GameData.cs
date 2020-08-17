@@ -167,13 +167,14 @@ public class AllTime
     public SortedDictionary<int, float> aveInactivityPeriod;
 
     // Jigsaw Data
-    public SortedDictionary<int, List<int>> jigsawLevels;
+    public SortedDictionary<int, int> jigsawLevels;
     public SortedDictionary<int, float> aveJigsawTime;
     public SortedDictionary<int, int> aveJigsawMovesTaken;
     public SortedDictionary<int, int> aveJigsawErrorsMade;
     public SortedDictionary<int, int> aveJigsawGamesPlayed;
 
     // Tangram Data
+    public SortedDictionary<int, int> tangramLevels;
     public SortedDictionary<int, float> aveTangramTime;
     public SortedDictionary<int, int> aveTangramMovesTaken;
     public SortedDictionary<int, int> aveTangramErrorsMade;
@@ -205,9 +206,8 @@ public class AllTime
         aveTangramGamesPlayed = new SortedDictionary<int, int>();
         aveColouringGamesPlayed = new SortedDictionary<int, int>();
 
-        jigsawLevels = new SortedDictionary<int, List<int>>();
+        jigsawLevels = new SortedDictionary<int, int>();
         tangramLevels = new SortedDictionary<int, int>();
-        for (int i = 0; i < 2; ++i) jigsawLevels.Add(i, new List<int>());
     }
 }
 
