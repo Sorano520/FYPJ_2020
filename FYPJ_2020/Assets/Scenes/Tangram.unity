@@ -3307,6 +3307,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11462860, guid: e2f2abffd72fe4b8ab444fe8b56c5271, type: 3}
+      propertyPath: PuzzleLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 11480880, guid: e2f2abffd72fe4b8ab444fe8b56c5271, type: 3}
       propertyPath: m_Enabled
       value: 0

@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 {
+    public Sprite jigsawImg;
+    public int jigsawLevel;
+
     public GameObject easyButtonDisable;
     public GameObject easyButtonEnable;
     public GameObject mediumButtonDisable;
@@ -31,9 +35,15 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
         hardPicEnable.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        GameManager.instance.ChosenImg = jigsawImg;
+        GameManager.instance.ChosenLevel = jigsawLevel;
+    }
+
     public void clickOnEasyButton()
     {
-        GameManager.instance.chosenDifficulty = 0;
+        GameManager.instance.ChosenDifficulty = 0;
         easyButtonDisable.SetActive(false);
         easyButtonEnable.SetActive(true);
 
@@ -50,7 +60,10 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnMediumButton()
     {
-        GameManager.instance.chosenDifficulty = 1;
+        if (GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
+            if (!GameManager.instance.Data.allTime.jigsawLevels[jigsawLevel].Contains(0)) return;
+
+        GameManager.instance.ChosenDifficulty = 1;
         easyButtonDisable.SetActive(true);
         easyButtonEnable.SetActive(false);
 
@@ -67,7 +80,10 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnHardButton()
     {
-        GameManager.instance.chosenDifficulty = 2;
+        if (GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
+            if (!GameManager.instance.Data.allTime.jigsawLevels[jigsawLevel].Contains(1)) return;
+
+        GameManager.instance.ChosenDifficulty = 2;
         easyButtonDisable.SetActive(true);
         easyButtonEnable.SetActive(false);
 
