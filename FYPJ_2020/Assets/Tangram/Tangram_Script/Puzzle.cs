@@ -8,6 +8,7 @@ public class Puzzle : MonoBehaviour {
     public List<PolygonCollider2D> puzzleSections;
 	bool isSolved = false;
     public string PuzzleName;
+    public int PuzzleLevel;
 
     PieceSet pieceSet;
 
@@ -41,6 +42,7 @@ public class Puzzle : MonoBehaviour {
 				ShowOutlines ();
                 Data.GetInstance().SetSolved(PuzzleName);
                 TangramsSupervisor.GetInstance().SetSolved(this);
+                GameManager.instance.Data.TangramStars(PuzzleLevel);
 			}
 		}
 	}
