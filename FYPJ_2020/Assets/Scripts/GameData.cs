@@ -178,6 +178,7 @@ public class AllTime
     public SortedDictionary<int, int> aveTangramMovesTaken;
     public SortedDictionary<int, int> aveTangramErrorsMade;
     public SortedDictionary<int, int> aveTangramGamesPlayed;
+    public SortedDictionary<int, int> tangramLevels;
 
     // Colouring Data
     public SortedDictionary<int, float> aveColouringTime;
@@ -205,6 +206,7 @@ public class AllTime
         aveColouringGamesPlayed = new SortedDictionary<int, int>();
 
         jigsawLevels = new SortedDictionary<int, List<int>>();
+        tangramLevels = new SortedDictionary<int, int>();
         for (int i = 0; i < 2; ++i) jigsawLevels.Add(i, new List<int>());
     }
 }
@@ -823,6 +825,18 @@ public class GameData : MonoBehaviour
         }
         if (colouringGamesPlayed > 0) AddData(allTime.aveColouringGamesPlayed, date.Month, colouringGamesPlayed);
     }
+
+    public void TangramStars(int i)
+    {
+        if(!allTime.tangramLevels.ContainsKey(i))
+        {
+            allTime.tangramLevels.Add(i, 0);
+        }
+        if (tangramTime[tangramTime.Count - 1] <= 60) allTime.tangramLevels[i] = 3;
+        else if (tangramTime[tangramTime.Count - 1] <= 120) allTime.tangramLevels[i] = 2;
+        else allTime.tangramLevels[i] = 1;
+    }
+
     public void LogData()
     {
         LogDailyData();
