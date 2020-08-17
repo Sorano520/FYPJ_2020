@@ -21,8 +21,6 @@ public class SceneLoading : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         AsyncOperation gameLevel = SceneManager.LoadSceneAsync("Game Select Scene");
 
-        //FirebaseManager.instance.EnterGame();
-
         while (gameLevel.progress < 1)
         {
             //take the progress bar fill = async opertaion progress
