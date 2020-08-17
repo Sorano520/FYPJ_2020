@@ -97,6 +97,6 @@ public class GameManager : MonoBehaviour
         data = GetComponent<GameData>();
         con = GetComponent<DebugConsole>();
         chosenImg = null;
-        jigsawDifficulties = new List<int> {  4, 6, 8 };
+        jigsawDifficulties = new List<int> { 3, 4, 5 };
     }
 }
