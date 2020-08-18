@@ -20,6 +20,7 @@ public class TangramStars : MonoBehaviour
         YellowStarLeft.SetActive(false);
         YellowStarMiddle.SetActive(false);
         YellowStarRight.SetActive(false);
+        CheckTangram();
     }
     public void CheckTangram()
     {
