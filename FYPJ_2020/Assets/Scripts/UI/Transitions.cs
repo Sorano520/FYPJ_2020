@@ -25,6 +25,7 @@ public class Transitions : MonoBehaviour
 
     public void ToLoadingScreen()
     {
+        GameManager.instance.Data.inGame = true;
         SceneManager.LoadScene("Loading Screen");
     }
 

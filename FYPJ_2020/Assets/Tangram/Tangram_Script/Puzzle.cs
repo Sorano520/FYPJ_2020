@@ -14,12 +14,21 @@ public class Puzzle : MonoBehaviour {
     PieceSet pieceSet;
 
 	void Start () {
+
+        ++GameManager.instance.Data.tangramGamesPlayed;
+
+        GameManager.instance.Data.tangramTime.Add(0f);
+        GameManager.instance.Data.tangramMovesTaken.Add(0);
+
         //TODO: Fix this when we get to multi-piece puzzles
         puzzleSections = GetComponents<PolygonCollider2D>().ToList();
         pieceSet = Instantiate(pieceSetPrefab).GetComponent<PieceSet>();
         pieceSet.transform.SetParent(this.transform);
 
         TangramsSupervisor.GetInstance().DragController.PieceSet = pieceSet;
+
+        
+        //GameManager.instance.Data.tangramErrorsMade.Add(0);
 
         VictoryScreen.SetActive(false);
 	}
@@ -43,13 +52,13 @@ public class Puzzle : MonoBehaviour {
 			isSolved = CheckIsSolved ();
 			if (isSolved) {
 				ShowOutlines ();
-                VictoryScreen.SetActive(true);
-                Data.GetInstance().SetSolved(PuzzleName);
-                TangramsSupervisor.GetInstance().SetSolved(this);
                 GameManager.instance.Data.TangramStars(PuzzleLevel);
-                
-			}
-		}
+                VictoryScreen.GetComponent<TangramStars>().CheckTangram();
+                VictoryScreen.SetActive(true);
+                Data.GetInstance().SetSolved(PuzzleName); 
+                TangramsSupervisor.GetInstance().SetSolved(this);
+             }
+        }
 	}
         
     bool CheckIsSolved(){
