@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CalculateJigsawStars : MonoBehaviour
 {
+    public int level = -1;
     GameObject leftStar;
     GameObject middleStar;
     GameObject rightStar;
@@ -15,7 +16,7 @@ public class CalculateJigsawStars : MonoBehaviour
         leftStar = transform.Find("Left Star").gameObject;
         rightStar = transform.Find("Right Star").gameObject;
 
-        int level = GameManager.instance.ChosenLevel;
+        if (level == -1) level = GameManager.instance.ChosenLevel;
         if (GetComponent<PopUpMenu>())
             if (GetComponent<PopUpMenu>().popUpMenu.GetComponent<ChangeImageButton_JigsawLevelSelect>())
                 level = GetComponent<PopUpMenu>().popUpMenu.GetComponent<ChangeImageButton_JigsawLevelSelect>().jigsawLevel;
