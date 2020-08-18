@@ -9,6 +9,7 @@ public class Puzzle : MonoBehaviour {
 	bool isSolved = false;
     public string PuzzleName;
     public int PuzzleLevel;
+    public GameObject VictoryScreen;
 
     PieceSet pieceSet;
 
@@ -19,6 +20,8 @@ public class Puzzle : MonoBehaviour {
         pieceSet.transform.SetParent(this.transform);
 
         TangramsSupervisor.GetInstance().DragController.PieceSet = pieceSet;
+
+        VictoryScreen.SetActive(false);
 	}
 
     public bool IsSolved
@@ -40,9 +43,11 @@ public class Puzzle : MonoBehaviour {
 			isSolved = CheckIsSolved ();
 			if (isSolved) {
 				ShowOutlines ();
+                VictoryScreen.SetActive(true);
                 Data.GetInstance().SetSolved(PuzzleName);
                 TangramsSupervisor.GetInstance().SetSolved(this);
                 GameManager.instance.Data.TangramStars(PuzzleLevel);
+                
 			}
 		}
 	}
