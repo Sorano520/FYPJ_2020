@@ -1118,7 +1118,7 @@ GameObject:
   - component: {fileID: 80972750}
   - component: {fileID: 80972749}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1812,7 +1812,7 @@ GameObject:
   - component: {fileID: 96404027}
   - component: {fileID: 96404026}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4421,7 +4421,7 @@ GameObject:
   - component: {fileID: 268130971}
   - component: {fileID: 268130970}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5581,7 +5581,7 @@ GameObject:
   - component: {fileID: 362629566}
   - component: {fileID: 362629565}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5729,7 +5729,7 @@ GameObject:
   - component: {fileID: 365055129}
   - component: {fileID: 365055128}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10070,7 +10070,7 @@ GameObject:
   - component: {fileID: 639824005}
   - component: {fileID: 639824004}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11772,7 +11772,7 @@ GameObject:
   - component: {fileID: 731615057}
   - component: {fileID: 731615056}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11919,7 +11919,7 @@ GameObject:
   - component: {fileID: 740882170}
   - component: {fileID: 740882169}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13253,7 +13253,7 @@ GameObject:
   - component: {fileID: 815779760}
   - component: {fileID: 815779759}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16696,7 +16696,7 @@ GameObject:
   - component: {fileID: 1045047385}
   - component: {fileID: 1045047384}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17976,7 +17976,7 @@ GameObject:
   - component: {fileID: 1114353333}
   - component: {fileID: 1114353332}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18671,7 +18671,7 @@ GameObject:
   - component: {fileID: 1154350643}
   - component: {fileID: 1154350642}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20683,7 +20683,7 @@ GameObject:
   - component: {fileID: 1241397371}
   - component: {fileID: 1241397370}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20830,7 +20830,7 @@ GameObject:
   - component: {fileID: 1248202228}
   - component: {fileID: 1248202227}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22676,7 +22676,7 @@ GameObject:
   - component: {fileID: 1369496205}
   - component: {fileID: 1369496204}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23397,7 +23397,7 @@ GameObject:
   - component: {fileID: 1402890259}
   - component: {fileID: 1402890258}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26250,7 +26250,7 @@ GameObject:
   - component: {fileID: 1551611046}
   - component: {fileID: 1551611045}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26324,7 +26324,7 @@ GameObject:
   - component: {fileID: 1554758330}
   - component: {fileID: 1554758329}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26471,7 +26471,7 @@ GameObject:
   - component: {fileID: 1560097815}
   - component: {fileID: 1560097814}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26852,7 +26852,7 @@ GameObject:
   - component: {fileID: 1584435873}
   - component: {fileID: 1584435872}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27638,7 +27638,7 @@ GameObject:
   - component: {fileID: 1621694313}
   - component: {fileID: 1621694312}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28867,7 +28867,7 @@ GameObject:
   - component: {fileID: 1652770466}
   - component: {fileID: 1652770465}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29372,7 +29372,7 @@ GameObject:
   - component: {fileID: 1667557004}
   - component: {fileID: 1667557003}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29636,7 +29636,7 @@ GameObject:
   - component: {fileID: 1693550289}
   - component: {fileID: 1693550288}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30041,7 +30041,7 @@ GameObject:
   - component: {fileID: 1709499448}
   - component: {fileID: 1709499447}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Right Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30779,7 +30779,7 @@ GameObject:
   - component: {fileID: 1751347644}
   - component: {fileID: 1751347643}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33359,7 +33359,7 @@ GameObject:
   - component: {fileID: 1863148182}
   - component: {fileID: 1863148181}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34537,7 +34537,7 @@ GameObject:
   - component: {fileID: 1940650643}
   - component: {fileID: 1940650642}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35438,7 +35438,7 @@ GameObject:
   - component: {fileID: 1998074879}
   - component: {fileID: 1998074878}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Middle Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36805,7 +36805,7 @@ GameObject:
   - component: {fileID: 2099320518}
   - component: {fileID: 2099320517}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Left Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
