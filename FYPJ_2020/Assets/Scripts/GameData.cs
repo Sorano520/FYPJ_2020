@@ -293,10 +293,10 @@ public class GameData : MonoBehaviour
                 if (jigsawTime.Count > 0) jigsawTime[jigsawTime.Count - 1] += Time.deltaTime;
                 break;
             case "Tangram":
-                if (jigsawTime.Count > 0) tangramTime[tangramTime.Count - 1] += Time.deltaTime;
+                if (tangramTime.Count > 0) tangramTime[tangramTime.Count - 1] += Time.deltaTime;
                 break;
             case "Colouring":
-                if (jigsawTime.Count > 0) colouringTime[colouringTime.Count - 1] += Time.deltaTime;
+                if (colouringTime.Count > 0) colouringTime[colouringTime.Count - 1] += Time.deltaTime;
                 break;
             case "Jigsaw Level Select":
                 jigsawSelectTime += Time.deltaTime;

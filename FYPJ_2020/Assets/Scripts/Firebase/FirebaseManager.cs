@@ -323,8 +323,8 @@ public class FirebaseManager : MonoBehaviour
     }
     public void SignOut()
     {
-        GameManager.instance.Data.Awake();
         StartCoroutine(UpdateLogoutTimestampAsync());
+        GameManager.instance.Data.Awake();
     }
     public void SignOutComplete()
     {

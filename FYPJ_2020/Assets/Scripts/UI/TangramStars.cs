@@ -24,7 +24,8 @@ public class TangramStars : MonoBehaviour
     }
     public void CheckTangram()
     {
-       switch(GameManager.instance.Data.allTime.tangramLevels[TangramLevel])
+        if (!GameManager.instance.Data.allTime.tangramLevels.ContainsKey(TangramLevel)) GameManager.instance.Data.allTime.tangramLevels.Add(TangramLevel, 0);
+       switch (GameManager.instance.Data.allTime.tangramLevels[TangramLevel])
         {
             case 1:
                 GreyStarLeft.SetActive(false);
