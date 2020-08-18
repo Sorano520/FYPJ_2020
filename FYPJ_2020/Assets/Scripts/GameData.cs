@@ -179,7 +179,6 @@ public class AllTime
     public SortedDictionary<int, int> aveTangramMovesTaken;
     public SortedDictionary<int, int> aveTangramErrorsMade;
     public SortedDictionary<int, int> aveTangramGamesPlayed;
-    public SortedDictionary<int, int> tangramLevels;
 
     // Colouring Data
     public SortedDictionary<int, float> aveColouringTime;
