@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,206 +9,213 @@ using UnityEngine.SceneManagement;
 public class Daily
 {
     // General Data
-    public SortedDictionary<TimeSpan, float> aveDailyTime;
-    public SortedDictionary<TimeSpan, float> aveDailyMainMenuTime;
-    public SortedDictionary<TimeSpan, float> aveDailyCollectionTime;
-    public SortedDictionary<TimeSpan, float> aveDailyJigsawSelectTime;
-    public SortedDictionary<TimeSpan, float> aveDailyTangramSelectTime;
-    public SortedDictionary<TimeSpan, float> aveDailyColouringSelectTime;
-    public SortedDictionary<TimeSpan, float> aveDailyInactivityPeriod;
+    public List<float> aveDailyTime;
+    public List<float> aveDailyMainMenuTime;
+    public List<float> aveDailyCollectionTime;
+    public List<float> aveDailyJigsawSelectTime;
+    public List<float> aveDailyTangramSelectTime;
+    public List<float> aveDailyColouringSelectTime;
+    public List<float> aveDailyInactivityPeriod;
 
     // Jigsaw Data
-    public SortedDictionary<TimeSpan, float> aveDailyJigsawTime;
-    public SortedDictionary<TimeSpan, int> aveDailyJigsawMovesTaken;
-    public SortedDictionary<TimeSpan, int> aveDailyJigsawErrorsMade;
-    public SortedDictionary<TimeSpan, int> aveDailyJigsawGamesPlayed;
+    public List<float> aveDailyJigsawTime;
+    public List<int> aveDailyJigsawMovesTaken;
+    public List<int> aveDailyJigsawErrorsMade;
+    public List<int> aveDailyJigsawGamesPlayed;
 
     // Tangram Data
-    public SortedDictionary<TimeSpan, float> aveDailyTangramTime;
-    public SortedDictionary<TimeSpan, int> aveDailyTangramMovesTaken;
-    public SortedDictionary<TimeSpan, int> aveDailyTangramErrorsMade;
-    public SortedDictionary<TimeSpan, int> aveDailyTangramGamesPlayed;
+    public List<float> aveDailyTangramTime;
+    public List<int> aveDailyTangramMovesTaken;
+    public List<int> aveDailyTangramErrorsMade;
+    public List<int> aveDailyTangramGamesPlayed;
 
     // Colouring Data
-    public SortedDictionary<TimeSpan, float> aveDailyColouringTime;
-    public SortedDictionary<TimeSpan, int> aveDailyColouringGamesPlayed;
+    public List<float> aveDailyColouringTime;
+    public List<int> aveDailyColouringGamesPlayed;
 
     public Daily()
     {
-        aveDailyTime = new SortedDictionary<TimeSpan, float>();
-        aveDailyMainMenuTime = new SortedDictionary<TimeSpan, float>();
-        aveDailyCollectionTime = new SortedDictionary<TimeSpan, float>();
-        aveDailyJigsawSelectTime = new SortedDictionary<TimeSpan, float>();
-        aveDailyTangramSelectTime = new SortedDictionary<TimeSpan, float>();
-        aveDailyColouringSelectTime = new SortedDictionary<TimeSpan, float>();
-        aveDailyInactivityPeriod = new SortedDictionary<TimeSpan, float>();
-        aveDailyJigsawTime = new SortedDictionary<TimeSpan, float>();
-        aveDailyTangramTime = new SortedDictionary<TimeSpan, float>();
-        aveDailyColouringTime = new SortedDictionary<TimeSpan, float>();
+        aveDailyTime = new List<float>();
+        aveDailyMainMenuTime = new List<float>();
+        aveDailyCollectionTime = new List<float>();
+        aveDailyJigsawSelectTime = new List<float>();
+        aveDailyTangramSelectTime = new List<float>();
+        aveDailyColouringSelectTime = new List<float>();
+        aveDailyInactivityPeriod = new List<float>();
+        aveDailyJigsawTime = new List<float>();
+        aveDailyTangramTime = new List<float>();
+        aveDailyColouringTime = new List<float>();
 
-        aveDailyJigsawMovesTaken = new SortedDictionary<TimeSpan, int>();
-        aveDailyJigsawErrorsMade = new SortedDictionary<TimeSpan, int>();
-        aveDailyJigsawGamesPlayed = new SortedDictionary<TimeSpan, int>();
-        aveDailyTangramMovesTaken = new SortedDictionary<TimeSpan, int>();
-        aveDailyTangramErrorsMade = new SortedDictionary<TimeSpan, int>();
-        aveDailyTangramGamesPlayed = new SortedDictionary<TimeSpan, int>();
-        aveDailyColouringGamesPlayed = new SortedDictionary<TimeSpan, int>();
+        aveDailyJigsawMovesTaken = new List<int>();
+        aveDailyJigsawErrorsMade = new List<int>();
+        aveDailyJigsawGamesPlayed = new List<int>();
+        aveDailyTangramMovesTaken = new List<int>();
+        aveDailyTangramErrorsMade = new List<int>();
+        aveDailyTangramGamesPlayed = new List<int>();
+        aveDailyColouringGamesPlayed = new List<int>();
     }
 }
 
 public class Monthly
 {
     // General Data
-    public SortedDictionary<int, float> aveMonthlyTime;
-    public SortedDictionary<int, float> aveMonthlyMainMenuTime;
-    public SortedDictionary<int, float> aveMonthlyCollectionTime;
-    public SortedDictionary<int, float> aveMonthlyJigsawSelectTime;
-    public SortedDictionary<int, float> aveMonthlyTangramSelectTime;
-    public SortedDictionary<int, float> aveMonthlyColouringSelectTime;
-    public SortedDictionary<int, float> aveMonthlyInactivityPeriod;
+    public List<float> aveMonthlyTime;
+    public List<float> aveMonthlyMainMenuTime;
+    public List<float> aveMonthlyCollectionTime;
+    public List<float> aveMonthlyJigsawSelectTime;
+    public List<float> aveMonthlyTangramSelectTime;
+    public List<float> aveMonthlyColouringSelectTime;
+    public List<float> aveMonthlyInactivityPeriod;
 
     // Jigsaw Data
-    public SortedDictionary<int, float> aveMonthlyJigsawTime;
-    public SortedDictionary<int, int> aveMonthlyJigsawMovesTaken;
-    public SortedDictionary<int, int> aveMonthlyJigsawErrorsMade;
-    public SortedDictionary<int, int> aveMonthlyJigsawGamesPlayed;
+    public List<float> aveMonthlyJigsawTime;
+    public List<int> aveMonthlyJigsawMovesTaken;
+    public List<int> aveMonthlyJigsawErrorsMade;
+    public List<int> aveMonthlyJigsawGamesPlayed;
 
     // Tangram Data
-    public SortedDictionary<int, float> aveMonthlyTangramTime;
-    public SortedDictionary<int, int> aveMonthlyTangramMovesTaken;
-    public SortedDictionary<int, int> aveMonthlyTangramErrorsMade;
-    public SortedDictionary<int, int> aveMonthlyTangramGamesPlayed;
+    public List<float> aveMonthlyTangramTime;
+    public List<int> aveMonthlyTangramMovesTaken;
+    public List<int> aveMonthlyTangramErrorsMade;
+    public List<int> aveMonthlyTangramGamesPlayed;
 
     // Colouring Data
-    public SortedDictionary<int, float> aveMonthlyColouringTime;
-    public SortedDictionary<int, int> aveMonthlyColouringGamesPlayed;
+    public List<float> aveMonthlyColouringTime;
+    public List<int> aveMonthlyColouringGamesPlayed;
 
     public Monthly()
     {
-        aveMonthlyTime = new SortedDictionary<int, float>();
-        aveMonthlyMainMenuTime = new SortedDictionary<int, float>();
-        aveMonthlyCollectionTime = new SortedDictionary<int, float>();
-        aveMonthlyJigsawSelectTime = new SortedDictionary<int, float>();
-        aveMonthlyTangramSelectTime = new SortedDictionary<int, float>();
-        aveMonthlyColouringSelectTime = new SortedDictionary<int, float>();
-        aveMonthlyInactivityPeriod = new SortedDictionary<int, float>();
-        aveMonthlyJigsawTime = new SortedDictionary<int, float>();
-        aveMonthlyTangramTime = new SortedDictionary<int, float>();
-        aveMonthlyColouringTime = new SortedDictionary<int, float>();
+        aveMonthlyTime = new List<float>();
+        aveMonthlyMainMenuTime = new List<float>();
+        aveMonthlyCollectionTime = new List<float>();
+        aveMonthlyJigsawSelectTime = new List<float>();
+        aveMonthlyTangramSelectTime = new List<float>();
+        aveMonthlyColouringSelectTime = new List<float>();
+        aveMonthlyInactivityPeriod = new List<float>();
+        aveMonthlyJigsawTime = new List<float>();
+        aveMonthlyTangramTime = new List<float>();
+        aveMonthlyColouringTime = new List<float>();
 
-        aveMonthlyJigsawMovesTaken = new SortedDictionary<int, int>();
-        aveMonthlyJigsawErrorsMade = new SortedDictionary<int, int>();
-        aveMonthlyJigsawGamesPlayed = new SortedDictionary<int, int>();
-        aveMonthlyTangramMovesTaken = new SortedDictionary<int, int>();
-        aveMonthlyTangramErrorsMade = new SortedDictionary<int, int>();
-        aveMonthlyTangramGamesPlayed = new SortedDictionary<int, int>();
-        aveMonthlyColouringGamesPlayed = new SortedDictionary<int, int>();
+        aveMonthlyJigsawMovesTaken = new List<int>();
+        aveMonthlyJigsawErrorsMade = new List<int>();
+        aveMonthlyJigsawGamesPlayed = new List<int>();
+        aveMonthlyTangramMovesTaken = new List<int>();
+        aveMonthlyTangramErrorsMade = new List<int>();
+        aveMonthlyTangramGamesPlayed = new List<int>();
+        aveMonthlyColouringGamesPlayed = new List<int>();
     }
 }
 
 public class Yearly
 {
     // General Data
-    public SortedDictionary<int, float> aveYearlyTime;
-    public SortedDictionary<int, float> aveYearlyMainMenuTime;
-    public SortedDictionary<int, float> aveYearlyCollectionTime;
-    public SortedDictionary<int, float> aveYearlyJigsawSelectTime;
-    public SortedDictionary<int, float> aveYearlyTangramSelectTime;
-    public SortedDictionary<int, float> aveYearlyColouringSelectTime;
-    public SortedDictionary<int, float> aveYearlyInactivityPeriod;
+    public List<float> aveYearlyTime;
+    public List<float> aveYearlyMainMenuTime;
+    public List<float> aveYearlyCollectionTime;
+    public List<float> aveYearlyJigsawSelectTime;
+    public List<float> aveYearlyTangramSelectTime;
+    public List<float> aveYearlyColouringSelectTime;
+    public List<float> aveYearlyInactivityPeriod;
 
     // Jigsaw Data
-    public SortedDictionary<int, float> aveYearlyJigsawTime;
-    public SortedDictionary<int, int> aveYearlyJigsawMovesTaken;
-    public SortedDictionary<int, int> aveYearlyJigsawErrorsMade;
-    public SortedDictionary<int, int> aveYearlyJigsawGamesPlayed;
+    public List<float> aveYearlyJigsawTime;
+    public List<int> aveYearlyJigsawMovesTaken;
+    public List<int> aveYearlyJigsawErrorsMade;
+    public List<int> aveYearlyJigsawGamesPlayed;
 
     // Tangram Data
-    public SortedDictionary<int, float> aveYearlyTangramTime;
-    public SortedDictionary<int, int> aveYearlyTangramMovesTaken;
-    public SortedDictionary<int, int> aveYearlyTangramErrorsMade;
-    public SortedDictionary<int, int> aveYearlyTangramGamesPlayed;
+    public List<float> aveYearlyTangramTime;
+    public List<int> aveYearlyTangramMovesTaken;
+    public List<int> aveYearlyTangramErrorsMade;
+    public List<int> aveYearlyTangramGamesPlayed;
 
     // Colouring Data
-    public SortedDictionary<int, float> aveYearlyColouringTime;
-    public SortedDictionary<int, int> aveYearlyColouringGamesPlayed;
+    public List<float> aveYearlyColouringTime;
+    public List<int> aveYearlyColouringGamesPlayed;
 
     public Yearly()
     {
-        aveYearlyColouringTime = new SortedDictionary<int, float>();
-        aveYearlyTime = new SortedDictionary<int, float>();
-        aveYearlyMainMenuTime = new SortedDictionary<int, float>();
-        aveYearlyCollectionTime = new SortedDictionary<int, float>();
-        aveYearlyJigsawSelectTime = new SortedDictionary<int, float>();
-        aveYearlyTangramSelectTime = new SortedDictionary<int, float>();
-        aveYearlyColouringSelectTime = new SortedDictionary<int, float>();
-        aveYearlyInactivityPeriod = new SortedDictionary<int, float>();
-        aveYearlyJigsawTime = new SortedDictionary<int, float>();
-        aveYearlyTangramTime = new SortedDictionary<int, float>();
+        aveYearlyColouringTime = new List<float>();
+        aveYearlyTime = new List<float>();
+        aveYearlyMainMenuTime = new List<float>();
+        aveYearlyCollectionTime = new List<float>();
+        aveYearlyJigsawSelectTime = new List<float>();
+        aveYearlyTangramSelectTime = new List<float>();
+        aveYearlyColouringSelectTime = new List<float>();
+        aveYearlyInactivityPeriod = new List<float>();
+        aveYearlyJigsawTime = new List<float>();
+        aveYearlyTangramTime = new List<float>();
 
-        aveYearlyJigsawMovesTaken = new SortedDictionary<int, int>();
-        aveYearlyJigsawErrorsMade = new SortedDictionary<int, int>();
-        aveYearlyJigsawGamesPlayed = new SortedDictionary<int, int>();
-        aveYearlyTangramMovesTaken = new SortedDictionary<int, int>();
-        aveYearlyTangramErrorsMade = new SortedDictionary<int, int>();
-        aveYearlyTangramGamesPlayed = new SortedDictionary<int, int>();
-        aveYearlyColouringGamesPlayed = new SortedDictionary<int, int>();
+        aveYearlyJigsawMovesTaken = new List<int>();
+        aveYearlyJigsawErrorsMade = new List<int>();
+        aveYearlyJigsawGamesPlayed = new List<int>();
+        aveYearlyTangramMovesTaken = new List<int>();
+        aveYearlyTangramErrorsMade = new List<int>();
+        aveYearlyTangramGamesPlayed = new List<int>();
+        aveYearlyColouringGamesPlayed = new List<int>();
     }
 }
 
 public class AllTime
 {
     // General Data
-    public SortedDictionary<int, float> aveTime;
-    public SortedDictionary<int, float> aveMainMenuTime;
-    public SortedDictionary<int, float> aveCollectionTime;
-    public SortedDictionary<int, float> aveJigsawSelectTime;
-    public SortedDictionary<int, float> aveTangramSelectTime;
-    public SortedDictionary<int, float> aveColouringSelectTime;
-    public SortedDictionary<int, float> aveInactivityPeriod;
+    public List<float> aveTime;
+    public List<float> aveMainMenuTime;
+    public List<float> aveCollectionTime;
+    public List<float> aveJigsawSelectTime;
+    public List<float> aveTangramSelectTime;
+    public List<float> aveColouringSelectTime;
+    public List<float> aveInactivityPeriod;
 
     // Jigsaw Data
-    public SortedDictionary<int, int> jigsawLevels;
-    public SortedDictionary<int, float> aveJigsawTime;
-    public SortedDictionary<int, int> aveJigsawMovesTaken;
-    public SortedDictionary<int, int> aveJigsawErrorsMade;
-    public SortedDictionary<int, int> aveJigsawGamesPlayed;
+    public Dictionary<int, int> jigsawLevels;
+    public List<int> jigsawLevelsKeys;
+    public List<int> jigsawLevelsValues;
+    public List<float> aveJigsawTime;
+    public List<int> aveJigsawMovesTaken;
+    public List<int> aveJigsawErrorsMade;
+    public List<int> aveJigsawGamesPlayed;
 
     // Tangram Data
-    public SortedDictionary<int, int> tangramLevels;
-    public SortedDictionary<int, float> aveTangramTime;
-    public SortedDictionary<int, int> aveTangramMovesTaken;
-    public SortedDictionary<int, int> aveTangramErrorsMade;
-    public SortedDictionary<int, int> aveTangramGamesPlayed;
-    public SortedDictionary<int, int> tangramLevels;
+    public Dictionary<int, int> tangramLevels;
+    public List<int> tangramLevelsKeys;
+    public List<int> tangramLevelsValues;
+    public List<float> aveTangramTime;
+    public List<int> aveTangramMovesTaken;
+    public List<int> aveTangramErrorsMade;
+    public List<int> aveTangramGamesPlayed;
 
     // Colouring Data
-    public SortedDictionary<int, float> aveColouringTime;
-    public SortedDictionary<int, int> aveColouringGamesPlayed;
+    public List<float> aveColouringTime;
+    public List<int> aveColouringGamesPlayed;
 
     public AllTime()
     {
-        aveTime = new SortedDictionary<int, float>();
-        aveMainMenuTime = new SortedDictionary<int, float>();
-        aveCollectionTime = new SortedDictionary<int, float>();
-        aveJigsawSelectTime = new SortedDictionary<int, float>();
-        aveTangramSelectTime = new SortedDictionary<int, float>();
-        aveColouringSelectTime = new SortedDictionary<int, float>();
-        aveInactivityPeriod = new SortedDictionary<int, float>();
-        aveJigsawTime = new SortedDictionary<int, float>();
-        aveTangramTime = new SortedDictionary<int, float>();
-        aveColouringTime = new SortedDictionary<int, float>();
+        aveTime = new List<float>();
+        aveMainMenuTime = new List<float>();
+        aveCollectionTime = new List<float>();
+        aveJigsawSelectTime = new List<float>();
+        aveTangramSelectTime = new List<float>();
+        aveColouringSelectTime = new List<float>();
+        aveInactivityPeriod = new List<float>();
+        aveJigsawTime = new List<float>();
+        aveTangramTime = new List<float>();
+        aveColouringTime = new List<float>();
 
-        aveJigsawMovesTaken = new SortedDictionary<int, int>();
-        aveJigsawErrorsMade = new SortedDictionary<int, int>();
-        aveJigsawGamesPlayed = new SortedDictionary<int, int>();
-        aveTangramMovesTaken = new SortedDictionary<int, int>();
-        aveTangramErrorsMade = new SortedDictionary<int, int>();
-        aveTangramGamesPlayed = new SortedDictionary<int, int>();
-        aveColouringGamesPlayed = new SortedDictionary<int, int>();
+        aveJigsawMovesTaken = new List<int>();
+        aveJigsawErrorsMade = new List<int>();
+        aveJigsawGamesPlayed = new List<int>();
+        aveTangramMovesTaken = new List<int>();
+        aveTangramErrorsMade = new List<int>();
+        aveTangramGamesPlayed = new List<int>();
+        aveColouringGamesPlayed = new List<int>();
 
-        jigsawLevels = new SortedDictionary<int, int>();
-        tangramLevels = new SortedDictionary<int, int>();
+        jigsawLevels = new Dictionary<int, int>();
+        jigsawLevelsKeys = new List<int>();
+        jigsawLevelsValues = new List<int>();
+        tangramLevels = new Dictionary<int, int>();
+        tangramLevelsKeys = new List<int>();
+        tangramLevelsValues = new List<int>();
     }
 }
 
@@ -261,8 +269,14 @@ public class GameData : MonoBehaviour
         minInactivityPeriod = 10;
         isInactive = true;
         jigsawGamesPlayed = tangramGamesPlayed = colouringGamesPlayed = 0;
-        inactivity = jigsawTime = tangramTime = colouringTime = new List<float>();
-        jigsawMovesTaken = jigsawErrorsMade = tangramMovesTaken = tangramErrorsMade = new List<int>();
+        inactivity = new List<float>();
+        jigsawTime = new List<float>();
+        tangramTime = new List<float>();
+        colouringTime = new List<float>();
+        jigsawMovesTaken = new List<int>();
+        jigsawErrorsMade = new List<int>();
+        tangramMovesTaken = new List<int>();
+        tangramErrorsMade = new List<int>();
 
         daily = new Daily();
         monthly = new Monthly();
@@ -336,29 +350,24 @@ public class GameData : MonoBehaviour
         inactivityPeriod = 0;
     }
     
-    public void AddData(SortedDictionary<TimeSpan, int> dict, TimeSpan key, int value)
+    public void CheckLevels()
     {
-        if (dict == null) dict = new SortedDictionary<TimeSpan, int>();
-        if (dict.ContainsKey(key)) dict[key] = value;
-        else dict.Add(key, value);
-    }
-    public void AddData(SortedDictionary<TimeSpan, float> dict, TimeSpan key, float value)
-    {
-        if (dict == null) dict = new SortedDictionary<TimeSpan, float>();
-        if (dict.ContainsKey(key)) dict[key] = value;
-        else dict.Add(key, value);
-    }
-    public void AddData(SortedDictionary<int, int> dict, int key, int value)
-    {
-        if (dict == null) dict = new SortedDictionary<int, int>();
-        if (dict.ContainsKey(key)) dict[key] = value;
-        else dict.Add(key, value);
-    }
-    public void AddData(SortedDictionary<int, float> dict, int key, float value)
-    {
-        if (dict == null) dict = new SortedDictionary<int, float>();
-        if (dict.ContainsKey(key)) dict[key] = value;
-        else dict.Add(key, value);
+        allTime.jigsawLevels = new Dictionary<int, int>();
+        allTime.tangramLevels = new Dictionary<int, int>();
+        if (allTime.jigsawLevelsKeys.Count > 0 && allTime.jigsawLevelsKeys.Count == allTime.jigsawLevelsValues.Count)
+        {
+            for (int i = 0; i < allTime.jigsawLevelsKeys.Count; ++i)
+            {
+                allTime.jigsawLevels.Add(allTime.jigsawLevelsKeys[i], allTime.jigsawLevelsValues[i]);
+            }
+        }
+        if (allTime.tangramLevelsKeys.Count > 0 && allTime.tangramLevelsKeys.Count == allTime.tangramLevelsValues.Count)
+        {
+            for (int i = 0; i < allTime.tangramLevelsKeys.Count; ++i)
+            {
+                allTime.tangramLevels.Add(allTime.tangramLevelsKeys[i], allTime.tangramLevelsValues[i]);
+            }
+        }
     }
 
     public void LogDailyData()
@@ -366,19 +375,19 @@ public class GameData : MonoBehaviour
         CheckInactivity();
         DateTime now = DateTime.Now;
         // General Data
-        if (time > 0) AddData(daily.aveDailyTime, now.TimeOfDay, time);
-        if (mainMenuTime > 0) AddData(daily.aveDailyMainMenuTime, now.TimeOfDay, mainMenuTime);
-        if (collectionTime > 0) AddData(daily.aveDailyCollectionTime, now.TimeOfDay, collectionTime);
-        if (jigsawSelectTime > 0) AddData(daily.aveDailyJigsawSelectTime, now.TimeOfDay, jigsawSelectTime);
-        if (tangramSelectTime > 0) AddData(daily.aveDailyTangramSelectTime, now.TimeOfDay, tangramSelectTime);
-        if (colouringSelectTime > 0) AddData(daily.aveDailyColouringSelectTime, now.TimeOfDay, colouringSelectTime);
+        if (time > 0) daily.aveDailyTime.Add(time);
+        if (mainMenuTime > 0) daily.aveDailyMainMenuTime.Add(mainMenuTime);
+        if (collectionTime > 0) daily.aveDailyCollectionTime.Add(collectionTime);
+        if (jigsawSelectTime > 0) daily.aveDailyJigsawSelectTime.Add(jigsawSelectTime);
+        if (tangramSelectTime > 0) daily.aveDailyTangramSelectTime.Add(tangramSelectTime);
+        if (colouringSelectTime > 0) daily.aveDailyColouringSelectTime.Add(colouringSelectTime);
         float aveGameTime = 0;
         if (inactivity.Count > 0)
         {
             foreach (float timespan in inactivity) aveGameTime += timespan;
             aveGameTime /= inactivity.Count;
         }
-        if (aveGameTime > 0) AddData(daily.aveDailyInactivityPeriod, now.TimeOfDay, aveGameTime);
+        if (aveGameTime > 0) daily.aveDailyInactivityPeriod.Add(aveGameTime);
 
         // Jigsaw Data
         aveGameTime = 0;
@@ -387,22 +396,22 @@ public class GameData : MonoBehaviour
             foreach (float timespan in jigsawTime) aveGameTime += timespan;
             aveGameTime /= jigsawTime.Count;
         }
-        if (aveGameTime > 0) AddData(daily.aveDailyJigsawTime, now.TimeOfDay, aveGameTime);
+        if (aveGameTime > 0) daily.aveDailyJigsawTime.Add(aveGameTime);
         int aveGameCount = 0;
         if (jigsawMovesTaken.Count > 0)
         {
             foreach (int count in jigsawMovesTaken) aveGameCount += count;
             aveGameCount /= jigsawMovesTaken.Count;
         }
-        if (aveGameCount > 0) AddData(daily.aveDailyJigsawMovesTaken, now.TimeOfDay, aveGameCount);
+        if (aveGameCount > 0) daily.aveDailyJigsawMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
         if (jigsawErrorsMade.Count > 0)
         {
             foreach (int count in jigsawErrorsMade) aveGameCount += count;
             aveGameCount /= jigsawErrorsMade.Count;
         }
-        if (aveGameCount > 0) AddData(daily.aveDailyJigsawErrorsMade, now.TimeOfDay, aveGameCount);
-        if (jigsawGamesPlayed > 0) AddData(daily.aveDailyJigsawGamesPlayed, now.TimeOfDay, jigsawGamesPlayed);
+        if (aveGameCount > 0) daily.aveDailyJigsawErrorsMade.Add(aveGameCount);
+        if (jigsawGamesPlayed > 0) daily.aveDailyJigsawGamesPlayed.Add(jigsawGamesPlayed);
 
         // Tangram Data
         aveGameTime = 0;
@@ -411,22 +420,22 @@ public class GameData : MonoBehaviour
             foreach (float timespan in tangramTime) aveGameTime += timespan;
             aveGameTime /= tangramTime.Count;
         }
-        if (aveGameTime > 0) AddData(daily.aveDailyTangramTime, now.TimeOfDay, aveGameTime);
+        if (aveGameTime > 0) daily.aveDailyTangramTime.Add(aveGameTime);
         aveGameCount = 0;
         if (tangramMovesTaken.Count > 0)
         {
             foreach (int count in tangramMovesTaken) aveGameCount += count;
             aveGameCount /= tangramMovesTaken.Count;
         }
-        if (aveGameCount > 0) AddData(daily.aveDailyTangramMovesTaken, now.TimeOfDay, aveGameCount);
+        if (aveGameCount > 0) daily.aveDailyTangramMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
         if (tangramErrorsMade.Count > 0)
         {
             foreach (int count in tangramErrorsMade) aveGameCount += count;
             aveGameCount /= tangramErrorsMade.Count;
         }
-        if (aveGameCount > 0) AddData(daily.aveDailyTangramErrorsMade, now.TimeOfDay, aveGameCount);
-        if (tangramGamesPlayed > 0) AddData(daily.aveDailyTangramGamesPlayed, now.TimeOfDay, tangramGamesPlayed);
+        if (aveGameCount > 0) daily.aveDailyTangramErrorsMade.Add(aveGameCount);
+        if (tangramGamesPlayed > 0) daily.aveDailyTangramGamesPlayed.Add(tangramGamesPlayed);
 
         // Colouring Data
         aveGameTime = 0;
@@ -435,8 +444,8 @@ public class GameData : MonoBehaviour
             foreach (float timespan in colouringTime) aveGameTime += timespan;
             aveGameTime /= colouringTime.Count;
         }
-        if (aveGameTime > 0) AddData(daily.aveDailyColouringTime, now.TimeOfDay, aveGameTime);
-        if (colouringGamesPlayed > 0) AddData(daily.aveDailyColouringGamesPlayed, now.TimeOfDay, colouringGamesPlayed);
+        if (aveGameTime > 0) daily.aveDailyColouringTime.Add(aveGameTime);
+        if (colouringGamesPlayed > 0) daily.aveDailyColouringGamesPlayed.Add(colouringGamesPlayed);
     }
     public void LogMonthlyData()
     {
@@ -444,128 +453,128 @@ public class GameData : MonoBehaviour
         float aveGameTime = 0;
         if (daily.aveDailyTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyTime.Add(aveGameTime);
         aveGameTime = 0;
         if (daily.aveDailyMainMenuTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyMainMenuTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyMainMenuTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyMainMenuTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyMainMenuTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyMainMenuTime.Add(aveGameTime);
         aveGameTime = 0;
         if (daily.aveDailyCollectionTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyCollectionTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyCollectionTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyCollectionTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyCollectionTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyCollectionTime.Add(aveGameTime);
         aveGameTime = 0;
         if (daily.aveDailyJigsawSelectTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyJigsawSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyJigsawSelectTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyJigsawSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyJigsawSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyJigsawSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (daily.aveDailyTangramSelectTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyTangramSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyTangramSelectTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyTangramSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyTangramSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyTangramSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (daily.aveDailyColouringSelectTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyColouringSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyColouringSelectTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyColouringSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyColouringSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyColouringSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (daily.aveDailyInactivityPeriod.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyInactivityPeriod.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyInactivityPeriod) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyInactivityPeriod.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyInactivityPeriod, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyInactivityPeriod.Add(aveGameTime);
 
         // Jigsaw Data
         aveGameTime = 0;
         if (daily.aveDailyJigsawTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyJigsawTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyJigsawTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyJigsawTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyJigsawTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyJigsawTime.Add(aveGameTime);
         int aveGameCount = 0;
         if (daily.aveDailyJigsawMovesTaken.Count > 0)
         {
-            foreach (int count in daily.aveDailyJigsawMovesTaken.Values) aveGameCount += count;
+            foreach (int count in daily.aveDailyJigsawMovesTaken) aveGameCount += count;
             aveGameCount /= daily.aveDailyJigsawMovesTaken.Count;
         }
-        if (aveGameCount > 0) AddData(monthly.aveMonthlyJigsawMovesTaken, date.Month, aveGameCount);
+        if (aveGameCount > 0) monthly.aveMonthlyJigsawMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
         if (daily.aveDailyJigsawErrorsMade.Count > 0)
         {
-            foreach (int count in daily.aveDailyJigsawErrorsMade.Values) aveGameCount += count;
+            foreach (int count in daily.aveDailyJigsawErrorsMade) aveGameCount += count;
             aveGameCount /= daily.aveDailyJigsawErrorsMade.Count;
         }
-        if (aveGameCount > 0) AddData(monthly.aveMonthlyJigsawErrorsMade, date.Month, aveGameCount);
+        if (aveGameCount > 0) monthly.aveMonthlyJigsawErrorsMade.Add(aveGameCount);
         aveGameCount = 0;
         if (daily.aveDailyJigsawGamesPlayed.Count > 0)
         {
-            foreach (int count in daily.aveDailyJigsawGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in daily.aveDailyJigsawGamesPlayed) aveGameCount += count;
             aveGameCount /= daily.aveDailyJigsawGamesPlayed.Count;
         }
-        if (jigsawGamesPlayed > 0) AddData(monthly.aveMonthlyJigsawGamesPlayed, date.Month, jigsawGamesPlayed);
+        if (jigsawGamesPlayed > 0) monthly.aveMonthlyJigsawGamesPlayed.Add(jigsawGamesPlayed);
 
         // Tangram Data
         aveGameTime = 0;
         if (daily.aveDailyTangramTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyTangramTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyTangramTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyTangramTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyTangramTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyTangramTime.Add(aveGameTime);
         aveGameCount = 0;
         if (daily.aveDailyTangramMovesTaken.Count > 0)
         {
-            foreach (int count in daily.aveDailyTangramMovesTaken.Values) aveGameCount += count;
+            foreach (int count in daily.aveDailyTangramMovesTaken) aveGameCount += count;
             aveGameCount /= daily.aveDailyTangramMovesTaken.Count;
         }
-        if (aveGameCount > 0) AddData(monthly.aveMonthlyTangramMovesTaken, date.Month, aveGameCount);
+        if (aveGameCount > 0) monthly.aveMonthlyTangramMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
         if (daily.aveDailyTangramErrorsMade.Count > 0)
         {
-            foreach (int count in daily.aveDailyTangramErrorsMade.Values) aveGameCount += count;
+            foreach (int count in daily.aveDailyTangramErrorsMade) aveGameCount += count;
             aveGameCount /= daily.aveDailyTangramErrorsMade.Count;
         }
-        if (aveGameCount > 0) AddData(monthly.aveMonthlyTangramErrorsMade, date.Month, aveGameCount);
+        if (aveGameCount > 0) monthly.aveMonthlyTangramErrorsMade.Add(aveGameCount);
         aveGameCount = 0;
         if (daily.aveDailyTangramGamesPlayed.Count > 0)
         {
-            foreach (int count in daily.aveDailyTangramGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in daily.aveDailyTangramGamesPlayed) aveGameCount += count;
             aveGameCount /= daily.aveDailyTangramGamesPlayed.Count;
         }
-        if (tangramGamesPlayed > 0) AddData(monthly.aveMonthlyTangramGamesPlayed, date.Month, tangramGamesPlayed);
+        if (tangramGamesPlayed > 0) monthly.aveMonthlyTangramGamesPlayed.Add(tangramGamesPlayed);
 
         // Colouring Data
         aveGameTime = 0;
         if (daily.aveDailyColouringTime.Count > 0)
         {
-            foreach (float timespan in daily.aveDailyColouringTime.Values) aveGameTime += timespan;
+            foreach (float timespan in daily.aveDailyColouringTime) aveGameTime += timespan;
             aveGameTime /= daily.aveDailyColouringTime.Count;
         }
-        if (aveGameTime > 0) AddData(monthly.aveMonthlyColouringTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) monthly.aveMonthlyColouringTime.Add(aveGameTime);
         aveGameCount = 0;
         if (daily.aveDailyColouringGamesPlayed.Count > 0)
         {
-            foreach (int count in daily.aveDailyColouringGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in daily.aveDailyColouringGamesPlayed) aveGameCount += count;
             aveGameCount /= daily.aveDailyColouringGamesPlayed.Count;
         }
-        if (colouringGamesPlayed > 0) AddData(monthly.aveMonthlyColouringGamesPlayed, date.Month, colouringGamesPlayed);
+        if (colouringGamesPlayed > 0) monthly.aveMonthlyColouringGamesPlayed.Add(colouringGamesPlayed);
     }
     public void LogYearlyData()
     {
@@ -573,128 +582,128 @@ public class GameData : MonoBehaviour
         float aveGameTime = 0;
         if (monthly.aveMonthlyTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyTime.Add(aveGameTime);
         aveGameTime = 0;
         if (monthly.aveMonthlyMainMenuTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyMainMenuTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyMainMenuTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyMainMenuTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyMainMenuTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyMainMenuTime.Add(aveGameTime);
         aveGameTime = 0;
         if (monthly.aveMonthlyCollectionTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyCollectionTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyCollectionTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyCollectionTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyCollectionTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyCollectionTime.Add(aveGameTime);
         aveGameTime = 0;
         if (monthly.aveMonthlyJigsawSelectTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyJigsawSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyJigsawSelectTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyJigsawSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyJigsawSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyJigsawSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (monthly.aveMonthlyTangramSelectTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyTangramSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyTangramSelectTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyTangramSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyTangramSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyTangramSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (monthly.aveMonthlyColouringSelectTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyColouringSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyColouringSelectTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyColouringSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyColouringSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyColouringSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (monthly.aveMonthlyInactivityPeriod.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyInactivityPeriod.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyInactivityPeriod) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyInactivityPeriod.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyInactivityPeriod, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyInactivityPeriod.Add(aveGameTime);
 
         // Jigsaw Data
         aveGameTime = 0;
         if (monthly.aveMonthlyJigsawTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyJigsawTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyJigsawTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyJigsawTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyJigsawTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyJigsawTime.Add(aveGameTime);
         int aveGameCount = 0;
         if (monthly.aveMonthlyJigsawMovesTaken.Count > 0)
         {
-            foreach (int count in monthly.aveMonthlyJigsawMovesTaken.Values) aveGameCount += count;
+            foreach (int count in monthly.aveMonthlyJigsawMovesTaken) aveGameCount += count;
             aveGameCount /= monthly.aveMonthlyJigsawMovesTaken.Count;
         }
-        if (aveGameCount > 0) AddData(yearly.aveYearlyJigsawMovesTaken, date.Month, aveGameCount);
+        if (aveGameCount > 0) yearly.aveYearlyJigsawMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
         if (monthly.aveMonthlyJigsawErrorsMade.Count > 0)
         {
-            foreach (int count in monthly.aveMonthlyJigsawErrorsMade.Values) aveGameCount += count;
+            foreach (int count in monthly.aveMonthlyJigsawErrorsMade) aveGameCount += count;
             aveGameCount /= monthly.aveMonthlyJigsawErrorsMade.Count;
         }
-        if (aveGameCount > 0) AddData(yearly.aveYearlyJigsawErrorsMade, date.Month, aveGameCount);
+        if (aveGameCount > 0) yearly.aveYearlyJigsawErrorsMade.Add(aveGameCount);
         aveGameCount = 0;
         if (monthly.aveMonthlyJigsawGamesPlayed.Count > 0)
         {
-            foreach (int count in monthly.aveMonthlyJigsawGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in monthly.aveMonthlyJigsawGamesPlayed) aveGameCount += count;
             aveGameCount /= monthly.aveMonthlyJigsawGamesPlayed.Count;
         }
-        if (jigsawGamesPlayed > 0) AddData(yearly.aveYearlyJigsawGamesPlayed, date.Month, jigsawGamesPlayed);
+        if (jigsawGamesPlayed > 0) yearly.aveYearlyJigsawGamesPlayed.Add(jigsawGamesPlayed);
 
         // Tangram Data
         aveGameTime = 0;
         if (monthly.aveMonthlyTangramTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyTangramTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyTangramTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyTangramTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyTangramTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyTangramTime.Add(aveGameTime);
         aveGameCount = 0;
         if (monthly.aveMonthlyTangramMovesTaken.Count > 0)
         {
-            foreach (int count in monthly.aveMonthlyTangramMovesTaken.Values) aveGameCount += count;
+            foreach (int count in monthly.aveMonthlyTangramMovesTaken) aveGameCount += count;
             aveGameCount /= monthly.aveMonthlyTangramMovesTaken.Count;
         }
-        if (aveGameCount > 0) AddData(yearly.aveYearlyTangramMovesTaken, date.Month, aveGameCount);
+        if (aveGameCount > 0) yearly.aveYearlyTangramMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
         if (monthly.aveMonthlyTangramErrorsMade.Count > 0)
         {
-            foreach (int count in monthly.aveMonthlyTangramErrorsMade.Values) aveGameCount += count;
+            foreach (int count in monthly.aveMonthlyTangramErrorsMade) aveGameCount += count;
             aveGameCount /= monthly.aveMonthlyTangramErrorsMade.Count;
         }
-        if (aveGameCount > 0) AddData(yearly.aveYearlyTangramErrorsMade, date.Month, aveGameCount);
+        if (aveGameCount > 0) yearly.aveYearlyTangramErrorsMade.Add(aveGameCount);
         aveGameCount = 0;
         if (monthly.aveMonthlyTangramGamesPlayed.Count > 0)
         {
-            foreach (int count in monthly.aveMonthlyTangramGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in monthly.aveMonthlyTangramGamesPlayed) aveGameCount += count;
             aveGameCount /= monthly.aveMonthlyTangramGamesPlayed.Count;
         }
-        if (tangramGamesPlayed > 0) AddData(yearly.aveYearlyTangramGamesPlayed, date.Month, tangramGamesPlayed);
+        if (tangramGamesPlayed > 0) yearly.aveYearlyTangramGamesPlayed.Add(tangramGamesPlayed);
 
         // Colouring Data
         aveGameTime = 0;
         if (monthly.aveMonthlyColouringTime.Count > 0)
         {
-            foreach (float timespan in monthly.aveMonthlyColouringTime.Values) aveGameTime += timespan;
+            foreach (float timespan in monthly.aveMonthlyColouringTime) aveGameTime += timespan;
             aveGameTime /= monthly.aveMonthlyColouringTime.Count;
         }
-        if (aveGameTime > 0) AddData(yearly.aveYearlyColouringTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) yearly.aveYearlyColouringTime.Add(aveGameTime);
         aveGameCount = 0;
         if (monthly.aveMonthlyColouringGamesPlayed.Count > 0)
         {
-            foreach (int count in monthly.aveMonthlyColouringGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in monthly.aveMonthlyColouringGamesPlayed) aveGameCount += count;
             aveGameCount /= monthly.aveMonthlyColouringGamesPlayed.Count;
         }
-        if (colouringGamesPlayed > 0) AddData(yearly.aveYearlyColouringGamesPlayed, date.Month, colouringGamesPlayed);
+        if (colouringGamesPlayed > 0) yearly.aveYearlyColouringGamesPlayed.Add(colouringGamesPlayed);
     }
     public void LogAllTimeData()
     {
@@ -702,128 +711,133 @@ public class GameData : MonoBehaviour
         float aveGameTime = 0;
         if (yearly.aveYearlyTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveTime.Add(aveGameTime);
         aveGameTime = 0;
         if (yearly.aveYearlyMainMenuTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyMainMenuTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyMainMenuTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyMainMenuTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveMainMenuTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveMainMenuTime.Add(aveGameTime);
         aveGameTime = 0;
         if (yearly.aveYearlyCollectionTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyCollectionTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyCollectionTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyCollectionTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveCollectionTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveCollectionTime.Add(aveGameTime);
         aveGameTime = 0;
         if (yearly.aveYearlyJigsawSelectTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyJigsawSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyJigsawSelectTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyJigsawSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveJigsawSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveJigsawSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (yearly.aveYearlyTangramSelectTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyTangramSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyTangramSelectTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyTangramSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveTangramSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveTangramSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (yearly.aveYearlyColouringSelectTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyColouringSelectTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyColouringSelectTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyColouringSelectTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveColouringSelectTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveColouringSelectTime.Add(aveGameTime);
         aveGameTime = 0;
         if (yearly.aveYearlyInactivityPeriod.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyInactivityPeriod.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyInactivityPeriod) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyInactivityPeriod.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveInactivityPeriod, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveInactivityPeriod.Add(aveGameTime);
 
         // Jigsaw Data
         aveGameTime = 0;
         if (yearly.aveYearlyJigsawTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyJigsawTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyJigsawTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyJigsawTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveJigsawTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveJigsawTime.Add(aveGameTime);
         int aveGameCount = 0;
         if (yearly.aveYearlyJigsawMovesTaken.Count > 0)
         {
-            foreach (int count in yearly.aveYearlyJigsawMovesTaken.Values) aveGameCount += count;
+            foreach (int count in yearly.aveYearlyJigsawMovesTaken) aveGameCount += count;
             aveGameCount /= yearly.aveYearlyJigsawMovesTaken.Count;
         }
-        if (aveGameCount > 0) AddData(allTime.aveJigsawMovesTaken, date.Month, aveGameCount);
+        if (aveGameCount > 0) allTime.aveJigsawMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
         if (yearly.aveYearlyJigsawErrorsMade.Count > 0)
         {
-            foreach (int count in yearly.aveYearlyJigsawErrorsMade.Values) aveGameCount += count;
+            foreach (int count in yearly.aveYearlyJigsawErrorsMade) aveGameCount += count;
             aveGameCount /= yearly.aveYearlyJigsawErrorsMade.Count;
         }
-        if (aveGameCount > 0) AddData(allTime.aveJigsawErrorsMade, date.Month, aveGameCount);
+        if (aveGameCount > 0) allTime.aveJigsawErrorsMade.Add(aveGameCount);
         aveGameCount = 0;
         if (yearly.aveYearlyJigsawGamesPlayed.Count > 0)
         {
-            foreach (int count in yearly.aveYearlyJigsawGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in yearly.aveYearlyJigsawGamesPlayed) aveGameCount += count;
             aveGameCount /= yearly.aveYearlyJigsawGamesPlayed.Count;
         }
-        if (jigsawGamesPlayed > 0) AddData(allTime.aveJigsawGamesPlayed, date.Month, jigsawGamesPlayed);
+        if (jigsawGamesPlayed > 0) allTime.aveJigsawGamesPlayed.Add(jigsawGamesPlayed);
 
         // Tangram Data
         aveGameTime = 0;
         if (yearly.aveYearlyTangramTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyTangramTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyTangramTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyTangramTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveTangramTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveTangramTime.Add(aveGameTime);
         aveGameCount = 0;
         if (yearly.aveYearlyTangramMovesTaken.Count > 0)
         {
-            foreach (int count in yearly.aveYearlyTangramMovesTaken.Values) aveGameCount += count;
+            foreach (int count in yearly.aveYearlyTangramMovesTaken) aveGameCount += count;
             aveGameCount /= yearly.aveYearlyTangramMovesTaken.Count;
         }
-        if (aveGameCount > 0) AddData(allTime.aveTangramMovesTaken, date.Month, aveGameCount);
+        if (aveGameCount > 0) allTime.aveTangramMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
         if (yearly.aveYearlyTangramErrorsMade.Count > 0)
         {
-            foreach (int count in yearly.aveYearlyTangramErrorsMade.Values) aveGameCount += count;
+            foreach (int count in yearly.aveYearlyTangramErrorsMade) aveGameCount += count;
             aveGameCount /= yearly.aveYearlyTangramErrorsMade.Count;
         }
-        if (aveGameCount > 0) AddData(allTime.aveTangramErrorsMade, date.Month, aveGameCount);
+        if (aveGameCount > 0) allTime.aveTangramErrorsMade.Add(aveGameCount);
         aveGameCount = 0;
         if (yearly.aveYearlyTangramGamesPlayed.Count > 0)
         {
-            foreach (int count in yearly.aveYearlyTangramGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in yearly.aveYearlyTangramGamesPlayed) aveGameCount += count;
             aveGameCount /= yearly.aveYearlyTangramGamesPlayed.Count;
         }
-        if (tangramGamesPlayed > 0) AddData(allTime.aveTangramGamesPlayed, date.Month, tangramGamesPlayed);
+        if (tangramGamesPlayed > 0) allTime.aveTangramGamesPlayed.Add(tangramGamesPlayed);
 
         // Colouring Data
         aveGameTime = 0;
         if (yearly.aveYearlyColouringTime.Count > 0)
         {
-            foreach (float timespan in yearly.aveYearlyColouringTime.Values) aveGameTime += timespan;
+            foreach (float timespan in yearly.aveYearlyColouringTime) aveGameTime += timespan;
             aveGameTime /= yearly.aveYearlyColouringTime.Count;
         }
-        if (aveGameTime > 0) AddData(allTime.aveColouringTime, date.Month, aveGameTime);
+        if (aveGameTime > 0) allTime.aveColouringTime.Add(aveGameTime);
         aveGameCount = 0;
         if (yearly.aveYearlyColouringGamesPlayed.Count > 0)
         {
-            foreach (int count in yearly.aveYearlyColouringGamesPlayed.Values) aveGameCount += count;
+            foreach (int count in yearly.aveYearlyColouringGamesPlayed) aveGameCount += count;
             aveGameCount /= yearly.aveYearlyColouringGamesPlayed.Count;
         }
-        if (colouringGamesPlayed > 0) AddData(allTime.aveColouringGamesPlayed, date.Month, colouringGamesPlayed);
+        if (colouringGamesPlayed > 0) allTime.aveColouringGamesPlayed.Add(colouringGamesPlayed);
+
+        allTime.jigsawLevelsKeys = allTime.jigsawLevels.Keys.ToList();
+        allTime.jigsawLevelsValues = allTime.jigsawLevels.Values.ToList();
+        allTime.tangramLevelsKeys = allTime.tangramLevels.Keys.ToList();
+        allTime.tangramLevelsValues = allTime.tangramLevels.Values.ToList();
     }
 
     public void TangramStars(int i)

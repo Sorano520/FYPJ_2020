@@ -60,8 +60,8 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnMediumButton()
     {
-        //if (GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
-        //    if (GameManager.instance.Data.allTime.jigsawLevels[jigsawLevel] < 1) return;
+        if (GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
+            if (GameManager.instance.Data.allTime.jigsawLevels[jigsawLevel] < 1) return;
 
         GameManager.instance.ChosenDifficulty = 2;
         easyButtonDisable.SetActive(true);
@@ -80,8 +80,8 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnHardButton()
     {
-        //if (GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
-        //    if (GameManager.instance.Data.allTime.jigsawLevels[jigsawLevel] < 2) return;
+        if (GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
+            if (GameManager.instance.Data.allTime.jigsawLevels[jigsawLevel] < 2) return;
 
         GameManager.instance.ChosenDifficulty = 3;
         easyButtonDisable.SetActive(true);

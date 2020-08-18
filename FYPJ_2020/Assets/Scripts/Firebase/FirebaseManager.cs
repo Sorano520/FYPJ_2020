@@ -285,7 +285,7 @@ public class FirebaseManager : MonoBehaviour
 
         AddData("Username", username);
         //Func();
-        GetSpecificUserDocumentAsync(database.Collection("Data").Document(username), "Sign-In");
+        StartCoroutine(GetSpecificUserDocument(database.Collection("Data").Document(username), "Sign-In"));
     }
 
     public void SignUp(string username, string password)
@@ -435,6 +435,7 @@ public class FirebaseManager : MonoBehaviour
         yield return new WaitForTaskCompletion(task);
         if (!(task.IsFaulted || task.IsCanceled))
         {
+            DocumentSnapshot snapshot = task.Result;
             if (task.Result.Exists)
             {
                 data[onComplete] = true;
@@ -566,6 +567,7 @@ public class FirebaseManager : MonoBehaviour
                 if (documentDictionary.ContainsKey("AllTimeData"))
                 {
                     GameManager.instance.Data.allTime = JsonUtility.FromJson<AllTime>((string)documentDictionary["AllTimeData"]) ?? new AllTime();
+                    GameManager.instance.Data.CheckLevels();
                     Debug.Log(String.Format("Variable AllTimeData found!"));
                 }
                 else Debug.Log(String.Format("Variable AllTimeData does not exist!"));

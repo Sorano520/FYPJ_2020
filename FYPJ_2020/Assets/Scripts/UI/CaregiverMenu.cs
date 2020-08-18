@@ -44,106 +44,106 @@ public class CaregiverMenu : MonoBehaviour
     #endregion
     #region Daily
     // General Data
-    float aveDailyTime = 0;
-    float aveDailyMainMenuTime = 0;
-    float aveDailyCollectionTime = 0;
-    float aveDailyJigsawSelectTime = 0;
-    float aveDailyTangramSelectTime = 0;
-    float aveDailyColouringSelectTime = 0;
-    float aveDailyInactivityPeriod = 0;
+    string aveDailyTime = "";
+    string aveDailyMainMenuTime = "";
+    string aveDailyCollectionTime = "";
+    string aveDailyJigsawSelectTime = "";
+    string aveDailyTangramSelectTime = "";
+    string aveDailyColouringSelectTime = "";
+    string aveDailyInactivityPeriod = "";
 
     // Jigsaw Data
-    float aveDailyJigsawTime = 0;
+    string aveDailyJigsawTime = "";
     int aveDailyJigsawMovesTaken = 0;
     int aveDailyJigsawErrorsMade = 0;
     int aveDailyJigsawGamesPlayed = 0;
 
     // Tangram Data
-    float aveDailyTangramTime = 0;
+    string aveDailyTangramTime = "";
     int aveDailyTangramMovesTaken = 0;
     int aveDailyTangramErrorsMade = 0;
     int aveDailyTangramGamesPlayed = 0;
 
     // Colouring Data
-    float aveDailyColouringTime = 0;
+    string aveDailyColouringTime = "";
     int aveDailyColouringGamesPlayed = 0;
     #endregion
     #region Monthly
     // General Data
-    float aveMonthlyTime = 0;
-    float aveMonthlyMainMenuTime = 0;
-    float aveMonthlyCollectionTime = 0;
-    float aveMonthlyJigsawSelectTime = 0;
-    float aveMonthlyTangramSelectTime = 0;
-    float aveMonthlyColouringSelectTime = 0;
-    float aveMonthlyInactivityPeriod = 0;
+    string aveMonthlyTime = "";
+    string aveMonthlyMainMenuTime = "";
+    string aveMonthlyCollectionTime = "";
+    string aveMonthlyJigsawSelectTime = "";
+    string aveMonthlyTangramSelectTime = "";
+    string aveMonthlyColouringSelectTime = "";
+    string aveMonthlyInactivityPeriod = "";
 
     // Jigsaw Data
-    float aveMonthlyJigsawTime = 0;
+    string aveMonthlyJigsawTime = "";
     int aveMonthlyJigsawMovesTaken = 0;
     int aveMonthlyJigsawErrorsMade = 0;
     int aveMonthlyJigsawGamesPlayed = 0;
 
     // Tangram Data
-    float aveMonthlyTangramTime = 0;
+    string aveMonthlyTangramTime = "";
     int aveMonthlyTangramMovesTaken = 0;
     int aveMonthlyTangramErrorsMade = 0;
     int aveMonthlyTangramGamesPlayed = 0;
 
     // Colouring Data
-    float aveMonthlyColouringTime = 0;
+    string aveMonthlyColouringTime = "";
     int aveMonthlyColouringGamesPlayed = 0;
     #endregion
     #region Yearly
     // General Data
-    float aveYearlyTime = 0;
-    float aveYearlyMainMenuTime = 0;
-    float aveYearlyCollectionTime = 0;
-    float aveYearlyJigsawSelectTime = 0;
-    float aveYearlyTangramSelectTime = 0;
-    float aveYearlyColouringSelectTime = 0;
-    float aveYearlyInactivityPeriod = 0;
+    string aveYearlyTime = "";
+    string aveYearlyMainMenuTime = "";
+    string aveYearlyCollectionTime = "";
+    string aveYearlyJigsawSelectTime = "";
+    string aveYearlyTangramSelectTime = "";
+    string aveYearlyColouringSelectTime = "";
+    string aveYearlyInactivityPeriod = "";
 
     // Jigsaw Data
-    float aveYearlyJigsawTime = 0;
+    string aveYearlyJigsawTime = "";
     int aveYearlyJigsawMovesTaken = 0;
     int aveYearlyJigsawErrorsMade = 0;
     int aveYearlyJigsawGamesPlayed = 0;
 
     // Tangram Data
-    float aveYearlyTangramTime = 0;
+    string aveYearlyTangramTime = "";
     int aveYearlyTangramMovesTaken = 0;
     int aveYearlyTangramErrorsMade = 0;
     int aveYearlyTangramGamesPlayed = 0;
 
     // Colouring Data
-    float aveYearlyColouringTime = 0;
+    string aveYearlyColouringTime = "";
     int aveYearlyColouringGamesPlayed = 0;
     #endregion
     #region AllTime
     // General Data
-    float aveTime = 0;
-    float aveMainMenuTime = 0;
-    float aveCollectionTime = 0;
-    float aveJigsawSelectTime = 0;
-    float aveTangramSelectTime = 0;
-    float aveColouringSelectTime = 0;
-    float aveInactivityPeriod = 0;
+    string aveTime = "";
+    string aveMainMenuTime = "";
+    string aveCollectionTime = "";
+    string aveJigsawSelectTime = "";
+    string aveTangramSelectTime = "";
+    string aveColouringSelectTime = "";
+    string aveInactivityPeriod = "";
 
     // Jigsaw Data
-    float aveJigsawTime = 0;
+    string aveJigsawTime = "";
     int aveJigsawMovesTaken = 0;
     int aveJigsawErrorsMade = 0;
     int aveJigsawGamesPlayed = 0;
 
     // Tangram Data
-    float aveTangramTime = 0;
+    string aveTangramTime = "";
     int aveTangramMovesTaken = 0;
     int aveTangramErrorsMade = 0;
     int aveTangramGamesPlayed = 0;
 
     // Colouring Data
-    float aveColouringTime = 0;
+    string aveColouringTime = "";
     int aveColouringGamesPlayed = 0;
     #endregion
 
@@ -181,95 +181,95 @@ public class CaregiverMenu : MonoBehaviour
     }
 
     void DisplayDailyData()
-    {   
-        time.text = TimeSpan.FromSeconds(aveDailyTime).ToString();
-        mainMenuTime.text = TimeSpan.FromSeconds(aveDailyMainMenuTime).ToString();
-        collectionTime.text = TimeSpan.FromSeconds(aveDailyCollectionTime).ToString();
-        jigsawSelectTime.text = TimeSpan.FromSeconds(aveDailyJigsawSelectTime).ToString();
-        tangramSelectTime.text = TimeSpan.FromSeconds(aveDailyTangramSelectTime).ToString();
-        colouringSelectTime.text = TimeSpan.FromSeconds(aveDailyColouringSelectTime).ToString();
-        inactivityPeriod.text = TimeSpan.FromSeconds(aveDailyInactivityPeriod).ToString();
+    {
+        time.text = aveDailyTime;
+        mainMenuTime.text = aveDailyMainMenuTime;
+        collectionTime.text = aveDailyCollectionTime;
+        jigsawSelectTime.text = aveDailyJigsawSelectTime;
+        tangramSelectTime.text = aveDailyTangramSelectTime;
+        colouringSelectTime.text = aveDailyColouringSelectTime;
+        inactivityPeriod.text = aveDailyInactivityPeriod;
 
-        jigsawTime.text = TimeSpan.FromSeconds(aveDailyJigsawTime).ToString();
+        jigsawTime.text = aveDailyJigsawTime;
         jigsawMovesTaken.text = aveDailyJigsawMovesTaken.ToString();
         jigsawErrorsMade.text = aveDailyJigsawErrorsMade.ToString();
         jigsawGamesPlayed.text = aveDailyJigsawGamesPlayed.ToString();
 
-        tangramTime.text = TimeSpan.FromSeconds(aveDailyTangramTime).ToString();
+        tangramTime.text = aveDailyTangramTime;
         tangramMovesTaken.text = aveDailyTangramMovesTaken.ToString();
         tangramErrorsMade.text = aveDailyTangramErrorsMade.ToString();
         tangramGamesPlayed.text = aveDailyTangramGamesPlayed.ToString();
 
-        colouringTime.text = TimeSpan.FromSeconds(aveDailyColouringTime).ToString();
+        colouringTime.text = aveDailyColouringTime;
         colouringGamesPlayed.text = aveDailyColouringGamesPlayed.ToString();
     }
     void DisplayMonthlyData()
-    {   
-        time.text = TimeSpan.FromSeconds(aveMonthlyTime).ToString();
-        mainMenuTime.text = TimeSpan.FromSeconds(aveMonthlyMainMenuTime).ToString();
-        collectionTime.text = TimeSpan.FromSeconds(aveMonthlyCollectionTime).ToString();
-        jigsawSelectTime.text = TimeSpan.FromSeconds(aveMonthlyJigsawSelectTime).ToString();
-        tangramSelectTime.text = TimeSpan.FromSeconds(aveMonthlyTangramSelectTime).ToString();
-        colouringSelectTime.text = TimeSpan.FromSeconds(aveMonthlyColouringSelectTime).ToString();
-        inactivityPeriod.text = TimeSpan.FromSeconds(aveMonthlyInactivityPeriod).ToString();
+    {
+        time.text = aveMonthlyTime;
+        mainMenuTime.text = aveMonthlyMainMenuTime;
+        collectionTime.text = aveMonthlyCollectionTime;
+        jigsawSelectTime.text = aveMonthlyJigsawSelectTime;
+        tangramSelectTime.text = aveMonthlyTangramSelectTime;
+        colouringSelectTime.text = aveMonthlyColouringSelectTime;
+        inactivityPeriod.text = aveMonthlyInactivityPeriod;
 
-        jigsawTime.text = TimeSpan.FromSeconds(aveMonthlyJigsawTime).ToString();
+        jigsawTime.text = aveMonthlyJigsawTime;
         jigsawMovesTaken.text = aveMonthlyJigsawMovesTaken.ToString();
         jigsawErrorsMade.text = aveMonthlyJigsawErrorsMade.ToString();
         jigsawGamesPlayed.text = aveMonthlyJigsawGamesPlayed.ToString();
 
-        tangramTime.text = TimeSpan.FromSeconds(aveMonthlyTangramTime).ToString();
+        tangramTime.text = aveMonthlyTangramTime;
         tangramMovesTaken.text = aveMonthlyTangramMovesTaken.ToString();
         tangramErrorsMade.text = aveMonthlyTangramErrorsMade.ToString();
         tangramGamesPlayed.text = aveMonthlyTangramGamesPlayed.ToString();
 
-        colouringTime.text = TimeSpan.FromSeconds(aveMonthlyColouringTime).ToString();
+        colouringTime.text = aveMonthlyColouringTime;
         colouringGamesPlayed.text = aveMonthlyColouringGamesPlayed.ToString();
     }
     void DisplayYearlyData()
-    {   
-        time.text = TimeSpan.FromSeconds(aveYearlyTime).ToString();
-        mainMenuTime.text = TimeSpan.FromSeconds(aveYearlyMainMenuTime).ToString();
-        collectionTime.text = TimeSpan.FromSeconds(aveYearlyCollectionTime).ToString();
-        jigsawSelectTime.text = TimeSpan.FromSeconds(aveYearlyJigsawSelectTime).ToString();
-        tangramSelectTime.text = TimeSpan.FromSeconds(aveYearlyTangramSelectTime).ToString();
-        colouringSelectTime.text = TimeSpan.FromSeconds(aveYearlyColouringSelectTime).ToString();
-        inactivityPeriod.text = TimeSpan.FromSeconds(aveYearlyInactivityPeriod).ToString();
+    {
+        time.text = aveYearlyTime;
+        mainMenuTime.text = aveYearlyMainMenuTime;
+        collectionTime.text = aveYearlyCollectionTime;
+        jigsawSelectTime.text = aveYearlyJigsawSelectTime;
+        tangramSelectTime.text = aveYearlyTangramSelectTime;
+        colouringSelectTime.text = aveYearlyColouringSelectTime;
+        inactivityPeriod.text = aveYearlyInactivityPeriod;
 
-        jigsawTime.text = TimeSpan.FromSeconds(aveYearlyJigsawTime).ToString();
+        jigsawTime.text = aveYearlyJigsawTime;
         jigsawMovesTaken.text = aveYearlyJigsawMovesTaken.ToString();
         jigsawErrorsMade.text = aveYearlyJigsawErrorsMade.ToString();
         jigsawGamesPlayed.text = aveYearlyJigsawGamesPlayed.ToString();
 
-        tangramTime.text = TimeSpan.FromSeconds(aveYearlyTangramTime).ToString();
+        tangramTime.text = aveYearlyTangramTime;
         tangramMovesTaken.text = aveYearlyTangramMovesTaken.ToString();
         tangramErrorsMade.text = aveYearlyTangramErrorsMade.ToString();
         tangramGamesPlayed.text = aveYearlyTangramGamesPlayed.ToString();
 
-        colouringTime.text = TimeSpan.FromSeconds(aveYearlyColouringTime).ToString();
+        colouringTime.text = aveYearlyColouringTime;
         colouringGamesPlayed.text = aveYearlyColouringGamesPlayed.ToString();
     }
     void DisplayAllTimeData()
-    {   
-        time.text = TimeSpan.FromSeconds(aveTime).ToString();
-        mainMenuTime.text = TimeSpan.FromSeconds(aveMainMenuTime).ToString();
-        collectionTime.text = TimeSpan.FromSeconds(aveCollectionTime).ToString();
-        jigsawSelectTime.text = TimeSpan.FromSeconds(aveJigsawSelectTime).ToString();
-        tangramSelectTime.text = TimeSpan.FromSeconds(aveTangramSelectTime).ToString();
-        colouringSelectTime.text = TimeSpan.FromSeconds(aveColouringSelectTime).ToString();
-        inactivityPeriod.text = TimeSpan.FromSeconds(aveInactivityPeriod).ToString();
+    {
+        time.text = aveTime;
+        mainMenuTime.text = aveMainMenuTime;
+        collectionTime.text = aveCollectionTime;
+        jigsawSelectTime.text = aveJigsawSelectTime;
+        tangramSelectTime.text = aveTangramSelectTime;
+        colouringSelectTime.text = aveColouringSelectTime;
+        inactivityPeriod.text = aveInactivityPeriod;
 
-        jigsawTime.text = TimeSpan.FromSeconds(aveJigsawTime).ToString();
+        jigsawTime.text = aveJigsawTime;
         jigsawMovesTaken.text = aveJigsawMovesTaken.ToString();
         jigsawErrorsMade.text = aveJigsawErrorsMade.ToString();
         jigsawGamesPlayed.text = aveJigsawGamesPlayed.ToString();
 
-        tangramTime.text = TimeSpan.FromSeconds(aveTangramTime).ToString();
+        tangramTime.text = aveTangramTime;
         tangramMovesTaken.text = aveTangramMovesTaken.ToString();
         tangramErrorsMade.text = aveTangramErrorsMade.ToString();
         tangramGamesPlayed.text = aveTangramGamesPlayed.ToString();
 
-        colouringTime.text = TimeSpan.FromSeconds(aveColouringTime).ToString();
+        colouringTime.text = aveColouringTime;
         colouringGamesPlayed.text = aveColouringGamesPlayed.ToString();
     }
     public void OnDisplayChange()
@@ -298,449 +298,565 @@ public class CaregiverMenu : MonoBehaviour
 
     void CalculateDailyData()
     {
+        float value = 0;
         // General Data
-        aveDailyTime = 0;
         if (GameManager.instance.Data.daily.aveDailyTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyTime.Values) aveDailyTime += timespan;
-            aveDailyTime /= GameManager.instance.Data.daily.aveDailyTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyTime.Count;
         }
-        aveDailyMainMenuTime = 0;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyMainMenuTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyMainMenuTime.Values) aveDailyMainMenuTime += timespan;
-            aveDailyMainMenuTime /= GameManager.instance.Data.daily.aveDailyMainMenuTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyMainMenuTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyMainMenuTime.Count;
         }
-        aveDailyCollectionTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyMainMenuTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyCollectionTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyCollectionTime.Values) aveDailyCollectionTime += timespan;
-            aveDailyCollectionTime /= GameManager.instance.Data.daily.aveDailyCollectionTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyCollectionTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyCollectionTime.Count;
         }
-        aveDailyJigsawSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyCollectionTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyJigsawSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyJigsawSelectTime.Values) aveDailyJigsawSelectTime += timespan;
-            aveDailyJigsawSelectTime /= GameManager.instance.Data.daily.aveDailyJigsawSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyJigsawSelectTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyJigsawSelectTime.Count;
         }
-        aveDailyTangramSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyJigsawSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyTangramSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyTangramSelectTime.Values) aveDailyTangramSelectTime += timespan;
-            aveDailyTangramSelectTime /= GameManager.instance.Data.daily.aveDailyTangramSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyTangramSelectTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyTangramSelectTime.Count;
         }
-        aveDailyColouringSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyTangramSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyColouringSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyColouringSelectTime.Values) aveDailyColouringSelectTime += timespan;
-            aveDailyColouringSelectTime /= GameManager.instance.Data.daily.aveDailyColouringSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyColouringSelectTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyColouringSelectTime.Count;
         }
-        aveDailyInactivityPeriod = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyColouringSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyInactivityPeriod.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyInactivityPeriod.Values) aveDailyInactivityPeriod += timespan;
-            aveDailyInactivityPeriod /= GameManager.instance.Data.daily.aveDailyInactivityPeriod.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyInactivityPeriod) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyInactivityPeriod.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyInactivityPeriod = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 
         // Jigsaw Data
-        aveDailyJigsawTime = 0;
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyJigsawTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyJigsawTime.Values) aveDailyJigsawTime += timespan;
-            aveDailyJigsawTime /= GameManager.instance.Data.daily.aveDailyJigsawTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyJigsawTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyJigsawTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyJigsawTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveDailyJigsawMovesTaken = 0;
         if (GameManager.instance.Data.daily.aveDailyJigsawMovesTaken.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.daily.aveDailyJigsawMovesTaken.Values) aveDailyJigsawMovesTaken += count;
+            foreach (int count in GameManager.instance.Data.daily.aveDailyJigsawMovesTaken) aveDailyJigsawMovesTaken += count;
             aveDailyJigsawMovesTaken /= GameManager.instance.Data.daily.aveDailyJigsawMovesTaken.Count;
         }
         aveDailyJigsawErrorsMade = 0;
         if (GameManager.instance.Data.daily.aveDailyJigsawErrorsMade.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.daily.aveDailyJigsawErrorsMade.Values) aveDailyJigsawErrorsMade += count;
+            foreach (int count in GameManager.instance.Data.daily.aveDailyJigsawErrorsMade) aveDailyJigsawErrorsMade += count;
             aveDailyJigsawErrorsMade /= GameManager.instance.Data.daily.aveDailyJigsawErrorsMade.Count;
         }
         aveDailyJigsawGamesPlayed = 0;
         if (GameManager.instance.Data.daily.aveDailyJigsawGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.daily.aveDailyJigsawGamesPlayed.Values) aveDailyJigsawGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.daily.aveDailyJigsawGamesPlayed) aveDailyJigsawGamesPlayed += count;
             aveDailyJigsawGamesPlayed /= GameManager.instance.Data.daily.aveDailyJigsawGamesPlayed.Count;
         }
 
         // Tangram Data
-        aveDailyTangramTime = 0;
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyTangramTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyTangramTime.Values) aveDailyTangramTime += timespan;
-            aveDailyTangramTime /= GameManager.instance.Data.daily.aveDailyTangramTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyTangramTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyTangramTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyTangramTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveDailyTangramMovesTaken = 0;
         if (GameManager.instance.Data.daily.aveDailyTangramMovesTaken.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.daily.aveDailyTangramMovesTaken.Values) aveDailyTangramMovesTaken += count;
+            foreach (int count in GameManager.instance.Data.daily.aveDailyTangramMovesTaken) aveDailyTangramMovesTaken += count;
             aveDailyTangramMovesTaken /= GameManager.instance.Data.daily.aveDailyTangramMovesTaken.Count;
         }
         aveDailyTangramErrorsMade = 0;
         if (GameManager.instance.Data.daily.aveDailyTangramErrorsMade.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.daily.aveDailyTangramErrorsMade.Values) aveDailyTangramErrorsMade += count;
+            foreach (int count in GameManager.instance.Data.daily.aveDailyTangramErrorsMade) aveDailyTangramErrorsMade += count;
             aveDailyTangramErrorsMade /= GameManager.instance.Data.daily.aveDailyTangramErrorsMade.Count;
         }
         aveDailyTangramGamesPlayed = 0;
         if (GameManager.instance.Data.daily.aveDailyTangramGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.daily.aveDailyTangramGamesPlayed.Values) aveDailyTangramGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.daily.aveDailyTangramGamesPlayed) aveDailyTangramGamesPlayed += count;
             aveDailyTangramGamesPlayed /= GameManager.instance.Data.daily.aveDailyTangramGamesPlayed.Count;
         }
 
         // Colouring Data
-        aveDailyColouringTime = 0;
+        value = 0;
         if (GameManager.instance.Data.daily.aveDailyColouringTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.daily.aveDailyColouringTime.Values) aveDailyColouringTime += timespan;
-            aveDailyColouringTime /= GameManager.instance.Data.daily.aveDailyColouringTime.Count;
+            foreach (float timespan in GameManager.instance.Data.daily.aveDailyColouringTime) value += timespan;
+            value /= GameManager.instance.Data.daily.aveDailyColouringTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveDailyColouringTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveDailyColouringGamesPlayed = 0;
         if (GameManager.instance.Data.daily.aveDailyColouringGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.daily.aveDailyColouringGamesPlayed.Values) aveDailyColouringGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.daily.aveDailyColouringGamesPlayed) aveDailyColouringGamesPlayed += count;
             aveDailyColouringGamesPlayed /= GameManager.instance.Data.daily.aveDailyColouringGamesPlayed.Count;
         }
     }
-    public void CalculateMonthlyData()
+    void CalculateMonthlyData()
     {
+        float value = 0;
         // General Data
-        aveMonthlyTime = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyTime.Values) aveMonthlyTime += timespan;
-            aveMonthlyTime /= GameManager.instance.Data.monthly.aveMonthlyTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyTime.Count;
         }
-        aveMonthlyMainMenuTime = 0;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyMainMenuTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyMainMenuTime.Values) aveMonthlyMainMenuTime += timespan;
-            aveMonthlyMainMenuTime /= GameManager.instance.Data.monthly.aveMonthlyMainMenuTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyMainMenuTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyMainMenuTime.Count;
         }
-        aveMonthlyCollectionTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyMainMenuTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyCollectionTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyCollectionTime.Values) aveMonthlyCollectionTime += timespan;
-            aveMonthlyCollectionTime /= GameManager.instance.Data.monthly.aveMonthlyCollectionTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyCollectionTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyCollectionTime.Count;
         }
-        aveMonthlyJigsawSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyCollectionTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyJigsawSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyJigsawSelectTime.Values) aveMonthlyJigsawSelectTime += timespan;
-            aveMonthlyJigsawSelectTime /= GameManager.instance.Data.monthly.aveMonthlyJigsawSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyJigsawSelectTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyJigsawSelectTime.Count;
         }
-        aveMonthlyTangramSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyJigsawSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyTangramSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyTangramSelectTime.Values) aveMonthlyTangramSelectTime += timespan;
-            aveMonthlyTangramSelectTime /= GameManager.instance.Data.monthly.aveMonthlyTangramSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyTangramSelectTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyTangramSelectTime.Count;
         }
-        aveMonthlyColouringSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyTangramSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyColouringSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyColouringSelectTime.Values) aveMonthlyColouringSelectTime += timespan;
-            aveMonthlyColouringSelectTime /= GameManager.instance.Data.monthly.aveMonthlyColouringSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyColouringSelectTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyColouringSelectTime.Count;
         }
-        aveMonthlyInactivityPeriod = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyColouringSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyInactivityPeriod.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyInactivityPeriod.Values) aveMonthlyInactivityPeriod += timespan;
-            aveMonthlyInactivityPeriod /= GameManager.instance.Data.monthly.aveMonthlyInactivityPeriod.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyInactivityPeriod) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyInactivityPeriod.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyInactivityPeriod = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 
         // Jigsaw Data
-        aveMonthlyJigsawTime = 0;
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyJigsawTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyJigsawTime.Values) aveMonthlyJigsawTime += timespan;
-            aveMonthlyJigsawTime /= GameManager.instance.Data.monthly.aveMonthlyJigsawTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyJigsawTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyJigsawTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyJigsawTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveMonthlyJigsawMovesTaken = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyJigsawMovesTaken.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyJigsawMovesTaken.Values) aveMonthlyJigsawMovesTaken += count;
+            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyJigsawMovesTaken) aveMonthlyJigsawMovesTaken += count;
             aveMonthlyJigsawMovesTaken /= GameManager.instance.Data.monthly.aveMonthlyJigsawMovesTaken.Count;
         }
         aveMonthlyJigsawErrorsMade = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyJigsawErrorsMade.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyJigsawErrorsMade.Values) aveMonthlyJigsawErrorsMade += count;
+            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyJigsawErrorsMade) aveMonthlyJigsawErrorsMade += count;
             aveMonthlyJigsawErrorsMade /= GameManager.instance.Data.monthly.aveMonthlyJigsawErrorsMade.Count;
         }
         aveMonthlyJigsawGamesPlayed = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyJigsawGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyJigsawGamesPlayed.Values) aveMonthlyJigsawGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyJigsawGamesPlayed) aveMonthlyJigsawGamesPlayed += count;
             aveMonthlyJigsawGamesPlayed /= GameManager.instance.Data.monthly.aveMonthlyJigsawGamesPlayed.Count;
         }
 
         // Tangram Data
-        aveMonthlyTangramTime = 0;
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyTangramTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyTangramTime.Values) aveMonthlyTangramTime += timespan;
-            aveMonthlyTangramTime /= GameManager.instance.Data.monthly.aveMonthlyTangramTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyTangramTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyTangramTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyTangramTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveMonthlyTangramMovesTaken = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyTangramMovesTaken.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyTangramMovesTaken.Values) aveMonthlyTangramMovesTaken += count;
+            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyTangramMovesTaken) aveMonthlyTangramMovesTaken += count;
             aveMonthlyTangramMovesTaken /= GameManager.instance.Data.monthly.aveMonthlyTangramMovesTaken.Count;
         }
         aveMonthlyTangramErrorsMade = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyTangramErrorsMade.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyTangramErrorsMade.Values) aveMonthlyTangramErrorsMade += count;
+            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyTangramErrorsMade) aveMonthlyTangramErrorsMade += count;
             aveMonthlyTangramErrorsMade /= GameManager.instance.Data.monthly.aveMonthlyTangramErrorsMade.Count;
         }
         aveMonthlyTangramGamesPlayed = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyTangramGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyTangramGamesPlayed.Values) aveMonthlyTangramGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyTangramGamesPlayed) aveMonthlyTangramGamesPlayed += count;
             aveMonthlyTangramGamesPlayed /= GameManager.instance.Data.monthly.aveMonthlyTangramGamesPlayed.Count;
         }
 
         // Colouring Data
-        aveMonthlyColouringTime = 0;
+        value = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyColouringTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyColouringTime.Values) aveMonthlyColouringTime += timespan;
-            aveMonthlyColouringTime /= GameManager.instance.Data.monthly.aveMonthlyColouringTime.Count;
+            foreach (float timespan in GameManager.instance.Data.monthly.aveMonthlyColouringTime) value += timespan;
+            value /= GameManager.instance.Data.monthly.aveMonthlyColouringTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMonthlyColouringTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveMonthlyColouringGamesPlayed = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyColouringGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyColouringGamesPlayed.Values) aveMonthlyColouringGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyColouringGamesPlayed) aveMonthlyColouringGamesPlayed += count;
             aveMonthlyColouringGamesPlayed /= GameManager.instance.Data.monthly.aveMonthlyColouringGamesPlayed.Count;
         }
     }
-    public void CalculateYearlyData()
+    void CalculateYearlyData()
     {
+        float value = 0;
         // General Data
-        aveYearlyTime = 0;
         if (GameManager.instance.Data.yearly.aveYearlyTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyTime.Values) aveYearlyTime += timespan;
-            aveYearlyTime /= GameManager.instance.Data.yearly.aveYearlyTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyTime.Count;
         }
-        aveYearlyMainMenuTime = 0;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyMainMenuTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyMainMenuTime.Values) aveYearlyMainMenuTime += timespan;
-            aveYearlyMainMenuTime /= GameManager.instance.Data.yearly.aveYearlyMainMenuTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyMainMenuTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyMainMenuTime.Count;
         }
-        aveYearlyCollectionTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyMainMenuTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyCollectionTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyCollectionTime.Values) aveYearlyCollectionTime += timespan;
-            aveYearlyCollectionTime /= GameManager.instance.Data.yearly.aveYearlyCollectionTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyCollectionTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyCollectionTime.Count;
         }
-        aveYearlyJigsawSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyCollectionTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyJigsawSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyJigsawSelectTime.Values) aveYearlyJigsawSelectTime += timespan;
-            aveYearlyJigsawSelectTime /= GameManager.instance.Data.yearly.aveYearlyJigsawSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyJigsawSelectTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyJigsawSelectTime.Count;
         }
-        aveYearlyTangramSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyJigsawSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyTangramSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyTangramSelectTime.Values) aveYearlyTangramSelectTime += timespan;
-            aveYearlyTangramSelectTime /= GameManager.instance.Data.yearly.aveYearlyTangramSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyTangramSelectTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyTangramSelectTime.Count;
         }
-        aveYearlyColouringSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyTangramSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyColouringSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyColouringSelectTime.Values) aveYearlyColouringSelectTime += timespan;
-            aveYearlyColouringSelectTime /= GameManager.instance.Data.yearly.aveYearlyColouringSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyColouringSelectTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyColouringSelectTime.Count;
         }
-        aveYearlyInactivityPeriod = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyColouringSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyInactivityPeriod.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyInactivityPeriod.Values) aveYearlyInactivityPeriod += timespan;
-            aveYearlyInactivityPeriod /= GameManager.instance.Data.yearly.aveYearlyInactivityPeriod.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyInactivityPeriod) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyInactivityPeriod.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyInactivityPeriod = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 
         // Jigsaw Data
-        aveYearlyJigsawTime = 0;
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyJigsawTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyJigsawTime.Values) aveYearlyJigsawTime += timespan;
-            aveYearlyJigsawTime /= GameManager.instance.Data.yearly.aveYearlyJigsawTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyJigsawTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyJigsawTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyJigsawTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveYearlyJigsawMovesTaken = 0;
         if (GameManager.instance.Data.yearly.aveYearlyJigsawMovesTaken.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.yearly.aveYearlyJigsawMovesTaken.Values) aveYearlyJigsawMovesTaken += count;
+            foreach (int count in GameManager.instance.Data.yearly.aveYearlyJigsawMovesTaken) aveYearlyJigsawMovesTaken += count;
             aveYearlyJigsawMovesTaken /= GameManager.instance.Data.yearly.aveYearlyJigsawMovesTaken.Count;
         }
         aveYearlyJigsawErrorsMade = 0;
         if (GameManager.instance.Data.yearly.aveYearlyJigsawErrorsMade.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.yearly.aveYearlyJigsawErrorsMade.Values) aveYearlyJigsawErrorsMade += count;
+            foreach (int count in GameManager.instance.Data.yearly.aveYearlyJigsawErrorsMade) aveYearlyJigsawErrorsMade += count;
             aveYearlyJigsawErrorsMade /= GameManager.instance.Data.yearly.aveYearlyJigsawErrorsMade.Count;
         }
         aveYearlyJigsawGamesPlayed = 0;
         if (GameManager.instance.Data.yearly.aveYearlyJigsawGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.yearly.aveYearlyJigsawGamesPlayed.Values) aveYearlyJigsawGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.yearly.aveYearlyJigsawGamesPlayed) aveYearlyJigsawGamesPlayed += count;
             aveYearlyJigsawGamesPlayed /= GameManager.instance.Data.yearly.aveYearlyJigsawGamesPlayed.Count;
         }
 
         // Tangram Data
-        aveYearlyTangramTime = 0;
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyTangramTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyTangramTime.Values) aveYearlyTangramTime += timespan;
-            aveYearlyTangramTime /= GameManager.instance.Data.yearly.aveYearlyTangramTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyTangramTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyTangramTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyTangramTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveYearlyTangramMovesTaken = 0;
         if (GameManager.instance.Data.yearly.aveYearlyTangramMovesTaken.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.yearly.aveYearlyTangramMovesTaken.Values) aveYearlyTangramMovesTaken += count;
+            foreach (int count in GameManager.instance.Data.yearly.aveYearlyTangramMovesTaken) aveYearlyTangramMovesTaken += count;
             aveYearlyTangramMovesTaken /= GameManager.instance.Data.yearly.aveYearlyTangramMovesTaken.Count;
         }
         aveYearlyTangramErrorsMade = 0;
         if (GameManager.instance.Data.yearly.aveYearlyTangramErrorsMade.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.yearly.aveYearlyTangramErrorsMade.Values) aveYearlyTangramErrorsMade += count;
+            foreach (int count in GameManager.instance.Data.yearly.aveYearlyTangramErrorsMade) aveYearlyTangramErrorsMade += count;
             aveYearlyTangramErrorsMade /= GameManager.instance.Data.yearly.aveYearlyTangramErrorsMade.Count;
         }
         aveYearlyTangramGamesPlayed = 0;
         if (GameManager.instance.Data.yearly.aveYearlyTangramGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.yearly.aveYearlyTangramGamesPlayed.Values) aveYearlyTangramGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.yearly.aveYearlyTangramGamesPlayed) aveYearlyTangramGamesPlayed += count;
             aveYearlyTangramGamesPlayed /= GameManager.instance.Data.yearly.aveYearlyTangramGamesPlayed.Count;
         }
 
         // Colouring Data
-        aveYearlyColouringTime = 0;
+        value = 0;
         if (GameManager.instance.Data.yearly.aveYearlyColouringTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyColouringTime.Values) aveYearlyColouringTime += timespan;
-            aveYearlyColouringTime /= GameManager.instance.Data.yearly.aveYearlyColouringTime.Count;
+            foreach (float timespan in GameManager.instance.Data.yearly.aveYearlyColouringTime) value += timespan;
+            value /= GameManager.instance.Data.yearly.aveYearlyColouringTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveYearlyColouringTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveYearlyColouringGamesPlayed = 0;
         if (GameManager.instance.Data.yearly.aveYearlyColouringGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.yearly.aveYearlyColouringGamesPlayed.Values) aveYearlyColouringGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.yearly.aveYearlyColouringGamesPlayed) aveYearlyColouringGamesPlayed += count;
             aveYearlyColouringGamesPlayed /= GameManager.instance.Data.yearly.aveYearlyColouringGamesPlayed.Count;
         }
     }
-    public void CalculateAllTimeData()
+    void CalculateAllTimeData()
     {
+        float value = 0;
         // General Data
-        aveTime = 0;
         if (GameManager.instance.Data.allTime.aveTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveTime.Values) aveTime += timespan;
-            aveTime /= GameManager.instance.Data.allTime.aveTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveTime.Count;
         }
-        aveMainMenuTime = 0;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(value);
+        aveTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.allTime.aveMainMenuTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveMainMenuTime.Values) aveMainMenuTime += timespan;
-            aveMainMenuTime /= GameManager.instance.Data.allTime.aveMainMenuTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveMainMenuTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveMainMenuTime.Count;
         }
-        aveCollectionTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveMainMenuTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.allTime.aveCollectionTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveCollectionTime.Values) aveCollectionTime += timespan;
-            aveCollectionTime /= GameManager.instance.Data.allTime.aveCollectionTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveCollectionTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveCollectionTime.Count;
         }
-        aveJigsawSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveCollectionTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.allTime.aveJigsawSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveJigsawSelectTime.Values) aveJigsawSelectTime += timespan;
-            aveJigsawSelectTime /= GameManager.instance.Data.allTime.aveJigsawSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveJigsawSelectTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveJigsawSelectTime.Count;
         }
-        aveTangramSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveJigsawSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.allTime.aveTangramSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveTangramSelectTime.Values) aveTangramSelectTime += timespan;
-            aveTangramSelectTime /= GameManager.instance.Data.allTime.aveTangramSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveTangramSelectTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveTangramSelectTime.Count;
         }
-        aveColouringSelectTime = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveTangramSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.allTime.aveColouringSelectTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveColouringSelectTime.Values) aveColouringSelectTime += timespan;
-            aveColouringSelectTime /= GameManager.instance.Data.allTime.aveColouringSelectTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveColouringSelectTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveColouringSelectTime.Count;
         }
-        aveInactivityPeriod = 0;
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveColouringSelectTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+        value = 0;
         if (GameManager.instance.Data.allTime.aveInactivityPeriod.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveInactivityPeriod.Values) aveInactivityPeriod += timespan;
-            aveInactivityPeriod /= GameManager.instance.Data.allTime.aveInactivityPeriod.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveInactivityPeriod) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveInactivityPeriod.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveInactivityPeriod = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 
         // Jigsaw Data
-        aveJigsawTime = 0;
+        value = 0;
         if (GameManager.instance.Data.allTime.aveJigsawTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveJigsawTime.Values) aveJigsawTime += timespan;
-            aveJigsawTime /= GameManager.instance.Data.allTime.aveJigsawTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveJigsawTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveJigsawTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveJigsawTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveJigsawMovesTaken = 0;
         if (GameManager.instance.Data.allTime.aveJigsawMovesTaken.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.allTime.aveJigsawMovesTaken.Values) aveJigsawMovesTaken += count;
+            foreach (int count in GameManager.instance.Data.allTime.aveJigsawMovesTaken) aveJigsawMovesTaken += count;
             aveJigsawMovesTaken /= GameManager.instance.Data.allTime.aveJigsawMovesTaken.Count;
         }
         aveJigsawErrorsMade = 0;
         if (GameManager.instance.Data.allTime.aveJigsawErrorsMade.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.allTime.aveJigsawErrorsMade.Values) aveJigsawErrorsMade += count;
+            foreach (int count in GameManager.instance.Data.allTime.aveJigsawErrorsMade) aveJigsawErrorsMade += count;
             aveJigsawErrorsMade /= GameManager.instance.Data.allTime.aveJigsawErrorsMade.Count;
         }
         aveJigsawGamesPlayed = 0;
         if (GameManager.instance.Data.allTime.aveJigsawGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.allTime.aveJigsawGamesPlayed.Values) aveJigsawGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.allTime.aveJigsawGamesPlayed) aveJigsawGamesPlayed += count;
             aveJigsawGamesPlayed /= GameManager.instance.Data.allTime.aveJigsawGamesPlayed.Count;
         }
 
         // Tangram Data
-        aveTangramTime = 0;
+        value = 0;
         if (GameManager.instance.Data.allTime.aveTangramTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveTangramTime.Values) aveTangramTime += timespan;
-            aveTangramTime /= GameManager.instance.Data.allTime.aveTangramTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveTangramTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveTangramTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveTangramTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveTangramMovesTaken = 0;
         if (GameManager.instance.Data.allTime.aveTangramMovesTaken.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.allTime.aveTangramMovesTaken.Values) aveTangramMovesTaken += count;
+            foreach (int count in GameManager.instance.Data.allTime.aveTangramMovesTaken) aveTangramMovesTaken += count;
             aveTangramMovesTaken /= GameManager.instance.Data.allTime.aveTangramMovesTaken.Count;
         }
         aveTangramErrorsMade = 0;
         if (GameManager.instance.Data.allTime.aveTangramErrorsMade.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.allTime.aveTangramErrorsMade.Values) aveTangramErrorsMade += count;
+            foreach (int count in GameManager.instance.Data.allTime.aveTangramErrorsMade) aveTangramErrorsMade += count;
             aveTangramErrorsMade /= GameManager.instance.Data.allTime.aveTangramErrorsMade.Count;
         }
         aveTangramGamesPlayed = 0;
         if (GameManager.instance.Data.allTime.aveTangramGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.allTime.aveTangramGamesPlayed.Values) aveTangramGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.allTime.aveTangramGamesPlayed) aveTangramGamesPlayed += count;
             aveTangramGamesPlayed /= GameManager.instance.Data.allTime.aveTangramGamesPlayed.Count;
         }
 
         // Colouring Data
-        aveColouringTime = 0;
+        value = 0;
         if (GameManager.instance.Data.allTime.aveColouringTime.Count > 0)
         {
-            foreach (float timespan in GameManager.instance.Data.allTime.aveColouringTime.Values) aveColouringTime += timespan;
-            aveColouringTime /= GameManager.instance.Data.allTime.aveColouringTime.Count;
+            foreach (float timespan in GameManager.instance.Data.allTime.aveColouringTime) value += timespan;
+            value /= GameManager.instance.Data.allTime.aveColouringTime.Count;
         }
+        timeSpan = TimeSpan.FromSeconds(value);
+        aveColouringTime = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
         aveColouringGamesPlayed = 0;
         if (GameManager.instance.Data.allTime.aveColouringGamesPlayed.Count > 0)
         {
-            foreach (int count in GameManager.instance.Data.allTime.aveColouringGamesPlayed.Values) aveColouringGamesPlayed += count;
+            foreach (int count in GameManager.instance.Data.allTime.aveColouringGamesPlayed) aveColouringGamesPlayed += count;
             aveColouringGamesPlayed /= GameManager.instance.Data.allTime.aveColouringGamesPlayed.Count;
         }
     }
