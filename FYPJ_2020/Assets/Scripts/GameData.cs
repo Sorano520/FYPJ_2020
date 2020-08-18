@@ -176,7 +176,6 @@ public class AllTime
     public List<int> aveJigsawErrorsMade;
     public List<int> aveJigsawGamesPlayed;
 
-    // Tangram Data
     public Dictionary<int, int> tangramLevels;
     public List<int> tangramLevelsKeys;
     public List<int> tangramLevelsValues;
