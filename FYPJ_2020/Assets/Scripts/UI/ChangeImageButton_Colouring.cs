@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ChangeImageButton_Colouring : MonoBehaviour
 {
+    public Texture chosenTexture;
+    public Texture chosenTextureMedium;
+    public Texture chosenTextureHard;
     public GameObject easyButtonDisable;
     public GameObject easyButtonEnable;
     public GameObject mediumButtonDisable;
@@ -15,7 +18,7 @@ public class ChangeImageButton_Colouring : MonoBehaviour
     public GameObject hardPicEnable;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         easyButtonDisable.SetActive(false);
         easyButtonEnable.SetActive(true);
@@ -30,8 +33,11 @@ public class ChangeImageButton_Colouring : MonoBehaviour
         mediumPicEnable.SetActive(false);
         hardPicEnable.SetActive(false);
 
+        GameManager.instance.chosenTexture = chosenTexture;
+        
         if (GameObject.Find("Canvas"))
             GameObject.Find("Canvas").GetComponent<Transitions>().variable = "Colouring";
+
     }
 
     public void clickOnEasyButton()
@@ -48,6 +54,8 @@ public class ChangeImageButton_Colouring : MonoBehaviour
         easyPicEnable.SetActive(true);
         mediumPicEnable.SetActive(false);
         hardPicEnable.SetActive(false);
+
+        GameManager.instance.chosenTexture = chosenTexture;
 
         if (GameObject.Find("Canvas"))
             GameObject.Find("Canvas").GetComponent<Transitions>().variable = "Colouring";
@@ -68,6 +76,8 @@ public class ChangeImageButton_Colouring : MonoBehaviour
         mediumPicEnable.SetActive(true);
         hardPicEnable.SetActive(false);
 
+        GameManager.instance.chosenTexture = chosenTextureMedium;
+
         if (GameObject.Find("Canvas"))
             GameObject.Find("Canvas").GetComponent<Transitions>().variable = "Colouring Medium";
     }
@@ -86,6 +96,8 @@ public class ChangeImageButton_Colouring : MonoBehaviour
         easyPicEnable.SetActive(false);
         mediumPicEnable.SetActive(false);
         hardPicEnable.SetActive(true);
+
+        GameManager.instance.chosenTexture = chosenTextureHard;
 
         if (GameObject.Find("Canvas"))
             GameObject.Find("Canvas").GetComponent<Transitions>().variable = "Colouring Hard";

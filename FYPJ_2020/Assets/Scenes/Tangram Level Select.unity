@@ -476,12 +476,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TangramLevel: 2
-  GreyStarLeft: {fileID: 0}
-  GreyStarMiddle: {fileID: 0}
-  GreyStarRight: {fileID: 0}
-  YellowStarLeft: {fileID: 0}
-  YellowStarMiddle: {fileID: 0}
-  YellowStarRight: {fileID: 0}
+  GreyStarLeft: {fileID: 37783563}
+  GreyStarMiddle: {fileID: 1629703243}
+  GreyStarRight: {fileID: 1357786001}
+  YellowStarLeft: {fileID: 558500648}
+  YellowStarMiddle: {fileID: 428300489}
+  YellowStarRight: {fileID: 337429915}
 --- !u!1 &88524420
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +785,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &179189365
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1045,7 +1045,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1360196924}
   m_HandleRect: {fileID: 1360196923}
   m_Direction: 0
-  m_Value: -0.0000006884238
+  m_Value: -0.00000051631787
   m_Size: 0.6928584
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2929,12 +2929,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TangramLevel: 1
-  GreyStarLeft: {fileID: 0}
-  GreyStarMiddle: {fileID: 0}
-  GreyStarRight: {fileID: 0}
-  YellowStarLeft: {fileID: 0}
-  YellowStarMiddle: {fileID: 0}
-  YellowStarRight: {fileID: 0}
+  GreyStarLeft: {fileID: 94516779}
+  GreyStarMiddle: {fileID: 348496887}
+  GreyStarRight: {fileID: 1169716940}
+  YellowStarLeft: {fileID: 1962992081}
+  YellowStarMiddle: {fileID: 1163542712}
+  YellowStarRight: {fileID: 1825387554}
 --- !u!1 &700670214
 GameObject:
   m_ObjectHideFlags: 0
@@ -3355,7 +3355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &863030071
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3741,7 +3741,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &952482447
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4097,7 +4097,7 @@ GameObject:
   - component: {fileID: 1163542715}
   - component: {fileID: 1163542714}
   m_Layer: 5
-  m_Name: Star Centre
+  m_Name: Yellow Star Centre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7354,12 +7354,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TangramLevel: 3
-  GreyStarLeft: {fileID: 0}
-  GreyStarMiddle: {fileID: 0}
-  GreyStarRight: {fileID: 0}
-  YellowStarLeft: {fileID: 0}
-  YellowStarMiddle: {fileID: 0}
-  YellowStarRight: {fileID: 0}
+  GreyStarLeft: {fileID: 8280245}
+  GreyStarMiddle: {fileID: 2023240947}
+  GreyStarRight: {fileID: 1744824855}
+  YellowStarLeft: {fileID: 1698221598}
+  YellowStarMiddle: {fileID: 1783524085}
+  YellowStarRight: {fileID: 1814434137}
 --- !u!1 &1814434137
 GameObject:
   m_ObjectHideFlags: 0
@@ -7445,7 +7445,7 @@ GameObject:
   - component: {fileID: 1825387557}
   - component: {fileID: 1825387556}
   m_Layer: 5
-  m_Name: Star Right
+  m_Name: Yellow Star Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8020,7 +8020,7 @@ GameObject:
   - component: {fileID: 1962992084}
   - component: {fileID: 1962992083}
   m_Layer: 5
-  m_Name: Star Left
+  m_Name: Yellow Star Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
