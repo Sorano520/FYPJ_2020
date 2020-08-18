@@ -231,6 +231,7 @@ public class GameData : MonoBehaviour
     public DateTime date;
     public TimeSpan timespan;
     public GAME_TYPES currentGame;
+    public bool inGame;
     public float time;
     public float mainMenuTime;
     public float collectionTime;
@@ -260,11 +261,12 @@ public class GameData : MonoBehaviour
     public int colouringGamesPlayed;
     #endregion
 
-    private void Awake()
+    public void Awake()
     {
         date = DateTime.Today.Date;
         timespan = timeStarted = DateTime.Now.TimeOfDay;
         currentGame = GAME_TYPES.NONE_GAME;
+        inGame = false;
         time = mainMenuTime = collectionTime = jigsawSelectTime = tangramSelectTime = colouringSelectTime = inactivityPeriod = 0;
         minInactivityPeriod = 10;
         isInactive = true;
@@ -286,6 +288,8 @@ public class GameData : MonoBehaviour
 
     private void Update()
     {
+        if (!inGame) return;
+
         time += Time.deltaTime;
 
         switch (SceneManager.GetActiveScene().name)
