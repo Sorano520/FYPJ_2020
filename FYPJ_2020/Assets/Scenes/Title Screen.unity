@@ -793,8 +793,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 406835823}
   m_TextComponent: {fileID: 1683240879}
   m_Placeholder: {fileID: 1450401585}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -2615,6 +2615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGame: 0
+  inGame: 0
   time: 0
   mainMenuTime: 0
   collectionTime: 0
@@ -2804,8 +2805,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1249954057}
   m_TextComponent: {fileID: 449390507}
   m_Placeholder: {fileID: 742831008}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -3629,8 +3630,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591865775}
   m_TextComponent: {fileID: 917878199}
   m_Placeholder: {fileID: 863889442}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0

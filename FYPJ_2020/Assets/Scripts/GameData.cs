@@ -26,7 +26,6 @@ public class Daily
     // Tangram Data
     public List<float> aveDailyTangramTime;
     public List<int> aveDailyTangramMovesTaken;
-    public List<int> aveDailyTangramErrorsMade;
     public List<int> aveDailyTangramGamesPlayed;
 
     // Colouring Data
@@ -50,7 +49,6 @@ public class Daily
         aveDailyJigsawErrorsMade = new List<int>();
         aveDailyJigsawGamesPlayed = new List<int>();
         aveDailyTangramMovesTaken = new List<int>();
-        aveDailyTangramErrorsMade = new List<int>();
         aveDailyTangramGamesPlayed = new List<int>();
         aveDailyColouringGamesPlayed = new List<int>();
     }
@@ -76,7 +74,6 @@ public class Monthly
     // Tangram Data
     public List<float> aveMonthlyTangramTime;
     public List<int> aveMonthlyTangramMovesTaken;
-    public List<int> aveMonthlyTangramErrorsMade;
     public List<int> aveMonthlyTangramGamesPlayed;
 
     // Colouring Data
@@ -100,7 +97,6 @@ public class Monthly
         aveMonthlyJigsawErrorsMade = new List<int>();
         aveMonthlyJigsawGamesPlayed = new List<int>();
         aveMonthlyTangramMovesTaken = new List<int>();
-        aveMonthlyTangramErrorsMade = new List<int>();
         aveMonthlyTangramGamesPlayed = new List<int>();
         aveMonthlyColouringGamesPlayed = new List<int>();
     }
@@ -126,7 +122,6 @@ public class Yearly
     // Tangram Data
     public List<float> aveYearlyTangramTime;
     public List<int> aveYearlyTangramMovesTaken;
-    public List<int> aveYearlyTangramErrorsMade;
     public List<int> aveYearlyTangramGamesPlayed;
 
     // Colouring Data
@@ -150,7 +145,6 @@ public class Yearly
         aveYearlyJigsawErrorsMade = new List<int>();
         aveYearlyJigsawGamesPlayed = new List<int>();
         aveYearlyTangramMovesTaken = new List<int>();
-        aveYearlyTangramErrorsMade = new List<int>();
         aveYearlyTangramGamesPlayed = new List<int>();
         aveYearlyColouringGamesPlayed = new List<int>();
     }
@@ -181,7 +175,6 @@ public class AllTime
     public List<int> tangramLevelsValues;
     public List<float> aveTangramTime;
     public List<int> aveTangramMovesTaken;
-    public List<int> aveTangramErrorsMade;
     public List<int> aveTangramGamesPlayed;
 
     // Colouring Data
@@ -205,7 +198,6 @@ public class AllTime
         aveJigsawErrorsMade = new List<int>();
         aveJigsawGamesPlayed = new List<int>();
         aveTangramMovesTaken = new List<int>();
-        aveTangramErrorsMade = new List<int>();
         aveTangramGamesPlayed = new List<int>();
         aveColouringGamesPlayed = new List<int>();
 
@@ -252,7 +244,6 @@ public class GameData : MonoBehaviour
     // Tangram Data - Current
     public List<float> tangramTime;
     public List<int> tangramMovesTaken;
-    public List<int> tangramErrorsMade;
     public int tangramGamesPlayed;
 
     // Colouring Data - Current
@@ -277,7 +268,6 @@ public class GameData : MonoBehaviour
         jigsawMovesTaken = new List<int>();
         jigsawErrorsMade = new List<int>();
         tangramMovesTaken = new List<int>();
-        tangramErrorsMade = new List<int>();
 
         daily = new Daily();
         monthly = new Monthly();
@@ -300,13 +290,13 @@ public class GameData : MonoBehaviour
                 collectionTime += Time.deltaTime;
                 break;
             case "Jigsaw":
-                if (jigsawTime.Contains(jigsawGamesPlayed - 1)) jigsawTime[jigsawGamesPlayed - 1] += Time.deltaTime;
+                if (jigsawTime.Count > 0) jigsawTime[jigsawTime.Count - 1] += Time.deltaTime;
                 break;
             case "Tangram":
-                if (tangramTime.Contains(tangramGamesPlayed - 1)) tangramTime[tangramGamesPlayed - 1] += Time.deltaTime;
+                if (jigsawTime.Count > 0) tangramTime[tangramTime.Count - 1] += Time.deltaTime;
                 break;
             case "Colouring":
-                if (colouringTime.Contains(colouringGamesPlayed - 1)) colouringTime[colouringGamesPlayed - 1] += Time.deltaTime;
+                if (jigsawTime.Count > 0) colouringTime[colouringTime.Count - 1] += Time.deltaTime;
                 break;
             case "Jigsaw Level Select":
                 jigsawSelectTime += Time.deltaTime;
@@ -431,13 +421,6 @@ public class GameData : MonoBehaviour
             aveGameCount /= tangramMovesTaken.Count;
         }
         if (aveGameCount > 0) daily.aveDailyTangramMovesTaken.Add(aveGameCount);
-        aveGameCount = 0;
-        if (tangramErrorsMade.Count > 0)
-        {
-            foreach (int count in tangramErrorsMade) aveGameCount += count;
-            aveGameCount /= tangramErrorsMade.Count;
-        }
-        if (aveGameCount > 0) daily.aveDailyTangramErrorsMade.Add(aveGameCount);
         if (tangramGamesPlayed > 0) daily.aveDailyTangramGamesPlayed.Add(tangramGamesPlayed);
 
         // Colouring Data
@@ -548,13 +531,6 @@ public class GameData : MonoBehaviour
             aveGameCount /= daily.aveDailyTangramMovesTaken.Count;
         }
         if (aveGameCount > 0) monthly.aveMonthlyTangramMovesTaken.Add(aveGameCount);
-        aveGameCount = 0;
-        if (daily.aveDailyTangramErrorsMade.Count > 0)
-        {
-            foreach (int count in daily.aveDailyTangramErrorsMade) aveGameCount += count;
-            aveGameCount /= daily.aveDailyTangramErrorsMade.Count;
-        }
-        if (aveGameCount > 0) monthly.aveMonthlyTangramErrorsMade.Add(aveGameCount);
         aveGameCount = 0;
         if (daily.aveDailyTangramGamesPlayed.Count > 0)
         {
@@ -678,13 +654,6 @@ public class GameData : MonoBehaviour
         }
         if (aveGameCount > 0) yearly.aveYearlyTangramMovesTaken.Add(aveGameCount);
         aveGameCount = 0;
-        if (monthly.aveMonthlyTangramErrorsMade.Count > 0)
-        {
-            foreach (int count in monthly.aveMonthlyTangramErrorsMade) aveGameCount += count;
-            aveGameCount /= monthly.aveMonthlyTangramErrorsMade.Count;
-        }
-        if (aveGameCount > 0) yearly.aveYearlyTangramErrorsMade.Add(aveGameCount);
-        aveGameCount = 0;
         if (monthly.aveMonthlyTangramGamesPlayed.Count > 0)
         {
             foreach (int count in monthly.aveMonthlyTangramGamesPlayed) aveGameCount += count;
@@ -806,13 +775,6 @@ public class GameData : MonoBehaviour
             aveGameCount /= yearly.aveYearlyTangramMovesTaken.Count;
         }
         if (aveGameCount > 0) allTime.aveTangramMovesTaken.Add(aveGameCount);
-        aveGameCount = 0;
-        if (yearly.aveYearlyTangramErrorsMade.Count > 0)
-        {
-            foreach (int count in yearly.aveYearlyTangramErrorsMade) aveGameCount += count;
-            aveGameCount /= yearly.aveYearlyTangramErrorsMade.Count;
-        }
-        if (aveGameCount > 0) allTime.aveTangramErrorsMade.Add(aveGameCount);
         aveGameCount = 0;
         if (yearly.aveYearlyTangramGamesPlayed.Count > 0)
         {
