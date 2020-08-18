@@ -35,7 +35,6 @@ public class CaregiverMenu : MonoBehaviour
     // Tangram Data
     public Text tangramTime;
     public Text tangramMovesTaken;
-    public Text tangramErrorsMade;
     public Text tangramGamesPlayed;
 
     // Colouring Data
@@ -61,7 +60,6 @@ public class CaregiverMenu : MonoBehaviour
     // Tangram Data
     string aveDailyTangramTime = "";
     int aveDailyTangramMovesTaken = 0;
-    int aveDailyTangramErrorsMade = 0;
     int aveDailyTangramGamesPlayed = 0;
 
     // Colouring Data
@@ -87,7 +85,6 @@ public class CaregiverMenu : MonoBehaviour
     // Tangram Data
     string aveMonthlyTangramTime = "";
     int aveMonthlyTangramMovesTaken = 0;
-    int aveMonthlyTangramErrorsMade = 0;
     int aveMonthlyTangramGamesPlayed = 0;
 
     // Colouring Data
@@ -113,7 +110,6 @@ public class CaregiverMenu : MonoBehaviour
     // Tangram Data
     string aveYearlyTangramTime = "";
     int aveYearlyTangramMovesTaken = 0;
-    int aveYearlyTangramErrorsMade = 0;
     int aveYearlyTangramGamesPlayed = 0;
 
     // Colouring Data
@@ -139,7 +135,6 @@ public class CaregiverMenu : MonoBehaviour
     // Tangram Data
     string aveTangramTime = "";
     int aveTangramMovesTaken = 0;
-    int aveTangramErrorsMade = 0;
     int aveTangramGamesPlayed = 0;
 
     // Colouring Data
@@ -197,7 +192,6 @@ public class CaregiverMenu : MonoBehaviour
 
         tangramTime.text = aveDailyTangramTime;
         tangramMovesTaken.text = aveDailyTangramMovesTaken.ToString();
-        tangramErrorsMade.text = aveDailyTangramErrorsMade.ToString();
         tangramGamesPlayed.text = aveDailyTangramGamesPlayed.ToString();
 
         colouringTime.text = aveDailyColouringTime;
@@ -220,7 +214,6 @@ public class CaregiverMenu : MonoBehaviour
 
         tangramTime.text = aveMonthlyTangramTime;
         tangramMovesTaken.text = aveMonthlyTangramMovesTaken.ToString();
-        tangramErrorsMade.text = aveMonthlyTangramErrorsMade.ToString();
         tangramGamesPlayed.text = aveMonthlyTangramGamesPlayed.ToString();
 
         colouringTime.text = aveMonthlyColouringTime;
@@ -243,7 +236,6 @@ public class CaregiverMenu : MonoBehaviour
 
         tangramTime.text = aveYearlyTangramTime;
         tangramMovesTaken.text = aveYearlyTangramMovesTaken.ToString();
-        tangramErrorsMade.text = aveYearlyTangramErrorsMade.ToString();
         tangramGamesPlayed.text = aveYearlyTangramGamesPlayed.ToString();
 
         colouringTime.text = aveYearlyColouringTime;
@@ -266,7 +258,6 @@ public class CaregiverMenu : MonoBehaviour
 
         tangramTime.text = aveTangramTime;
         tangramMovesTaken.text = aveTangramMovesTaken.ToString();
-        tangramErrorsMade.text = aveTangramErrorsMade.ToString();
         tangramGamesPlayed.text = aveTangramGamesPlayed.ToString();
 
         colouringTime.text = aveColouringTime;
@@ -407,12 +398,6 @@ public class CaregiverMenu : MonoBehaviour
             foreach (int count in GameManager.instance.Data.daily.aveDailyTangramMovesTaken) aveDailyTangramMovesTaken += count;
             aveDailyTangramMovesTaken /= GameManager.instance.Data.daily.aveDailyTangramMovesTaken.Count;
         }
-        aveDailyTangramErrorsMade = 0;
-        if (GameManager.instance.Data.daily.aveDailyTangramErrorsMade.Count > 0)
-        {
-            foreach (int count in GameManager.instance.Data.daily.aveDailyTangramErrorsMade) aveDailyTangramErrorsMade += count;
-            aveDailyTangramErrorsMade /= GameManager.instance.Data.daily.aveDailyTangramErrorsMade.Count;
-        }
         aveDailyTangramGamesPlayed = 0;
         if (GameManager.instance.Data.daily.aveDailyTangramGamesPlayed.Count > 0)
         {
@@ -547,12 +532,6 @@ public class CaregiverMenu : MonoBehaviour
         {
             foreach (int count in GameManager.instance.Data.monthly.aveMonthlyTangramMovesTaken) aveMonthlyTangramMovesTaken += count;
             aveMonthlyTangramMovesTaken /= GameManager.instance.Data.monthly.aveMonthlyTangramMovesTaken.Count;
-        }
-        aveMonthlyTangramErrorsMade = 0;
-        if (GameManager.instance.Data.monthly.aveMonthlyTangramErrorsMade.Count > 0)
-        {
-            foreach (int count in GameManager.instance.Data.monthly.aveMonthlyTangramErrorsMade) aveMonthlyTangramErrorsMade += count;
-            aveMonthlyTangramErrorsMade /= GameManager.instance.Data.monthly.aveMonthlyTangramErrorsMade.Count;
         }
         aveMonthlyTangramGamesPlayed = 0;
         if (GameManager.instance.Data.monthly.aveMonthlyTangramGamesPlayed.Count > 0)
@@ -689,12 +668,6 @@ public class CaregiverMenu : MonoBehaviour
             foreach (int count in GameManager.instance.Data.yearly.aveYearlyTangramMovesTaken) aveYearlyTangramMovesTaken += count;
             aveYearlyTangramMovesTaken /= GameManager.instance.Data.yearly.aveYearlyTangramMovesTaken.Count;
         }
-        aveYearlyTangramErrorsMade = 0;
-        if (GameManager.instance.Data.yearly.aveYearlyTangramErrorsMade.Count > 0)
-        {
-            foreach (int count in GameManager.instance.Data.yearly.aveYearlyTangramErrorsMade) aveYearlyTangramErrorsMade += count;
-            aveYearlyTangramErrorsMade /= GameManager.instance.Data.yearly.aveYearlyTangramErrorsMade.Count;
-        }
         aveYearlyTangramGamesPlayed = 0;
         if (GameManager.instance.Data.yearly.aveYearlyTangramGamesPlayed.Count > 0)
         {
@@ -829,12 +802,6 @@ public class CaregiverMenu : MonoBehaviour
         {
             foreach (int count in GameManager.instance.Data.allTime.aveTangramMovesTaken) aveTangramMovesTaken += count;
             aveTangramMovesTaken /= GameManager.instance.Data.allTime.aveTangramMovesTaken.Count;
-        }
-        aveTangramErrorsMade = 0;
-        if (GameManager.instance.Data.allTime.aveTangramErrorsMade.Count > 0)
-        {
-            foreach (int count in GameManager.instance.Data.allTime.aveTangramErrorsMade) aveTangramErrorsMade += count;
-            aveTangramErrorsMade /= GameManager.instance.Data.allTime.aveTangramErrorsMade.Count;
         }
         aveTangramGamesPlayed = 0;
         if (GameManager.instance.Data.allTime.aveTangramGamesPlayed.Count > 0)

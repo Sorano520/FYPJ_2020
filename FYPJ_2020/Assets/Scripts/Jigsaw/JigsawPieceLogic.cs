@@ -93,7 +93,7 @@ public class JigsawPieceLogic : MonoBehaviour
             case PIECE_STATE.STATE_PICKEDUP:
                 MouseLogic.instance.UpdateSortingOrder();
                 MouseLogic.instance.SetSortingOrder(gameObject);
-                ++GameManager.instance.Data.jigsawMovesTaken[GameManager.instance.Data.jigsawGamesPlayed - 1];
+                ++GameManager.instance.Data.jigsawMovesTaken[GameManager.instance.Data.jigsawMovesTaken.Count - 1];
                 break;
             case PIECE_STATE.STATE_PUTDOWN:
                 if (Vector2.Distance(transform.position, slot.transform.position) <= 0.5f)
@@ -107,7 +107,7 @@ public class JigsawPieceLogic : MonoBehaviour
                     MouseLogic.instance.CheckComplete();
                     break;
                 }
-                else ++GameManager.instance.Data.jigsawErrorsMade[GameManager.instance.Data.jigsawGamesPlayed - 1];
+                else ++GameManager.instance.Data.jigsawErrorsMade[GameManager.instance.Data.jigsawErrorsMade.Count - 1];
 
                 MouseLogic.instance.UpdateSortingOrder();
 
