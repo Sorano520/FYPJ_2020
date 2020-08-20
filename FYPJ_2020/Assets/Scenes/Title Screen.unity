@@ -1943,7 +1943,7 @@ GameObject:
   - component: {fileID: 1083276180}
   - component: {fileID: 1083276179}
   m_Layer: 5
-  m_Name: Registered User
+  m_Name: Continue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2041,7 +2041,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 51ab4bfc58d0ea14aa773e827f7b7e77, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c3ec22dd54f52444bb7050e9f27f6929, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2587,6 +2587,8 @@ MonoBehaviour:
   chosenLevel: 0
   chosenImg: {fileID: 0}
   jigsawDifficulties: 
+  chosenTexture: {fileID: 0}
+  chosenPuzzle: {fileID: 0}
   con: {fileID: 0}
 --- !u!4 &1222235012
 Transform:
@@ -2632,7 +2634,6 @@ MonoBehaviour:
   jigsawGamesPlayed: 0
   tangramTime: []
   tangramMovesTaken: 
-  tangramErrorsMade: 
   tangramGamesPlayed: 0
   colouringTime: []
   colouringGamesPlayed: 0

@@ -3956,7 +3956,7 @@ MonoBehaviour:
   puzzleSections:
   - {fileID: 1991108652}
   PuzzleName: Square
-  PuzzleLevel: 0
+  PuzzleLevel: 3
   VictoryScreen: {fileID: 1025117967}
 --- !u!60 &1991108652 stripped
 PolygonCollider2D:
