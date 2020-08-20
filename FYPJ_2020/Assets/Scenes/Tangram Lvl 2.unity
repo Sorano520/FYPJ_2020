@@ -2503,6 +2503,10 @@ PrefabInstance:
       propertyPath: VictoryScreen
       value: 
       objectReference: {fileID: 810969852}
+    - target: {fileID: 11489932, guid: 0b1164630e359ab4ea1236c6e2a3e164, type: 3}
+      propertyPath: PuzzleLevel
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 21200024, guid: 0b1164630e359ab4ea1236c6e2a3e164, type: 3}
       propertyPath: m_Color.g
       value: 0

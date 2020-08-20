@@ -19154,12 +19154,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TangramLevel: 3
-  GreyStarLeft: {fileID: 852916992}
-  GreyStarMiddle: {fileID: 1895121718}
-  GreyStarRight: {fileID: 1963910268}
-  YellowStarLeft: {fileID: 1447622252}
-  YellowStarMiddle: {fileID: 1373283789}
-  YellowStarRight: {fileID: 1479062026}
+  GreyStarLeft: {fileID: 2050179956}
+  GreyStarMiddle: {fileID: 223912898}
+  GreyStarRight: {fileID: 1817503219}
+  YellowStarLeft: {fileID: 814625085}
+  YellowStarMiddle: {fileID: 1248943294}
+  YellowStarRight: {fileID: 542269885}
 --- !u!1 &1177578176
 GameObject:
   m_ObjectHideFlags: 0
