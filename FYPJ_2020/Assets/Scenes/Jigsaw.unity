@@ -1488,7 +1488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 202, y: 815}
+  m_AnchoredPosition: {x: 202, y: 871}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &812346668
@@ -1751,8 +1751,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9, y: 1134}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 9, y: 1170.2}
+  m_SizeDelta: {x: 100, y: 108.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &872843103
 MonoBehaviour:
@@ -2048,7 +2048,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181, y: 813}
+  m_AnchoredPosition: {x: 181, y: 871}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1081865339
@@ -3332,6 +3332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d398ba8a8a33634ea65fa13a89dba0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: -1
 --- !u!1 &1771100732
 GameObject:
   m_ObjectHideFlags: 0
@@ -3437,6 +3438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGame: 0
+  inGame: 0
   time: 0
   mainMenuTime: 0
   collectionTime: 0
@@ -3453,7 +3455,6 @@ MonoBehaviour:
   jigsawGamesPlayed: 0
   tangramTime: []
   tangramMovesTaken: 
-  tangramErrorsMade: 
   tangramGamesPlayed: 0
   colouringTime: []
   colouringGamesPlayed: 0
