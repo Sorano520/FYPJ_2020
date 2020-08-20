@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] DirectoryInfo jigsawImgs;
     [SerializeField] List<int> jigsawDifficulties;
     public Texture chosenTexture;
+    public GameObject chosenPuzzle;
 
     public DebugConsole con;
 
