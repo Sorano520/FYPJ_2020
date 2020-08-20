@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CaregiverMenu : MonoBehaviour
 {
+    public Text header;
     public Button generalButton;
     public GameObject general;
     public Button jigsawButton;
@@ -146,6 +147,7 @@ public class CaregiverMenu : MonoBehaviour
     void Start()
     {
         if (GameManager.instance.Data == null) return;
+        if (GameManager.instance) header.text = GameManager.instance.DisplayName;
         CalculateData();
         OnDisplayChange();
         OnClick("General");
