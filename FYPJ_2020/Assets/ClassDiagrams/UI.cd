@@ -1,23 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="ChangeImageButtonSelect">
-    <Position X="0.5" Y="0.5" Width="2" />
+  <Class Name="CaregiverMenu">
+    <Position X="14.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAACCAQQBAAAAAiAAAABAAAEAAQAAACAAAAEA=</HashCode>
+      <HashCode>QCCLgDrD0KasSkUscATE4CsCmmQYCFBKAgwriAhs00w=</HashCode>
+      <FileName>Assets\Scripts\UI\CaregiverMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChangeImageButton_Colouring">
+    <Position X="11.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAYACAAAABCQQAAEAAAAAAAAAEAJAIAQAACQg=</HashCode>
+      <FileName>Assets\Scripts\UI\ChangeImageButton_Colouring.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChangeImageButton_JigsawLevelSelect">
+    <Position X="9.75" Y="5.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAA4ACAAAAACQQAAEAAAAAAAAAAAJAIAQAACQA=</HashCode>
+      <FileName>Assets\Scripts\UI\ChangeImageButton_JigsawLevelSelect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChangeImageButtonSelect">
+    <Position X="9.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABQAAAACACCAQQDAAAAAiAAAABAAgEAAQAAACAAAAEA=</HashCode>
       <FileName>Assets\Scripts\UI\ChangeImageButtonSelect.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PopUpMenu">
-    <Position X="2.75" Y="0.5" Width="1.75" />
+  <Class Name="PageSwiper" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAACAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAACAAAACAQAAAAAIBAEAAAACAAAAAAIAAAAgAAAQI=</HashCode>
+      <FileName>Assets\Scripts\UI\PageSwiper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PopUpMenu">
+    <Position X="5.5" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAAAAAACAAACAAEAAQAADEAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Assets\Scripts\UI\PopUpMenu.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Transitions">
-    <Position X="4.75" Y="0.5" Width="1.5" />
+  <Class Name="SceneLoading">
+    <Position X="7.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAQAAEAAACAACAAAEAAAACAAAAAAAAAQIAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAQACAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\SceneLoading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SwipeMenu">
+    <Position X="7.75" Y="2.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAIAAAAAAAAAAAAAAAABAgAA=</HashCode>
+      <FileName>Assets\Scripts\UI\SwipeMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TangramStars">
+    <Position X="7.75" Y="5.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACBAAAAAAABAARAAAAAAQAAgIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\TangramStars.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TitleScreen">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>kjAIAAgQACwAIAEAAAAAAQAAIAAAhAACgEQBAEAFGUQ=</HashCode>
+      <FileName>Assets\Scripts\UI\TitleScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Transitions">
+    <Position X="3" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAEAAABCAAAEAEABCACAAEAoQAQIRIRACAEAAA=</HashCode>
       <FileName>Assets\Scripts\UI\Transitions.cs</FileName>
     </TypeIdentifier>
   </Class>
