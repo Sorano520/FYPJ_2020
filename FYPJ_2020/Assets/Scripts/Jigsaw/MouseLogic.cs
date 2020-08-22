@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 public class MouseLogic : MonoBehaviour
 {
     public static MouseLogic instance = null;
+    PopUpMenu popUpMenu = null;
     [Tooltip("The value is a bool which indicates whether the piece is in the inventory")]
     [SerializeField] List<GameObject> inventory;
     [SerializeField] int lockedPieces = 0;
@@ -89,6 +90,8 @@ public class MouseLogic : MonoBehaviour
             return;
         }
         pieceGenerator = GetComponent<PieceGenerator>();
+        popUpMenu = GetComponent<PopUpMenu>();
+        popUpMenu.closePopUpMenu();
     }
 
     // Start is called before the first frame update
@@ -248,6 +251,10 @@ public class MouseLogic : MonoBehaviour
         {
             // Victory Screen Pop-Ups
             Debug.Log("You Win!");
+            if (GameManager.instance.Data.allTime.jigsawLevels[GameManager.instance.ChosenLevel] < GameManager.instance.ChosenDifficulty)
+                GameManager.instance.Data.allTime.jigsawLevels[GameManager.instance.ChosenLevel] = GameManager.instance.ChosenDifficulty;
+            popUpMenu.openPopUpMenu();
+            popUpMenu.popUpMenu.GetComponent<CalculateJigsawStars>().Start();
         }
     }
 }

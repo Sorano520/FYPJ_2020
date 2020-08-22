@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 {
+    public Sprite jigsawImg;
+    public int jigsawLevel;
+
     public GameObject easyButtonDisable;
     public GameObject easyButtonEnable;
     public GameObject mediumButtonDisable;
@@ -15,8 +19,14 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
     public GameObject hardPicEnable;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
+        GameManager.instance.ChosenImg = jigsawImg;
+        GameManager.instance.ChosenLevel = jigsawLevel;
+        GameManager.instance.ChosenDifficulty = 1;
+        if (!GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
+            GameManager.instance.Data.allTime.jigsawLevels.Add(jigsawLevel, 0);
+
         easyButtonDisable.SetActive(false);
         easyButtonEnable.SetActive(true);
 
@@ -30,10 +40,10 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
         mediumPicEnable.SetActive(false);
         hardPicEnable.SetActive(false);
     }
-
+    
     public void clickOnEasyButton()
     {
-        GameManager.instance.chosenDifficulty = 0;
+        GameManager.instance.ChosenDifficulty = 1;
         easyButtonDisable.SetActive(false);
         easyButtonEnable.SetActive(true);
 
@@ -50,7 +60,10 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnMediumButton()
     {
-        GameManager.instance.chosenDifficulty = 1;
+        if (GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
+            if (GameManager.instance.Data.allTime.jigsawLevels[jigsawLevel] < 1) return;
+
+        GameManager.instance.ChosenDifficulty = 2;
         easyButtonDisable.SetActive(true);
         easyButtonEnable.SetActive(false);
 
@@ -67,7 +80,10 @@ public class ChangeImageButton_JigsawLevelSelect : MonoBehaviour
 
     public void clickOnHardButton()
     {
-        GameManager.instance.chosenDifficulty = 2;
+        if (GameManager.instance.Data.allTime.jigsawLevels.ContainsKey(jigsawLevel))
+            if (GameManager.instance.Data.allTime.jigsawLevels[jigsawLevel] < 2) return;
+
+        GameManager.instance.ChosenDifficulty = 3;
         easyButtonDisable.SetActive(true);
         easyButtonEnable.SetActive(false);
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GAME_TYPES
 {
@@ -14,12 +16,18 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     GameData data;
-    public int chosenDifficulty; // 0 = Easy, 1 = Medium, 2 = Hard
-    [SerializeField] List<int> jigsawDifficulties;
 
     protected int timesLoggedIn;
     protected int timesLoggedInToday;
     [SerializeField] protected string displayName;
+    
+    [SerializeField] int chosenDifficulty; // 0 = Easy, 1 = Medium, 2 = Hard
+    [SerializeField] int chosenLevel;
+    [SerializeField] Sprite chosenImg;
+    [SerializeField] DirectoryInfo jigsawImgs;
+    [SerializeField] List<int> jigsawDifficulties;
+    public Texture chosenTexture;
+    public GameObject chosenPuzzle;
 
     public DebugConsole con;
 
@@ -33,11 +41,6 @@ public class GameManager : MonoBehaviour
     {
         get { return data; }
         set { data = value; }
-    }
-    public List<int> JigsawDifficulties
-    {
-        get { return jigsawDifficulties; }
-        set { jigsawDifficulties = value; }
     }
     public int TimesLoggedIn
     {
@@ -53,6 +56,26 @@ public class GameManager : MonoBehaviour
     {
         get { return displayName; }
         set { displayName = value; }
+    }
+    public int ChosenDifficulty
+    {
+        get { return chosenDifficulty; }
+        set { chosenDifficulty = value; }
+    }
+    public int ChosenLevel
+    {
+        get { return chosenLevel; }
+        set { chosenLevel = value; }
+    }
+    public Sprite ChosenImg
+    {
+        get { return chosenImg; }
+        set { chosenImg = value; }
+    }
+    public List<int> JigsawDifficulties
+    {
+        get { return jigsawDifficulties; }
+        set { jigsawDifficulties = value; }
     }
     #endregion
 
@@ -75,6 +98,7 @@ public class GameManager : MonoBehaviour
 
         data = GetComponent<GameData>();
         con = GetComponent<DebugConsole>();
-        jigsawDifficulties = new List<int> {  4, 6, 8 };
+        chosenImg = null;
+        jigsawDifficulties = new List<int> { 3, 4, 5 };
     }
 }

@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="InventoryLogic">
-    <Position X="4" Y="0.5" Width="1.75" />
+  <Class Name="CalculateJigsawStars">
+    <Position X="6" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>ACQgBAQAICAAAAAAAEAAAAAAAABAAAACBAAAAiAgQEA=</HashCode>
-      <FileName>Assets\Scripts\Jigsaw\InventoryLogic.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAEAgACAAAAAAAABAAA=</HashCode>
+      <FileName>Assets\Scripts\Jigsaw\CalculateJigsawStars.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SerializedDictionary">
-    <Position X="6" Y="4" Width="2.75" />
+    <Position X="6" Y="3" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Jigsaw\JigsawPieceLogic.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="JigsawPieceLogic">
-    <Position X="2.25" Y="0.5" Width="1.5" />
+    <Position X="0.5" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -27,23 +27,31 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AASAAAAAAAAAAgCAIAAAAAAAAAAAAAAEAAAiBAAAwsA=</HashCode>
+      <HashCode>AASAAAAAAAAAAgAAIAAAAAAAAAAAAAAEAAAiBAAAwsA=</HashCode>
       <FileName>Assets\Scripts\Jigsaw\JigsawPieceLogic.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MouseLogic">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Position X="4" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>gASEEBAABCEQAAAAEEAIQBAAAAJQAQAAAQEAABFAAHA=</HashCode>
+      <HashCode>gQSEAAAABCFAAAAA0RAIQBAQAABQAIACAQCAAhFCQGA=</HashCode>
       <FileName>Assets\Scripts\Jigsaw\MouseLogic.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PieceGenerator">
-    <Position X="6" Y="0.5" Width="1.5" />
+    <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAQAAgQAACAAAAAAAAAAAQACAAAAAAAgAAAAAAAAACA=</HashCode>
+      <HashCode>BAQAAgQAACAAAAAAAAAAAQACMAAAAAAgAAAAAACAACA=</HashCode>
       <FileName>Assets\Scripts\Jigsaw\PieceGenerator.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="SampleImage" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAIAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Jigsaw\SampleImage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

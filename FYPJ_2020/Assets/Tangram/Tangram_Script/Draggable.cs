@@ -68,6 +68,7 @@ public class Draggable : MonoBehaviour {
     }
 
     public void StartDrag(Vector2 worldPosition){
+        ++GameManager.instance.Data.tangramMovesTaken[GameManager.instance.Data.tangramMovesTaken.Count - 1];
         isSelected = true;
 		isDragging = true;
         offset = worldPosition - body2d.position;

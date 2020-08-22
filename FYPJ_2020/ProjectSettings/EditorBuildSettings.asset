@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Title Screen.unity
     guid: 3381e608b0e8c24428bafc2e01a12590
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/SignIn.unity
-    guid: e2bf00f745abb904c805a5aced09868e
+    path: Assets/Scenes/Caregiver Menu.unity
+    guid: bd02d0fe37778b643b44d653160859a8
   - enabled: 1
     path: Assets/Scenes/Loading Screen.unity
     guid: 6e7e798fa107b654393bceabd2c3fb3e
@@ -23,6 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Colouring.unity
     guid: 382320855a2ee4f43b05c4e049e62a11
+  - enabled: 1
+    path: Assets/Scenes/Colouring Medium.unity
+    guid: 5b64f1ec5da523242aeccc5806c4b601
+  - enabled: 1
+    path: Assets/Scenes/Colouring Hard.unity
+    guid: f5b61aab37898b14a86c7adb20358fac
   - enabled: 1
     path: Assets/Scenes/Tangram.unity
     guid: 2cda990e2423bbf4892e6590ba056729
